@@ -14,43 +14,47 @@ $T = fn(string $k) => htmlspecialchars($t[$k] ?? '');
     <header class="article__header reveal">
       <p class="eyebrow">Expert OPTIC</p>
       <h1 class="article__title"><?= $T('kc_title') ?></h1>
-      <p class="lead"><?= $T('kc_lead') ?></p>
-      <img src="assets/contact-lenses/jdlj-3wtizqwr0hb6-us4lh.jpg"
-           alt="Kontaktní čočky – barevné varianty"
-           class="article__hero-img">
     </header>
 
-    <!-- Pros & Cons -->
-    <div class="cards-2 reveal" style="margin:2rem 0">
+    <!-- Intro: image left, pros/cons right -->
+    <div class="article__img-text reveal" style="margin-bottom:2.5rem;align-items:stretch">
 
-      <div class="card card--top-rule">
-        <div class="article__card-head">
-          <i data-lucide="thumbs-up" class="service-icon" style="color:var(--brand)"></i>
-          <h2><?= $T('kc_pros_title') ?></h2>
-        </div>
-        <ul class="checkpoint-list">
-          <li>
-            <i data-lucide="check-circle" class="checkpoint-list__icon"></i>
-            <?= $T('kc_pros_1') ?>
-          </li>
-        </ul>
-      </div>
+      <img src="assets/contact-lenses/jdlj-3wtizqwr0hb6-us4lh.jpg"
+           alt="Kontaktní čočka v oku – barevná varianta"
+           style="max-height:420px;border-radius:var(--radius-lg);object-fit:cover;width:100%">
 
-      <div class="card card--top-rule">
-        <div class="article__card-head">
-          <i data-lucide="thumbs-down" class="service-icon" style="color:var(--ink-400)"></i>
-          <h2><?= $T('kc_cons_title') ?></h2>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <p class="lead" style="margin:0"><?= $T('kc_lead') ?></p>
+
+        <div class="card card--top-rule">
+          <div class="article__card-head">
+            <i data-lucide="thumbs-up" class="service-icon" style="color:var(--brand)"></i>
+            <h2><?= $T('kc_pros_title') ?></h2>
+          </div>
+          <ul class="checkpoint-list">
+            <li>
+              <i data-lucide="check-circle" class="checkpoint-list__icon"></i>
+              <?= $T('kc_pros_1') ?>
+            </li>
+          </ul>
         </div>
-        <ul class="checkpoint-list">
-          <li>
-            <i data-lucide="alert-circle" class="checkpoint-list__icon" style="color:var(--ink-400)"></i>
-            <?= $T('kc_cons_1') ?>
-          </li>
-          <li>
-            <i data-lucide="alert-circle" class="checkpoint-list__icon" style="color:var(--ink-400)"></i>
-            <?= $T('kc_cons_2') ?>
-          </li>
-        </ul>
+
+        <div class="card card--top-rule">
+          <div class="article__card-head">
+            <i data-lucide="thumbs-down" class="service-icon" style="color:var(--ink-400)"></i>
+            <h2><?= $T('kc_cons_title') ?></h2>
+          </div>
+          <ul class="checkpoint-list">
+            <li>
+              <i data-lucide="alert-circle" class="checkpoint-list__icon" style="color:var(--ink-400)"></i>
+              <?= $T('kc_cons_1') ?>
+            </li>
+            <li>
+              <i data-lucide="alert-circle" class="checkpoint-list__icon" style="color:var(--ink-400)"></i>
+              <?= $T('kc_cons_2') ?>
+            </li>
+          </ul>
+        </div>
       </div>
 
     </div>
@@ -58,7 +62,7 @@ $T = fn(string $k) => htmlspecialchars($t[$k] ?? '');
     <!-- Types -->
     <section class="reveal">
       <img src="assets/contact-lenses/jdlj-7fqj6v5gb164-k3d3p.jpg"
-           alt="Kontaktní čočky na prstu"
+           alt="Měkká kontaktní čočka na prstu"
            class="article__section-img">
       <h2 class="article__section-title"><?= $T('kc_types_title') ?></h2>
 
