@@ -1,0 +1,7 @@
+/* Expert OPTIC — Webfonts
+   Loaded from Google Fonts CDN. See readme.md → Caveats: self-host for production.
+   - Hanken Grotesk : display + UI + body (heavy weights echo the bold "expert" sign)
+   - Yellowtail     : brand script accent (matches the cursive "optic" + flourishes)
+   - Spline Sans Mono: technical specs (prescriptions, prices, hours, frame codes)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,400..600&family=Yellowtail&family=Spline+Sans+Mono:ital,wght@0,400..600;1,400..500&display=swap');

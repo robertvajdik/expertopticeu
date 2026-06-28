@@ -1,0 +1,52 @@
+/* Expert OPTIC — Spacing, radii, shadows, borders, motion
+   8px base grid, with a 4px half-step. Soft warm shadows (no cool/blue casts). */
+
+:root {
+  /* ---- Spacing scale (8px grid) ---- */
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4 */
+  --space-2: 0.5rem;   /* 8 */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.5rem;   /* 24 */
+  --space-6: 2rem;     /* 32 */
+  --space-7: 3rem;     /* 48 */
+  --space-8: 4rem;     /* 64 */
+  --space-9: 6rem;     /* 96 */
+  --space-10: 8rem;    /* 128 */
+
+  /* Layout */
+  --container-max: 1240px;
+  --container-narrow: 760px;
+  --gutter: var(--space-5);
+  --section-y: var(--space-9);
+
+  /* ---- Radii (restrained; eyewear precision, not bubbly) ---- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+  --radius-card: var(--radius-md);
+
+  /* ---- Borders ---- */
+  --border-width: 1px;          /* @kind other */
+  --border-width-strong: 1.5px; /* @kind other */
+  --hairline: 1px solid var(--border-hair);
+  --rule-ink: 1px solid var(--ink-900);
+
+  /* ---- Shadows (warm-tinted, soft) ---- */
+  --shadow-xs: 0 1px 2px rgba(40, 30, 20, 0.06);
+  --shadow-sm: 0 1px 3px rgba(40, 30, 20, 0.08), 0 1px 2px rgba(40, 30, 20, 0.05);
+  --shadow-md: 0 4px 14px rgba(40, 30, 20, 0.10);
+  --shadow-lg: 0 14px 40px rgba(40, 30, 20, 0.14);
+  --shadow-focus: 0 0 0 3px rgba(164, 94, 42, 0.28);
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.32, 0.08, 0.24, 1);  /* @kind other */
+  --ease-out: cubic-bezier(0.16, 0.84, 0.36, 1);       /* @kind other */
+  --dur-fast: 120ms;   /* @kind other */
+  --dur-base: 200ms;   /* @kind other */
+  --dur-slow: 360ms;   /* @kind other */
+}

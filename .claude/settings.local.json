@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:expertoptic.at)",
+      "WebFetch(domain:www.expertoptic.at)",
+      "Bash(php -l E:/Work/www/exportoptic.at/index.php)",
+      "Bash(php -l E:/Work/www/exportoptic.at/pages/home.php)",
+      "Bash(php -l E:/Work/www/exportoptic.at/pages/collection.php)",
+      "Bash(php -l E:/Work/www/exportoptic.at/pages/product.php)",
+      "Bash(php -l E:/Work/www/exportoptic.at/pages/booking.php)",
+      "PowerShell(php -l E:\\\\Work\\\\www\\\\exportoptic.at\\\\index.php; php -l E:\\\\Work\\\\www\\\\exportoptic.at\\\\pages\\\\home.php; php -l E:\\\\Work\\\\www\\\\exportoptic.at\\\\pages\\\\collection.php; php -l E:\\\\Work\\\\www\\\\exportoptic.at\\\\pages\\\\product.php; php -l E:\\\\Work\\\\www\\\\exportoptic.at\\\\pages\\\\booking.php; php -l E:\\\\Work\\\\www\\\\exportoptic.at\\\\includes\\\\header.php; php -l E:\\\\Work\\\\www\\\\exportoptic.at\\\\includes\\\\footer.php)",
+      "WebSearch",
+      "WebFetch(domain:www.facebook.com)",
+      "WebFetch(domain:www.herold.at)",
+      "WebFetch(domain:koomio.com)",
+      "Bash(php -l \"E:/Work/www/exportoptic.at/index.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.at/includes/header.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.at/includes/footer.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.at/pages/home.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.at/pages/collection.php\")",
+      "WebFetch(domain:www.ic-berlin.de)",
+      "WebFetch(domain:www.etniabarcelona.com)",
+      "WebFetch(domain:blackfin.com)",
+      "WebFetch(domain:www.serengetieyewear.com)",
+      "Bash(python3 *)",
+      "WebFetch(domain:www.expertoptic.eu)",
+      "WebFetch(domain:balikovna.cz)",
+      "WebFetch(domain:www.ceskaposta.cz)"
+    ]
+  }
+}

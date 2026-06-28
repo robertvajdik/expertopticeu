@@ -1,0 +1,86 @@
+/* Expert OPTIC — Color tokens
+   Palette taken from the real storefront identity: deep navy, bright optical blue,
+   cool white. Friendly-clinical, the colour of an eye-test and a clean lens.
+   Base scales first, then semantic aliases. */
+
+:root {
+  /* ---- Base: Ink (cool near-black, navy-tinted) ---- */
+  --ink-900: #16203a;   /* primary text, headlines */
+  --ink-800: #202a41;
+  --ink-700: #38445d;   /* body text */
+  --ink-600: #4e5b75;
+  --ink-500: #6b7891;   /* muted text */
+  --ink-400: #97a2b6;   /* placeholder, captions */
+  --ink-300: #b9c2d2;   /* hairline on dark */
+
+  /* ---- Base: Paper (cool white / light blue-grey neutrals) ---- */
+  --paper-50:  #ffffff;  /* card / raised surface */
+  --paper-100: #f3f6fa;  /* page background */
+  --paper-200: #e8eef4;  /* sunken / track */
+  --paper-300: #d7e0ea;  /* borders, dividers */
+  --paper-400: #bccada;  /* strong border */
+
+  /* ---- Base: Blue (bright optical accent — the script + glasses + the crossed X) ---- */
+  --blue-700: #1c6ba2;
+  --blue-600: #2185c2;
+  --blue-500: #2f9bd6;   /* brand accent */
+  --blue-400: #57b1e1;
+  --blue-300: #8fcceb;
+  --blue-100: #d6ecf8;   /* tint fill */
+  --blue-50:  #eef7fc;
+
+  /* ---- Base: Navy (deep brand dark — the sign panel) ---- */
+  --navy-700: #16203a;
+  --navy-600: #1b2742;   /* the storefront navy */
+  --navy-500: #243358;   /* mid navy surfaces */
+  --navy-300: #6b7aa0;
+  --navy-100: #d5dcec;
+  --navy-50:  #eaeef7;
+
+  /* ---- Base: Lens (pale cool sheen — sparing use) ---- */
+  --lens-500: #5b9bb8;
+  --lens-100: #dceaf1;
+
+  /* ---- Semantic: status ---- */
+  --green-600: #2f8a5f;
+  --green-100: #d8efe3;
+  --red-600:   #c0392b;
+  --red-100:   #f7ddd9;
+  --amber-600: #c08a16;
+  --amber-100: #f8ecc6;
+
+  /* ============ SEMANTIC ALIASES ============ */
+
+  /* Surfaces */
+  --surface-page:    var(--paper-100);
+  --surface-card:    var(--paper-50);
+  --surface-sunken:  var(--paper-200);
+  --surface-ink:     var(--navy-600);   /* dark sections */
+  --surface-navy:    var(--navy-500);
+
+  /* Text */
+  --text-strong:     var(--ink-900);
+  --text-body:       var(--ink-700);
+  --text-muted:      var(--ink-500);
+  --text-subtle:     var(--ink-400);
+  --text-on-ink:     var(--paper-100);
+  --text-on-blue:    #ffffff;
+  --text-on-navy:    #eef3fb;
+  --text-brand:      var(--blue-600);
+
+  /* Lines */
+  --border-hair:     var(--paper-300);
+  --border-strong:   var(--paper-400);
+  --border-ink:      var(--navy-600);
+  --divider-on-ink:  #ffffff24;
+
+  /* Brand actions */
+  --brand:           var(--blue-500);
+  --brand-hover:     var(--blue-600);
+  --brand-press:     var(--blue-700);
+  --brand-tint:      var(--blue-50);
+  --accent-2:        var(--navy-600);
+
+  /* Focus */
+  --focus-ring:      var(--blue-500);
+}
