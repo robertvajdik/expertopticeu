@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 
 /* ── Language ── */
@@ -19,7 +20,7 @@ function lang_qs(string $lang): string {
 }
 
 /* ── Routing ── */
-$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm'];
+$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'kontaktni-cocky', 'sportovni-bryle'];
 $page = $_GET['p'] ?? 'home';
 if (!in_array($page, $allowed_pages, true)) $page = 'home';
 
@@ -215,7 +216,9 @@ switch ($page) {
   case 'booking':       include __DIR__ . '/pages/booking.php';       break;
   case 'cart':          include __DIR__ . '/pages/cart.php';          break;
   case 'checkout':      include __DIR__ . '/pages/checkout.php';      break;
-  case 'order-confirm': include __DIR__ . '/pages/order-confirm.php'; break;
+  case 'order-confirm':   include __DIR__ . '/pages/order-confirm.php';   break;
+  case 'kontaktni-cocky': include __DIR__ . '/pages/kontaktni-cocky.php'; break;
+  case 'sportovni-bryle': include __DIR__ . '/pages/sportovni-bryle.php'; break;
   default:              include __DIR__ . '/pages/home.php';          break;
 }
 ?>
@@ -239,3 +242,4 @@ switch ($page) {
 
 </body>
 </html>
+<?php ob_end_flush(); ?>

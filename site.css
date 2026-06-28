@@ -309,6 +309,7 @@
 
 /* ---- Grid layouts ---- */
 
+.cards-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
 .cards-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
 .cards-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.125rem; }
 
@@ -1440,6 +1441,7 @@ textarea.booking-input { resize: vertical; min-height: 72px; }
   .hero { grid-template-columns: 1fr; padding-bottom: 2rem; }
   .hero__visual { display: none; }
   .hero__stats { justify-content: center; }
+  .cards-2 { grid-template-columns: 1fr; }
   .cards-4 { grid-template-columns: repeat(2,1fr); }
   .craft-band { grid-template-columns: 1fr; }
   .craft-band__img { display: none; }
@@ -1503,6 +1505,7 @@ textarea.booking-input { resize: vertical; min-height: 72px; }
   .hero__stats { gap: 0; }
   .hero .lead { max-width: 100%; }
 
+  .cards-2 { grid-template-columns: 1fr; }
   .cards-3 { grid-template-columns: 1fr; }
   .cards-4 { grid-template-columns: repeat(2,1fr); }
   .booking-grid { grid-template-columns: 1fr; }
@@ -2489,6 +2492,74 @@ html.high-contrast .text-zoom__btn--active {
   color: #000 !important;
   background: #ffff00 !important;
   border-color: #ffff00 !important;
+}
+
+/* =====================================================
+   Article pages
+   ===================================================== */
+
+.article-wrap { max-width: 56rem; }
+
+.article__header { margin-bottom: 2rem; }
+.article__title  { font-size: clamp(2rem, 5vw, 3rem); margin: .375rem 0 .75rem; }
+
+.article__card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+.article__card-head h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+.article__card-head .service-icon {
+  flex-shrink: 0;
+  margin-top: .125rem;
+}
+
+.article__section-title {
+  font-size: 1.5rem;
+  margin: 2.5rem 0 .25rem;
+}
+
+.article__hero-img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  margin-top: 1.5rem;
+}
+
+.article__section-img {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.25rem;
+}
+
+.article__gallery {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .5rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.article__gallery img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+@media (max-width: 768px) {
+  .article__gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .article__gallery { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* =====================================================

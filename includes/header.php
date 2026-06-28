@@ -17,8 +17,8 @@ $base_qs     = '?p=' . $current_p . $current_cat . $current_id . $current_tab;
     <nav class="site-header__nav" id="main-nav" aria-label="<?= htmlspecialchars($t['aria_main_nav']) ?>">
       <a href="?p=collection&amp;cat=Alle<?= lang_qs($lang) ?>"          class="nav-link<?= $page==='collection'?' nav-link--active':'' ?>"><?= htmlspecialchars($t['nav_glasses']) ?></a>
       <a href="?p=collection&amp;cat=Sonnenbrillen<?= lang_qs($lang) ?>" class="nav-link"><?= htmlspecialchars($t['nav_sunglasses']) ?></a>
-      <a href="?p=collection&amp;cat=Sportbrillen<?= lang_qs($lang) ?>"  class="nav-link"><?= htmlspecialchars($t['nav_sport']) ?></a>
-      <a href="?p=collection&amp;cat=Kontaktlinsen<?= lang_qs($lang) ?>" class="nav-link"><?= htmlspecialchars($t['nav_contactlenses']) ?></a>
+      <a href="?p=sportovni-bryle<?= lang_qs($lang) ?>" class="nav-link<?= $page==='sportovni-bryle'?' nav-link--active':'' ?>"><?= htmlspecialchars($t['nav_sport']) ?></a>
+      <a href="?p=kontaktni-cocky<?= lang_qs($lang) ?>" class="nav-link<?= $page==='kontaktni-cocky'?' nav-link--active':'' ?>"><?= htmlspecialchars($t['nav_contactlenses']) ?></a>
       <a href="?p=home#marken<?= lang_qs($lang) ?>"                      class="nav-link"><?= htmlspecialchars($t['nav_brands']) ?></a>
       <a href="?p=booking<?= lang_qs($lang) ?>"                          class="nav-link<?= $page==='booking'?' nav-link--active':'' ?>"><?= htmlspecialchars($t['nav_about']) ?></a>
 
