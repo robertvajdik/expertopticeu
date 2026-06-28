@@ -1,28 +1,29 @@
 <?php
 /* Article: Sports eyewear */
+$T = fn(string $k) => htmlspecialchars($t[$k] ?? '');
 ?>
 <div class="page-wrap article-wrap">
 
   <a href="?p=home<?= lang_qs($lang) ?>" class="back-link">
     <i data-lucide="arrow-left"></i>
-    <?= htmlspecialchars($t['nav_home']) ?>
+    <?= $T('nav_home') ?>
   </a>
 
   <article class="article">
 
     <header class="article__header reveal">
       <p class="eyebrow">Expert OPTIC</p>
-      <h1 class="article__title"><?= htmlspecialchars($t['sb_title']) ?></h1>
-      <p class="lead"><?= htmlspecialchars($t['sb_lead']) ?></p>
+      <h1 class="article__title"><?= $T('sb_title') ?></h1>
+      <p class="lead"><?= $T('sb_lead') ?></p>
     </header>
 
     <!-- Intro -->
     <div class="card card--top-rule reveal" style="margin-bottom:2rem">
       <i data-lucide="zap" class="service-icon"></i>
-      <p style="margin:.75rem 0 .5rem"><?= htmlspecialchars($t['sb_intro_p1']) ?></p>
+      <p style="margin:.75rem 0 .5rem"><?= $T('sb_intro_p1') ?></p>
       <p style="margin:0">
-        <?= htmlspecialchars($t['sb_intro_p2']) ?>
-        <strong><?= htmlspecialchars($t['sb_intro_warning']) ?></strong>
+        <?= $T('sb_intro_p2') ?>
+        <strong><?= $T('sb_intro_warning') ?></strong>
       </p>
     </div>
 
@@ -44,14 +45,14 @@
     <section class="reveal">
       <h2 class="article__section-title">
         <i data-lucide="bike" style="vertical-align:middle;margin-right:.5rem;color:var(--brand)"></i>
-        <?= htmlspecialchars($t['sb_cycling_title']) ?>
+        <?= $T('sb_cycling_title') ?>
       </h2>
       <div class="card card--top-rule" style="margin-top:1rem">
-        <p style="margin:0 0 1rem"><?= htmlspecialchars($t['sb_cycling_intro']) ?></p>
+        <p style="margin:0 0 1rem"><?= $T('sb_cycling_intro') ?></p>
         <ul class="checkpoint-list">
-          <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_cycling_1']) ?></li>
-          <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_cycling_2']) ?></li>
-          <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_cycling_3']) ?></li>
+          <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_cycling_1') ?></li>
+          <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_cycling_2') ?></li>
+          <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_cycling_3') ?></li>
         </ul>
       </div>
     </section>
@@ -60,23 +61,23 @@
     <section class="reveal" style="margin-top:2.5rem">
       <h2 class="article__section-title">
         <i data-lucide="mountain-snow" style="vertical-align:middle;margin-right:.5rem;color:var(--brand)"></i>
-        <?= htmlspecialchars($t['sb_ski_title']) ?>
+        <?= $T('sb_ski_title') ?>
       </h2>
       <div class="cards-2" style="margin-top:1rem">
         <div class="card card--top-rule">
-          <p style="margin:0 0 1rem"><?= htmlspecialchars($t['sb_ski_body']) ?></p>
-          <p style="margin:0;color:var(--ink-600);font-size:.9375rem"><?= htmlspecialchars($t['sb_ski_note']) ?></p>
+          <p style="margin:0 0 1rem"><?= $T('sb_ski_body') ?></p>
+          <p style="margin:0;color:var(--ink-600);font-size:.9375rem"><?= $T('sb_ski_note') ?></p>
         </div>
         <div class="card card--top-rule">
           <ul class="checkpoint-list">
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_1']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_2']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_3']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_4']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_5']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_6']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_7']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_ski_8']) ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_1') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_2') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_3') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_4') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_5') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_6') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_7') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_ski_8') ?></li>
           </ul>
         </div>
       </div>
@@ -86,22 +87,22 @@
     <section class="reveal" style="margin-top:2.5rem">
       <h2 class="article__section-title">
         <i data-lucide="target" style="vertical-align:middle;margin-right:.5rem;color:var(--brand)"></i>
-        <?= htmlspecialchars($t['sb_golf_title']) ?>
+        <?= $T('sb_golf_title') ?>
       </h2>
       <div class="cards-2" style="margin-top:1rem">
         <div class="card card--top-rule">
-          <p style="margin:0 0 .75rem;font-size:1.0625rem;font-weight:600"><?= htmlspecialchars($t['sb_golf_pitch']) ?></p>
-          <p style="margin:0;color:var(--ink-600);font-size:.9375rem"><?= htmlspecialchars($t['sb_golf_body']) ?></p>
+          <p style="margin:0 0 .75rem;font-size:1.0625rem;font-weight:600"><?= $T('sb_golf_pitch') ?></p>
+          <p style="margin:0;color:var(--ink-600);font-size:.9375rem"><?= $T('sb_golf_body') ?></p>
         </div>
         <div class="card card--top-rule">
           <ul class="checkpoint-list">
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_golf_1']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_golf_2']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_golf_3']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_golf_4']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_golf_5']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_golf_6']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_golf_7']) ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_golf_1') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_golf_2') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_golf_3') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_golf_4') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_golf_5') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_golf_6') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_golf_7') ?></li>
           </ul>
         </div>
       </div>
@@ -111,22 +112,22 @@
     <section class="reveal" style="margin-top:2.5rem">
       <h2 class="article__section-title">
         <i data-lucide="footprints" style="vertical-align:middle;margin-right:.5rem;color:var(--brand)"></i>
-        <?= htmlspecialchars($t['sb_run_title']) ?>
+        <?= $T('sb_run_title') ?>
       </h2>
       <div class="cards-2" style="margin-top:1rem">
         <div class="card card--top-rule">
-          <p style="margin:0 0 .75rem;font-size:1.0625rem;font-weight:600"><?= htmlspecialchars($t['sb_run_pitch']) ?></p>
-          <p style="margin:0;color:var(--ink-600);font-size:.9375rem"><?= htmlspecialchars($t['sb_run_body']) ?></p>
+          <p style="margin:0 0 .75rem;font-size:1.0625rem;font-weight:600"><?= $T('sb_run_pitch') ?></p>
+          <p style="margin:0;color:var(--ink-600);font-size:.9375rem"><?= $T('sb_run_body') ?></p>
         </div>
         <div class="card card--top-rule">
           <ul class="checkpoint-list">
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_run_1']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_run_2']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_run_3']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_run_4']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_run_5']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_run_6']) ?></li>
-            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= htmlspecialchars($t['sb_run_7']) ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_run_1') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_run_2') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_run_3') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_run_4') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_run_5') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_run_6') ?></li>
+            <li><i data-lucide="check-circle" class="checkpoint-list__icon"></i> <?= $T('sb_run_7') ?></li>
           </ul>
         </div>
       </div>
@@ -136,12 +137,12 @@
     <div class="cta-band reveal" style="margin-top:2.5rem;border-radius:var(--radius-lg)">
       <div class="cta-band__inner">
         <div>
-          <h2 class="cta-band__headline"><?= htmlspecialchars($t['sb_cta_headline']) ?></h2>
-          <p class="cta-band__sub"><?= htmlspecialchars($t['sb_cta_sub']) ?></p>
+          <h2 class="cta-band__headline"><?= $T('sb_cta_headline') ?></h2>
+          <p class="cta-band__sub"><?= $T('sb_cta_sub') ?></p>
         </div>
         <div class="cta-band__actions">
           <a href="?p=booking<?= lang_qs($lang) ?>" class="btn btn--primary btn--lg">
-            <i data-lucide="calendar"></i> <?= htmlspecialchars($t['sb_cta_book']) ?>
+            <i data-lucide="calendar"></i> <?= $T('sb_cta_book') ?>
           </a>
           <a href="tel:+420603419882" class="btn btn--outline-light btn--lg">
             <i data-lucide="phone"></i> +420 603 419 882
