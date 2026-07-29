@@ -43,7 +43,7 @@ return [
   'nav_sport'         => 'Sport',
   'nav_contactlenses' => 'Kontaktní čočky',
   'nav_brands'        => 'Značky',
-  'nav_about'         => 'O nás',
+  'nav_about'         => 'Rezervace',
   'nav_contact'       => 'Kontakt',
   'aria_logo'         => 'expert·optic — Úvod',
   'aria_main_nav'     => 'Hlavní navigace',

@@ -2,10 +2,10 @@
 return [
 
   /* ── Meta descriptions ── */
-  'meta_home'       => 'Your personal optician in Vienna-Meidling. Custom-fitted glasses, free eye test (Checkpoint očí), brands like IC! Berlin, Blackfin & more. Right at the station.',
+  'meta_home'       => 'Your personal optician in Vienna-Meidling. Custom-fitted glasses, free eye test (Eye Checkpoint), brands like IC! Berlin, Blackfin & more. Right at the station.',
   'meta_collection' => 'Premium eyewear collections at expert·optic Vienna-Meidling — optical frames, sunglasses, sports eyewear and reading glasses. Personal consultation included.',
   'meta_product'    => 'personally fitted at expert·optic in Vienna-Meidling.',
-  'meta_booking'    => 'Book a free eye test or eyewear fitting at expert·optic Vienna-Meidling. Checkpoint očí — professional, personal, free of charge.',
+  'meta_booking'    => 'Book a free eye test or eyewear fitting at expert·optic Vienna-Meidling. Eye Checkpoint — professional, personal, free of charge.',
 
   /* ── Page titles ── */
   'title_home'       => 'expert·optic — Vienna-Meidling',
@@ -43,7 +43,7 @@ return [
   'nav_sport'         => 'Sport',
   'nav_contactlenses' => 'Contact Lenses',
   'nav_brands'        => 'Brands',
-  'nav_about'         => 'About Us',
+  'nav_about'         => 'Booking',
   'nav_contact'       => 'Contact',
   'aria_logo'         => 'expert·optic — Home',
   'aria_main_nav'     => 'Main navigation',
@@ -68,7 +68,7 @@ return [
   'stat_master'      => 'Master optician',
   'stat_free'        => 'Free',
   'stat_eye_test'    => 'Eye test',
-  'badge_checkpoint' => 'Licensed Checkpoint očí',
+  'badge_checkpoint' => 'Licensed Eye Checkpoint',
   'badge_free_test'  => 'Free eye test on site',
   'alt_studio_interior' => 'expert·optic eyewear studio — interior view',
 
@@ -80,17 +80,17 @@ return [
   'cp_label_top'     => 'LICENSED',
   'cp_label_bottom'  => 'AUSTRIA',
   'cp_eyebrow'       => 'Licensed',
-  'cp_headline'      => 'Checkpoint očí',
-  'cp_lead'          => 'As a licensed Checkpoint očí partner we offer free, professional eye examinations — no doctor\'s appointment needed, right here in our studio in Vienna-Meidling.',
+  'cp_headline'      => 'Eye Checkpoint',
+  'cp_lead'          => 'As a licensed Eye Checkpoint partner we offer free, professional eye examinations — no doctor\'s appointment needed, right here in our studio in Vienna-Meidling.',
   'cp_bullet_1'      => 'Free visual acuity assessment',
   'cp_bullet_2'      => 'State-of-the-art measurement technology on site',
   'cp_bullet_3'      => 'Personal consultation with master optician Thomas Scheibl',
   'cp_bullet_4'      => 'No doctor\'s visit required',
   'cp_cta'           => 'Book your free eye test now',
-  'alt_checkpoint'   => 'Checkpoint očí — eye test at expert·optic Vienna-Meidling',
+  'alt_checkpoint'   => 'Eye Checkpoint — eye test at expert·optic Vienna-Meidling',
 
   /* ── Home — Services ── */
-  'svc_1_title' => 'Checkpoint očí',
+  'svc_1_title' => 'Eye Checkpoint',
   'svc_1_body'  => 'Free eye examination and glasses consultation — part of our customer service.',
   'svc_2_title' => 'Custom-made for you',
   'svc_2_body'  => 'From the prescription to the lenses and fitting. Every pair of glasses is made right here.',
@@ -156,7 +156,7 @@ return [
   'panel_care'        => 'Clean with lukewarm water and mild washing-up liquid, dry with the included microfibre cloth. Free readjustment in the studio whenever needed.',
 
   /* ── Booking page ── */
-  'book_eyebrow'     => 'Checkpoint očí',
+  'book_eyebrow'     => 'Eye Checkpoint',
   'book_headline'    => 'Book an appointment',
   'book_lead'        => 'Eye examinations and glasses consultations are free of charge — part of our customer service. Choose a date and we will confirm by phone.',
   'book_success_title'=> 'Appointment requested — thank you!',
@@ -187,11 +187,11 @@ return [
   'sidebar_address_2'    => '624 00 Brno-Komín',
   'sidebar_address_3'    => 'Stop Svratecká (tram 1, 3, 11)',
   'sidebar_hours'        => 'Opening hours',
-  'hours_mo_fr'          => 'Mon – Fri',
-  'hours_sat'            => 'Saturday',
-  'hours_sun'            => 'Sunday',
-  'hours_mo_fr_time'     => '10:00 – 19:00',
-  'hours_sat_time'       => '10:00 – 13:00',
+  'hours_mo_fr'          => 'Wed – Thu',
+  'hours_sat'            => 'Friday',
+  'hours_sun'            => 'Other days',
+  'hours_mo_fr_time'     => '12:30 – 18:00',
+  'hours_sat_time'       => '11:30 – 17:00',
   'hours_closed'         => 'Closed',
   'hours_open_today'     => 'Open today',
   'hours_open_sat'       => 'Open today (until 13:00)',
@@ -212,7 +212,7 @@ return [
   'footer_sport'         => 'Sports eyewear',
   'footer_contacts'      => 'Contact lenses',
   'footer_col_service'   => 'Services',
-  'footer_svc_checkpoint'=> 'Checkpoint očí',
+  'footer_svc_checkpoint'=> 'Eye Checkpoint',
   'footer_svc_booking'   => 'Book eye test',
   'footer_svc_repair'    => 'Repair',
   'footer_svc_voucher'   => 'Vouchers',
