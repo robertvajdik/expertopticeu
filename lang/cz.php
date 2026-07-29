@@ -252,6 +252,10 @@ return [
   'cart_checkout' => 'Přejít k pokladně',
   'cart_continue' => 'Pokračovat v nákupu',
   'cart_remove'   => 'Odebrat',
+  'cart_login_title'  => 'Máte u nás účet?',
+  'cart_login_lead'   => 'Přihlaste se pro rychlejší pokladnu a přehled objednávek.',
+  'cart_login_btn'    => 'Přihlásit',
+  'cart_register_btn' => 'Registrovat',
 
   /* ── Order confirmation ── */
   'conf_title'        => 'Objednávka přijata!',

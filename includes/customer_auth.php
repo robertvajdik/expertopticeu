@@ -39,32 +39,70 @@ function customer_logout(): void {
 }
 
 function customer_register(array $d, string $lang): array {
-    $email = strtolower(trim($d['email'] ?? ''));
-    $name  = trim($d['name'] ?? '');
-    $pass  = (string)($d['password'] ?? '');
+    $email  = strtolower(trim($d['email']  ?? ''));
+    $name   = trim($d['name']  ?? '');
+    $pass   = (string)($d['password'] ?? '');
+    $phone  = trim($d['phone']       ?? '');
+    $street = trim($d['street']      ?? '');
+    $city   = trim($d['city_postal'] ?? '');
+
     $errors = [];
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'email';
-    if ($name === '')       $errors[] = 'name';
-    if (strlen($pass) < 8)  $errors[] = 'password_short';
+
+    /* Email */
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 150) {
+        $errors[] = 'email';
+    }
+
+    /* Name — min 2 chars after trim, max 150 */
+    if (mb_strlen($name) < 2 || mb_strlen($name) > 150) {
+        $errors[] = 'name';
+    }
+
+    /* Password — min 8 chars, must contain at least one letter and one digit */
+    if (strlen($pass) < 8) {
+        $errors[] = 'password_short';
+    } elseif (!preg_match('/[A-Za-zÀ-ž]/u', $pass) || !preg_match('/\d/', $pass)) {
+        $errors[] = 'password_weak';
+    }
+
+    /* Phone — optional, but if provided must look like a phone number */
+    if ($phone !== '' && !preg_match('/^\+?[0-9 \-().]{6,25}$/', $phone)) {
+        $errors[] = 'phone';
+    }
+
+    /* Street / city_postal — length caps if provided */
+    if (mb_strlen($street) > 200) $errors[] = 'street';
+    if (mb_strlen($city)   > 120) $errors[] = 'city_postal';
+
     if ($errors) return ['errors' => $errors];
 
     try {
         $dup = db()->prepare('SELECT id FROM customers WHERE email = ?');
         $dup->execute([$email]);
         if ($dup->fetch()) return ['errors' => ['email_taken']];
+
         db()->prepare('INSERT INTO customers (email, password, name, phone, street, city_postal, lang)
                        VALUES (?,?,?,?,?,?,?)')
             ->execute([
                 $email,
                 password_hash($pass, PASSWORD_BCRYPT),
                 $name,
-                trim($d['phone'] ?? '')       ?: null,
-                trim($d['street'] ?? '')      ?: null,
-                trim($d['city_postal'] ?? '') ?: null,
+                $phone ?: null,
+                $street ?: null,
+                $city ?: null,
                 $lang,
             ]);
         $id = (int)db()->lastInsertId();
     } catch (Exception $e) {
+        /* Detect missing table (migration not run) so the admin can see a clearer error. */
+        $msg = $e->getMessage();
+        if (stripos($msg, "doesn't exist") !== false || stripos($msg, 'no such table') !== false) {
+            return ['errors' => ['db_schema']];
+        }
+        if (stripos($msg, 'Duplicate') !== false) {
+            return ['errors' => ['email_taken']];
+        }
+        error_log('customer_register: ' . $msg);
         return ['errors' => ['db']];
     }
     $_SESSION['customer_id'] = $id;

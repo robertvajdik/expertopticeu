@@ -37,7 +37,7 @@ $site_info = [
 ];
 
 /* ── Routing ── */
-$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses', 'register', 'login', 'logout', 'account'];
+$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses', 'register', 'login', 'logout', 'account', 'datenschutz', 'agb'];
 $page = $_GET['p'] ?? 'home';
 if (!in_array($page, $allowed_pages, true)) $page = 'home';
 
@@ -252,6 +252,8 @@ switch ($page) {
   case 'login':         include __DIR__ . '/pages/login.php';          break;
   case 'logout':        include __DIR__ . '/pages/logout.php';         break;
   case 'account':       include __DIR__ . '/pages/account.php';        break;
+  case 'datenschutz':   include __DIR__ . '/pages/datenschutz.php';    break;
+  case 'agb':           include __DIR__ . '/pages/agb.php';            break;
   default:              include __DIR__ . '/pages/home.php';          break;
 }
 ?>

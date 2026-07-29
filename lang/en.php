@@ -252,6 +252,10 @@ return [
   'cart_checkout' => 'Proceed to checkout',
   'cart_continue' => 'Continue shopping',
   'cart_remove'   => 'Remove',
+  'cart_login_title'  => 'Already have an account?',
+  'cart_login_lead'   => 'Sign in for a faster checkout and order history.',
+  'cart_login_btn'    => 'Sign in',
+  'cart_register_btn' => 'Register',
 
   /* ── Order confirmation ── */
   'conf_title'        => 'Order received!',

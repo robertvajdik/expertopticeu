@@ -40,6 +40,8 @@
       <a href="?p=booking&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_svc_repair']) ?></a>
       <a href="?p=home&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_svc_voucher']) ?></a>
       <a href="?p=collection&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_svc_unique']) ?></a>
+      <a href="?p=agb&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_agb']) ?></a>
+      <a href="?p=datenschutz&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_datenschutz']) ?></a>
     </div>
 
     <div class="site-footer__col">

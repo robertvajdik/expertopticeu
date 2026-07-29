@@ -30,6 +30,8 @@ $static_routes = [
     'contact-lenses' => ['freq' => 'monthly', 'priority' => '0.8'],
     'brno'           => ['freq' => 'monthly', 'priority' => '0.7'],
     'booking'        => ['freq' => 'monthly', 'priority' => '0.7'],
+    'datenschutz'    => ['freq' => 'yearly',  'priority' => '0.3'],
+    'agb'            => ['freq' => 'yearly',  'priority' => '0.3'],
 ];
 
 /* Load products for dynamic URLs */

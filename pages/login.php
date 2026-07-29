@@ -19,28 +19,30 @@ if (customer_current()) {
 }
 ?>
 
-<div class="page-wrap" style="max-width:480px">
-  <h1 class="cart-page-title"><?= htmlspecialchars($t['auth_login_title'] ?? 'Přihlášení') ?></h1>
+<div class="auth-wrap">
+  <h1 class="auth-title"><?= htmlspecialchars($t['auth_login_title'] ?? 'Přihlášení') ?></h1>
+  <p class="auth-subtitle"><?= htmlspecialchars($t['auth_login_lead'] ?? 'Přihlaste se ke svému účtu.') ?></p>
 
   <?php if ($error): ?>
-    <div class="alert alert--danger" style="margin-bottom:1rem"><?= htmlspecialchars($error) ?></div>
+    <div class="auth-alert"><i data-lucide="alert-triangle"></i><?= htmlspecialchars($error) ?></div>
   <?php endif; ?>
 
-  <form method="post" class="card" style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem">
-    <label>
-      <div><?= htmlspecialchars($t['auth_email'] ?? 'E-mail') ?></div>
-      <input type="email" name="email" required autofocus value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
-    </label>
-    <label>
-      <div><?= htmlspecialchars($t['auth_password'] ?? 'Heslo') ?></div>
-      <input type="password" name="password" required>
-    </label>
+  <form method="post" class="auth-card">
+    <div class="form-field">
+      <label for="log-email"><?= htmlspecialchars($t['auth_email'] ?? 'E-mail') ?></label>
+      <input id="log-email" type="email" name="email" required autofocus value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+    </div>
+    <div class="form-field">
+      <label for="log-password"><?= htmlspecialchars($t['auth_password'] ?? 'Heslo') ?></label>
+      <input id="log-password" type="password" name="password" required>
+    </div>
     <button type="submit" name="login" value="1" class="btn btn--primary btn--lg btn--block">
       <?= htmlspecialchars($t['auth_login_btn'] ?? 'Přihlásit') ?>
     </button>
-    <p style="text-align:center;margin:0">
-      <?= htmlspecialchars($t['auth_no_account'] ?? 'Nemáte účet?') ?>
-      <a href="?p=register&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['auth_register_here'] ?? 'Zaregistrovat se') ?></a>
-    </p>
   </form>
+
+  <p class="auth-footer">
+    <?= htmlspecialchars($t['auth_no_account'] ?? 'Nemáte účet?') ?>
+    <a href="?p=register&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['auth_register_here'] ?? 'Zaregistrovat se') ?></a>
+  </p>
 </div>

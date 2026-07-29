@@ -78,6 +78,25 @@ $voucher_messages = [
 
   <h1 class="cart-page-title"><?= htmlspecialchars($t['cart_title']) ?></h1>
 
+  <?php if (!$customer && !empty($items)): ?>
+    <div class="cart-login-prompt">
+      <div class="cart-login-prompt__icon"><i data-lucide="user-round"></i></div>
+      <div class="cart-login-prompt__text">
+        <strong><?= htmlspecialchars($t['cart_login_title'] ?? 'Máte u nás účet?') ?></strong>
+        <span><?= htmlspecialchars($t['cart_login_lead'] ?? 'Přihlaste se pro rychlejší pokladnu a přehled objednávek.') ?></span>
+      </div>
+      <div class="cart-login-prompt__actions">
+        <a href="?p=login&amp;next=cart&amp;lang=<?= $lang ?>" class="btn btn--primary btn--sm">
+          <i data-lucide="log-in"></i>
+          <?= htmlspecialchars($t['cart_login_btn'] ?? 'Přihlásit') ?>
+        </a>
+        <a href="?p=register&amp;lang=<?= $lang ?>" class="btn btn--secondary btn--sm">
+          <?= htmlspecialchars($t['cart_register_btn'] ?? 'Registrovat') ?>
+        </a>
+      </div>
+    </div>
+  <?php endif; ?>
+
   <?php if (empty($items)): ?>
     <div class="alert alert--navy cart-empty">
       <i data-lucide="shopping-bag"></i>

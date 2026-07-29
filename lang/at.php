@@ -252,6 +252,10 @@ return [
   'cart_checkout' => 'Zur Kasse',
   'cart_continue' => 'Weiter einkaufen',
   'cart_remove'   => 'Entfernen',
+  'cart_login_title'  => 'Sie haben bereits ein Konto?',
+  'cart_login_lead'   => 'Melden Sie sich an für eine schnellere Kasse und Bestellübersicht.',
+  'cart_login_btn'    => 'Anmelden',
+  'cart_register_btn' => 'Registrieren',
 
   /* ── Order confirmation ── */
   'conf_title'        => 'Bestellung eingegangen!',
