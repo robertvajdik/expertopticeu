@@ -106,6 +106,8 @@ return [
 
   /* ── Product page ── */
   'prod_back'         => 'Back to collection',
+  'prod_vat_incl'     => 'incl. VAT',
+  'prod_vat_excl'     => 'excl. VAT',
   'prod_studio_fit'   => 'custom-fitted in our studio. Includes a free visual acuity assessment and personal fitting.',
   'prod_color_label'  => 'Colour',
   'prod_color_aria'   => 'Colour %d',
@@ -344,4 +346,22 @@ return [
   'sb_cta_headline'   => 'We\'ll help you choose',
   'sb_cta_sub'        => 'Come in for a free eye test and expert consultation.',
   'sb_cta_book'       => 'Book an appointment',
+
+  /* ── Order emails ── */
+  'mail_subj_placed'  => 'Order confirmation {nr} — Expert OPTIC',
+  'mail_hello'        => 'Hello {name},',
+  'mail_placed_intro' => 'thank you for your order {nr}. We have received it and are preparing it for processing.',
+  'mail_items_hdr'    => 'Ordered items:',
+  'mail_shipping_line'=> 'Shipping:',
+  'mail_total_line'   => 'Total:',
+  'mail_pay_hdr'      => 'Payment by bank transfer:',
+  'mail_pay_holder'   => 'Account holder:',
+  'mail_pay_iban'     => 'IBAN:',
+  'mail_pay_bic'      => 'BIC:',
+  'mail_pay_amount'   => 'Amount:',
+  'mail_pay_ref'      => 'Reference:',
+  'mail_pay_qr_note'  => 'For fast payment you can use the QR code on the order confirmation page.',
+  'mail_signoff'      => "We will be in touch shortly.\n\nExpert OPTIC\n{address}",
+  'mail_subj_paid'    => 'Payment received for order {nr} — Expert OPTIC',
+  'mail_paid_body'    => "we have received your payment for order {nr}. Thank you!\n\nWe are now preparing your order for shipment.",
 ];

@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pass = $_POST['password'] ?? '';
     $authed = false;
 
-    /* Try DB users first */
     try {
         $stmt = db()->prepare('SELECT id, username, password, role FROM admin_users WHERE username = ? AND active = 1');
         $stmt->execute([$user]);
@@ -25,12 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['admin_role']    = $row['role'];
         }
     } catch (Exception $e) {}
-
-    /* Fallback: config credentials */
-    if (!$authed && $user === ADMIN_USERNAME && $pass === ADMIN_PASSWORD) {
-        $authed = true;
-        $_SESSION['admin_role'] = 'admin';
-    }
 
     if ($authed) {
         session_regenerate_id(true);

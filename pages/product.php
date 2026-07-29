@@ -123,9 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['studio_book'])) {
       <?php if (!empty($p['desc'])): ?>
         <p style="margin:.25rem 0 .75rem;color:var(--ink-500)"><?= htmlspecialchars($p['desc']) ?></p>
       <?php endif; ?>
-      <div class="product-price"><?= htmlspecialchars($p['price']) ?> <span style="font-size:.95rem;font-weight:400;color:var(--ink-400)">mit MwSt.</span></div>
+      <div class="product-price"><?= htmlspecialchars(fmt_price_display($p['price'], $lang)) ?> <span style="font-size:.95rem;font-weight:400;color:var(--ink-400)"><?= htmlspecialchars($t['prod_vat_incl']) ?></span></div>
       <?php if (!empty($p['price_net'])): ?>
-        <div style="font-size:.9rem;color:var(--ink-400);margin-top:-.5rem;margin-bottom:.75rem"><?= htmlspecialchars($p['price_net']) ?> ohne MwSt.</div>
+        <div style="font-size:.9rem;color:var(--ink-400);margin-top:-.5rem;margin-bottom:.75rem"><?= htmlspecialchars(fmt_price_display($p['price_net'], $lang)) ?> <?= htmlspecialchars($t['prod_vat_excl']) ?></div>
       <?php endif; ?>
 
       <p class="lead" style="max-width:460px;margin-bottom:1.5rem">

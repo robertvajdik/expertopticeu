@@ -70,7 +70,7 @@ $sort     = $_GET['sort'] ?? 'recommended';
           <div class="product-card__brand"><?= htmlspecialchars($p['brand']) ?></div>
           <div class="product-card__name"><?= htmlspecialchars($p['name']) ?></div>
           <div class="product-card__row">
-            <span class="product-card__price"><?= htmlspecialchars($p['price']) ?></span>
+            <span class="product-card__price"><?= htmlspecialchars(fmt_price_display($p['price'], $lang)) ?></span>
             <span class="product-card__cat"><?= htmlspecialchars($t[$cat_keys[$p['cat']] ?? 'cat_all'] ?? $p['cat']) ?></span>
           </div>
         </div>

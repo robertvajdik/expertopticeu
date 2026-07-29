@@ -106,6 +106,8 @@ return [
 
   /* ── Product page ── */
   'prod_back'         => 'Zurück zur Kollektion',
+  'prod_vat_incl'     => 'inkl. MwSt.',
+  'prod_vat_excl'     => 'ohne MwSt.',
   'prod_studio_fit'   => 'auf Maß angepasst in unserem Studio. Inklusive kostenloser Sehstärkebestimmung und persönlicher Anprobe.',
   'prod_color_label'  => 'Farbe',
   'prod_color_aria'   => 'Farbe %d',
@@ -344,4 +346,22 @@ return [
   'sb_cta_headline'   => 'Wir beraten Sie gerne',
   'sb_cta_sub'        => 'Kommen Sie für einen kostenlosen Sehtest und fachkundige Beratung zu uns ins Studio.',
   'sb_cta_book'       => 'Termin vereinbaren',
+
+  /* ── Order emails ── */
+  'mail_subj_placed'  => 'Bestätigung Ihrer Bestellung {nr} — Expert OPTIC',
+  'mail_hello'        => 'Guten Tag, {name},',
+  'mail_placed_intro' => 'vielen Dank für Ihre Bestellung {nr}. Wir haben sie erhalten und bereiten sie zur Bearbeitung vor.',
+  'mail_items_hdr'    => 'Bestellte Artikel:',
+  'mail_shipping_line'=> 'Versand:',
+  'mail_total_line'   => 'Gesamt:',
+  'mail_pay_hdr'      => 'Zahlung per Banküberweisung:',
+  'mail_pay_holder'   => 'Kontoinhaber:',
+  'mail_pay_iban'     => 'IBAN:',
+  'mail_pay_bic'      => 'BIC:',
+  'mail_pay_amount'   => 'Betrag:',
+  'mail_pay_ref'      => 'Verwendungszweck:',
+  'mail_pay_qr_note'  => 'Für die schnelle Zahlung können Sie den QR-Code auf der Bestätigungsseite verwenden.',
+  'mail_signoff'      => "Wir melden uns in Kürze bei Ihnen.\n\nExpert OPTIC\n{address}",
+  'mail_subj_paid'    => 'Zahlungseingang für Bestellung {nr} — Expert OPTIC',
+  'mail_paid_body'    => "wir haben Ihre Zahlung für die Bestellung {nr} erhalten. Vielen Dank!\n\nWir bereiten Ihre Bestellung nun zum Versand vor.",
 ];

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/mail.php';
 $msg = '';
 
 /* ── Handle actions ── */
@@ -25,8 +26,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'update_payment' && $oid) {
         $ps = $_POST['payment_status'] ?? '';
         if (in_array($ps, ['unpaid','paid','refunded'], true)) {
+            $prev = db()->prepare('SELECT payment_status FROM orders WHERE id = ?');
+            $prev->execute([$oid]);
+            $prev_status = $prev->fetchColumn();
+
             db()->prepare('UPDATE orders SET payment_status = ? WHERE id = ?')->execute([$ps, $oid]);
             $msg = $al['msg_payment_updated'];
+
+            if ($ps === 'paid' && $prev_status !== 'paid') {
+                $cols = 'order_number, customer_name, email, total' . (orders_has_lang() ? ', lang' : '');
+                $ord = db()->prepare("SELECT {$cols} FROM orders WHERE id = ?");
+                $ord->execute([$oid]);
+                if ($order_row = $ord->fetch()) {
+                    mail_order_paid_customer($order_row, $order_row['lang'] ?? 'cz');
+                }
+            }
         }
     }
 

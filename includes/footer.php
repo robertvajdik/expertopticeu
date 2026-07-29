@@ -3,13 +3,16 @@
     <div class="site-footer__brand">
       <img src="assets/logo-light.png" alt="expert·optic — all for eyes" height="54">
       <p><?= htmlspecialchars($t['footer_tagline']) ?></p>
+      <?php
+        $_phone_href = 'tel:' . preg_replace('/[^\d+]/', '', $site_info['phone']);
+      ?>
       <address>
-        <strong>Optické a optometristické studio</strong><br>
-        Thomas Scheibl<br>
+        <strong><?= htmlspecialchars($site_info['studio_name']) ?></strong><br>
+        <?= htmlspecialchars($site_info['owner_name']) ?><br>
         <span class="footer-hours-small">St – Čt: 12:30 – 18:00 · Pá: 11:30 – 17:00</span><br>
-        Hlavní 131, 624 00 Brno-Komín<br>
-        <a href="tel:+420603419882">+420 603 419 882</a><br>
-        <a href="mailto:brno@tstoptik.com">brno@tstoptik.com</a><br>
+        <?= htmlspecialchars($site_info['street']) ?>, <?= htmlspecialchars($site_info['city_postal']) ?><br>
+        <a href="<?= htmlspecialchars($_phone_href) ?>"><?= htmlspecialchars($site_info['phone']) ?></a><br>
+        <a href="mailto:<?= htmlspecialchars($site_info['email']) ?>"><?= htmlspecialchars($site_info['email']) ?></a><br>
         <a href="https://www.expertoptic.eu" target="_blank" rel="noopener">www.expertoptic.eu</a>
       </address>
 

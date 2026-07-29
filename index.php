@@ -19,8 +19,25 @@ function lang_qs(string $lang): string {
   return '&amp;lang=' . $lang;
 }
 
+/* ── Admin-configured site info (contact + analytics) ── */
+$_site_settings = [];
+$_site_settings_file = __DIR__ . '/data/settings.json';
+if (file_exists($_site_settings_file)) {
+  $_decoded = json_decode(file_get_contents($_site_settings_file), true);
+  if (is_array($_decoded)) $_site_settings = $_decoded;
+}
+$site_info = [
+  'studio_name' => $_site_settings['site_studio_name'] ?? 'Optické a optometristické studio',
+  'owner_name'  => $_site_settings['site_owner_name']  ?? 'Thomas Scheibl',
+  'street'      => $_site_settings['site_street']      ?? 'Hlavní 131',
+  'city_postal' => $_site_settings['site_city_postal'] ?? '624 00 Brno-Komín',
+  'phone'       => $_site_settings['site_phone']       ?? '+420 603 419 882',
+  'email'       => $_site_settings['site_email']       ?? 'brno@tstoptik.com',
+  'ga_id'       => $_site_settings['site_ga_id']       ?? '',
+];
+
 /* ── Routing ── */
-$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'kontaktni-cocky', 'sportovni-bryle'];
+$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses'];
 $page = $_GET['p'] ?? 'home';
 if (!in_array($page, $allowed_pages, true)) $page = 'home';
 
@@ -90,8 +107,18 @@ $desc = $descs[$page] ?? $descs['home'];
   <meta property="og:description" content="<?= $desc ?>">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#2f9bd6">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="site.css">
+  <?php if (!empty($site_info['ga_id']) && preg_match('/^G-[A-Z0-9]{4,20}$/i', $site_info['ga_id'])):
+    $ga = htmlspecialchars($site_info['ga_id'], ENT_QUOTES); ?>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<?= $ga ?>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<?= $ga ?>');
+  </script>
+  <?php endif; ?>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/site.css">
   <script>
     /* Apply saved preferences before first paint to avoid FOUC */
     (function() {
@@ -217,8 +244,8 @@ switch ($page) {
   case 'cart':          include __DIR__ . '/pages/cart.php';          break;
   case 'checkout':      include __DIR__ . '/pages/checkout.php';      break;
   case 'order-confirm':   include __DIR__ . '/pages/order-confirm.php';   break;
-  case 'kontaktni-cocky': include __DIR__ . '/pages/kontaktni-cocky.php'; break;
-  case 'sportovni-bryle': include __DIR__ . '/pages/sportovni-bryle.php'; break;
+  case 'contact-lenses': include __DIR__ . '/pages/contact-lenses.php'; break;
+  case 'sport-glasses':  include __DIR__ . '/pages/sport-glasses.php';  break;
   default:              include __DIR__ . '/pages/home.php';          break;
 }
 ?>

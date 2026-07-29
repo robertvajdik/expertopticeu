@@ -25,7 +25,26 @@
       "Bash(python3 *)",
       "WebFetch(domain:www.expertoptic.eu)",
       "WebFetch(domain:balikovna.cz)",
-      "WebFetch(domain:www.ceskaposta.cz)"
+      "WebFetch(domain:www.ceskaposta.cz)",
+      "Bash(git -C \"E:/Work/www/exportoptic.eu\" status)",
+      "Bash(git -C \"E:/Work/www/exportoptic.eu\" diff --stat)",
+      "Bash(git -C \"E:/Work/www/exportoptic.eu\" add includes/header.php index.php lang/at.php lang/cz.php lang/en.php site.css pages/kontaktni-cocky.php pages/sportovni-bryle.php assets/contact-lenses/jdlj-3wtizqwr0hb6-us4lh.jpg assets/contact-lenses/jdlj-7fqj6v5gb164-k3d3p.jpg assets/sport-glasses/)",
+      "Bash(git -C E:/Work/www/exportoptic.eu commit -m ' *)",
+      "Bash(git -C \"E:/Work/www/exportoptic.eu\" add pages/kontaktni-cocky.php pages/sportovni-bryle.php)",
+      "Bash(git -C \"E:/Work/www/exportoptic.eu\" add pages/product.php site.css)",
+      "WebFetch(domain:expertoptic.eu)",
+      "Bash(git -C \"E:/Work/www/exportoptic.eu\" add pages/sportovni-bryle.php pages/kontaktni-cocky.php site.css)",
+      "Bash(git *)",
+      "Bash(grep -in '^$lang\\\\|allowed_langs\\\\|lang.*=.*get' E:/Work/www/exportoptic.eu/index.php E:/Work/www/exportoptic.eu/includes/header.php)",
+      "Bash(php -l E:/Work/www/exportoptic.eu/pages/checkout.php E:/Work/www/exportoptic.eu/admin/pages/settings.php E:/Work/www/exportoptic.eu/admin/pages/sitemap.php E:/Work/www/exportoptic.eu/admin/index.php E:/Work/www/exportoptic.eu/admin/lang/en.php E:/Work/www/exportoptic.eu/admin/lang/cz.php E:/Work/www/exportoptic.eu/admin/lang/de.php E:/Work/www/exportoptic.eu/index.php)",
+      "Read(//c/xampp/php/**)",
+      "Read(//c/Program Files/**)",
+      "Bash(php -l E:/Work/www/exportoptic.eu/includes/db.php)",
+      "Bash(php -l E:/Work/www/exportoptic.eu/pages/home.php)",
+      "Bash(php -l E:/Work/www/exportoptic.eu/pages/collection.php)",
+      "Bash(php -l E:/Work/www/exportoptic.eu/pages/product.php)",
+      "Bash(php -l E:/Work/www/exportoptic.eu/pages/cart.php)",
+      "PowerShell(Get-Command *)"
     ]
   }
 }

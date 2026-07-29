@@ -7,12 +7,8 @@ if (!$order) {
 }
 unset($_SESSION['last_order']);
 
-$currency        = $t['co_currency']        ?? 'Kč';
-$currency_prefix = $t['co_currency_prefix'] ?? false;
-$fmt_money = function(float $n) use ($currency, $currency_prefix): string {
-    $formatted = number_format($n, 2, ',', '.');
-    return $currency_prefix ? $currency . ' ' . $formatted : $formatted . ' ' . $currency;
-};
+$currency  = $t['co_currency'] ?? 'Kč';
+$fmt_money = fn(float $n): string => fmt_display($n, $lang);
 
 /* Load bank settings */
 $_settings_file = __DIR__ . '/../data/settings.json';

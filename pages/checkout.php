@@ -1,21 +1,47 @@
 <?php
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/mail.php';
 
 $items  = cart_items();
 $errors = $errors ?? [];
 
-$currency        = $t['co_currency']        ?? 'Kč';
-$currency_prefix = $t['co_currency_prefix'] ?? false;
+$fmt_money = fn(float $n): string => fmt_display($n, $lang);
 
-$fmt_money = function(float $n) use ($currency, $currency_prefix): string {
-    $formatted = number_format($n, 2, ',', '.');
-    return $currency_prefix ? $currency . ' ' . $formatted : $formatted . ' ' . $currency;
-};
+/* Admin-configured shipping (falls back to lang defaults if unset) */
+$_ship_settings_file = __DIR__ . '/../data/settings.json';
+$_ship_settings = [];
+if (file_exists($_ship_settings_file)) {
+    $_decoded = json_decode(file_get_contents($_ship_settings_file), true);
+    if (is_array($_decoded)) $_ship_settings = $_decoded;
+}
+
+/* Admin ship settings are authored in CZK (see settings.php label). Lang fallbacks
+   are per-language display units. Normalise everything to EUR so it composes with
+   cart_total (EUR). */
+$czk_to_eur     = fn(float $n): float => $n / EUR_TO_CZK;
+$lang_fallback_to_eur = fn(float $n): float => $lang === 'cz' ? $n / EUR_TO_CZK : $n;
+
+$bali_cost      = isset($_ship_settings['ship_balikovna_cost'])
+                  ? $czk_to_eur((float)$_ship_settings['ship_balikovna_cost'])
+                  : $lang_fallback_to_eur((float)($t['co_ship_bali_cost'] ?? 89));
+$bali_home_cost = isset($_ship_settings['ship_balikovna_home_cost'])
+                  ? $czk_to_eur((float)$_ship_settings['ship_balikovna_home_cost'])
+                  : $lang_fallback_to_eur((float)($t['co_ship_home_cost'] ?? 119));
+$free_threshold = $czk_to_eur((float)($_ship_settings['ship_free_threshold'] ?? 0));
+
+$_cart_total_for_ship = cart_total($items);
+$_free_shipping = $free_threshold > 0 && $_cart_total_for_ship >= $free_threshold;
 
 $shipping_prices = [
     'personal'       => 0,
-    'balikovna'      => (float)($t['co_ship_bali_cost']  ?? 89),
-    'balikovna_home' => (float)($t['co_ship_home_cost']  ?? 119),
+    'balikovna'      => $_free_shipping ? 0 : $bali_cost,
+    'balikovna_home' => $_free_shipping ? 0 : $bali_home_cost,
+];
+
+$shipping_enabled = [
+    'personal'       => !isset($_ship_settings['ship_personal_enabled'])       || !empty($_ship_settings['ship_personal_enabled']),
+    'balikovna'      => !isset($_ship_settings['ship_balikovna_enabled'])      || !empty($_ship_settings['ship_balikovna_enabled']),
+    'balikovna_home' => !isset($_ship_settings['ship_balikovna_home_enabled']) || !empty($_ship_settings['ship_balikovna_home_enabled']),
 ];
 
 /* ── Redirect if cart empty ── */
@@ -50,16 +76,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
         $pdo        = db();
         $pdo->beginTransaction();
         try {
-            $pdo->prepare('
-                INSERT INTO orders
-                  (order_number, customer_name, email, phone, total,
-                   shipping_method, shipping_cost, pickup_point_id, pickup_point_name,
-                   delivery_address, notes)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?)
-            ')->execute(['TEMP', $name, $email, $phone ?: null, $total,
+            $has_lang = orders_has_lang();
+            $cols     = 'order_number, customer_name, email, phone, total,
+                         shipping_method, shipping_cost, pickup_point_id, pickup_point_name,
+                         delivery_address, notes' . ($has_lang ? ', lang' : '');
+            $ph       = '?,?,?,?,?,?,?,?,?,?,?' . ($has_lang ? ',?' : '');
+            $vals     = ['TEMP', $name, $email, $phone ?: null, $total,
                          $shipping, $shipping_cost,
                          $pickup_id ?: null, $pickup_name ?: null,
-                         $delivery_addr ?: null, $notes ?: null]);
+                         $delivery_addr ?: null, $notes ?: null];
+            if ($has_lang) $vals[] = $lang;
+            $pdo->prepare("INSERT INTO orders ({$cols}) VALUES ({$ph})")->execute($vals);
 
             $oid          = (int)$pdo->lastInsertId();
             $order_number = 'EO' . date('Y') . str_pad($oid, 4, '0', STR_PAD_LEFT);
@@ -89,20 +116,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 
             $pdo->commit();
 
-            $ship_cost_str = $shipping_cost > 0 ? $fmt_money($shipping_cost) : $t['co_free'];
-            $ship_line = match($shipping) {
-                'balikovna'      => "Balíkovna – výdejní místo: " . ($pickup_name ?: $pickup_id) . " ({$ship_cost_str})",
-                'balikovna_home' => "Balíkovna na adresu: {$delivery_addr} ({$ship_cost_str})",
-                default          => "Osobní odběr na prodejně (" . $t['co_free'] . ")",
-            };
-            $subject = "Potvrzení objednávky {$order_number} – Expert OPTIC";
-            $body    = "Dobrý den, {$name},\n\nVaše objednávka {$order_number} byla přijata.\n\n"
-                     . "Zboží: " . $fmt_money($cart_total) . "\n"
-                     . "Doprava: {$ship_line}\n"
-                     . "Celkem: " . $fmt_money($total) . "\n\n"
-                     . "Brzy vás budeme kontaktovat.\n\nExpert OPTIC\nHlavní 131, 624 00 Brno\nbrno@tstoptik.com";
-            @mail($email, $subject, $body,
-                  "From: Expert OPTIC <brno@tstoptik.com>\r\nContent-Type: text/plain; charset=UTF-8");
+            $mail_order = [
+                'order_number'      => $order_number,
+                'customer_name'     => $name,
+                'email'             => $email,
+                'phone'             => $phone,
+                'total'             => $total,
+                'shipping_cost'     => $shipping_cost,
+                'pickup_point_name' => $pickup_name,
+                'delivery_address'  => $delivery_addr,
+                'notes'             => $notes,
+            ];
+            mail_order_placed_customer($mail_order, $items, $lang);
+            mail_order_placed_admin($mail_order, $items);
 
             header('Location: ?p=order-confirm&lang=' . $lang);
             exit;
@@ -117,29 +143,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 }
 
 $cart_total        = cart_total($items);
-$selected_shipping = $_POST['shipping_method'] ?? 'personal';
+$_default_ship     = $shipping_enabled['personal'] ? 'personal'
+                   : ($shipping_enabled['balikovna'] ? 'balikovna'
+                   : 'balikovna_home');
+$selected_shipping = $_POST['shipping_method'] ?? $_default_ship;
+if (empty($shipping_enabled[$selected_shipping] ?? false)) $selected_shipping = $_default_ship;
 $shipping_cost     = $shipping_prices[$selected_shipping] ?? 0;
 $total             = $cart_total + $shipping_cost;
 
 $v = fn(string $k, string $d = '') => htmlspecialchars($_POST[$k] ?? $d);
 
-$shipping_options = [
-    'personal' => [
+$personal_sub = !empty($_ship_settings['ship_personal_address'])
+              ? $_ship_settings['ship_personal_address']
+              : $t['co_ship_personal_sub'];
+if (!empty($_ship_settings['ship_personal_hours'])) {
+    $personal_sub .= ' · ' . $_ship_settings['ship_personal_hours'];
+}
+
+$shipping_options = [];
+if ($shipping_enabled['personal']) {
+    $shipping_options['personal'] = [
         'label' => $t['co_ship_personal_lbl'],
         'price' => $t['co_ship_personal_price'],
-        'sub'   => $t['co_ship_personal_sub'],
-    ],
-    'balikovna' => [
+        'sub'   => $personal_sub,
+    ];
+}
+if ($shipping_enabled['balikovna']) {
+    $shipping_options['balikovna'] = [
         'label' => $t['co_ship_bali_lbl'],
-        'price' => $t['co_ship_bali_price'],
+        'price' => $_free_shipping ? $t['co_free']
+                : (isset($_ship_settings['ship_balikovna_cost']) ? $fmt_money($bali_cost) : $t['co_ship_bali_price']),
         'sub'   => $t['co_ship_bali_sub'],
-    ],
-    'balikovna_home' => [
+    ];
+}
+if ($shipping_enabled['balikovna_home']) {
+    $shipping_options['balikovna_home'] = [
         'label' => $t['co_ship_home_lbl'],
-        'price' => $t['co_ship_home_price'],
+        'price' => $_free_shipping ? $t['co_free']
+                : (isset($_ship_settings['ship_balikovna_home_cost']) ? $fmt_money($bali_home_cost) : $t['co_ship_home_price']),
         'sub'   => $t['co_ship_home_sub'],
-    ],
-];
+    ];
+}
 ?>
 
 <div class="page-wrap">
@@ -303,19 +347,23 @@ $shipping_options = [
 </div>
 
 <script>
+<?php $to_disp = fn(float $n): float => $lang === 'cz' ? $n * EUR_TO_CZK : $n; ?>
 var shippingPrices  = {
   personal:       0,
-  balikovna:      <?= json_encode($shipping_prices['balikovna']) ?>,
-  balikovna_home: <?= json_encode($shipping_prices['balikovna_home']) ?>
+  balikovna:      <?= json_encode($to_disp($shipping_prices['balikovna'])) ?>,
+  balikovna_home: <?= json_encode($to_disp($shipping_prices['balikovna_home'])) ?>
 };
-var cartTotal       = <?= json_encode($cart_total) ?>;
+var cartTotal       = <?= json_encode($to_disp($cart_total)) ?>;
 var labelFree       = <?= json_encode($t['co_free']) ?>;
-var currencySymbol  = <?= json_encode($currency) ?>;
-var currencyPrefix  = <?= json_encode($currency_prefix) ?>;
+var lang            = <?= json_encode($lang) ?>;
 
 function fmtMoney(n) {
+  if (lang === 'cz') {
+    var whole = Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return whole + ' Kč';
+  }
   var s = n.toFixed(2).replace('.', ',');
-  return currencyPrefix ? currencySymbol + ' ' + s : s + ' ' + currencySymbol;
+  return '€ ' + s;
 }
 
 function selectShipping(val) {

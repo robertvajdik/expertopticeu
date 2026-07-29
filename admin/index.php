@@ -1,5 +1,7 @@
 <?php
 session_start();
+/* Buffer output so page files can still call header() for POST→redirect flows */
+ob_start();
 require_once __DIR__ . '/config.php';
 
 /* ── Auth guard ── */
@@ -21,7 +23,7 @@ $al = require __DIR__ . '/lang/' . $admin_lang . '.php';
 
 /* ── Routing ── */
 $page = preg_replace('/[^a-z-]/', '', $_GET['page'] ?? 'dashboard');
-$allowed = ['dashboard', 'products', 'bookings', 'orders', 'users', 'settings'];
+$allowed = ['dashboard', 'products', 'bookings', 'orders', 'users', 'settings', 'sitemap'];
 if (!in_array($page, $allowed)) $page = 'dashboard';
 
 $page_titles = [
@@ -31,13 +33,14 @@ $page_titles = [
     'orders'    => $al['title_orders'],
     'users'     => $al['title_users'],
     'settings'  => $al['title_settings'],
+    'sitemap'   => $al['title_sitemap'],
 ];
 
 /* ── Shared data ── */
 try {
     $products = db()->query('SELECT * FROM products ORDER BY brand, name')->fetchAll();
 } catch (Exception $e) { $products = []; }
-$bookings = load_json(BOOKINGS_FILE);
+$bookings = load_json(__DIR__ . '/../data/bookings.json');
 $new_bookings = count(array_filter($bookings, fn($b) => ($b['status'] ?? 'new') === 'new'));
 
 /* ── Inline SVG icons (avoids external dependency) ── */
@@ -59,6 +62,7 @@ function icon(string $name): string {
         'shield'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
         'key'        => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>',
         'package'    => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+        'map'        => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>',
     ];
     return $icons[$name] ?? '';
 }
@@ -122,6 +126,9 @@ $html_lang = ['de' => 'de', 'cz' => 'cs', 'en' => 'en'][$admin_lang] ?? 'de';
       </a>
       <a href="index.php?page=settings" class="a-nav-link<?= $page==='settings'?' active':'' ?>">
         <?= icon('settings') ?> <?= htmlspecialchars($al['nav_settings']) ?>
+      </a>
+      <a href="index.php?page=sitemap" class="a-nav-link<?= $page==='sitemap'?' active':'' ?>">
+        <?= icon('map') ?> <?= htmlspecialchars($al['nav_sitemap']) ?>
       </a>
 
       <span class="a-nav-section"><?= htmlspecialchars($al['nav_website']) ?></span>

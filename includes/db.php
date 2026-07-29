@@ -28,6 +28,37 @@ function parse_price(string $price): float {
     return (float)(($m[1] ?? '0') . '.' . ($m[2] ?? '00'));
 }
 
+/* EUR → CZK rate. Product prices in DB are stored as EUR strings. */
+if (!defined('EUR_TO_CZK')) define('EUR_TO_CZK', 25.0);
+
+/* Format an EUR amount for display in the language's currency. */
+function fmt_display(float $eur, string $lang): string {
+    if ($lang === 'cz') {
+        return number_format($eur * EUR_TO_CZK, 0, ',', '.') . ' Kč';
+    }
+    return '€ ' . number_format($eur, 2, ',', '.');
+}
+
+/* Format a stored EUR price string ("€ 420,–") in the display currency. */
+function fmt_price_display(string $eur_string, string $lang): string {
+    return fmt_display(parse_price($eur_string), $lang);
+}
+
+/* True if the orders table has the `lang` column (added via migrate.sql).
+   Cached per request so it costs one SHOW COLUMNS. */
+function orders_has_lang(): bool {
+    static $has = null;
+    if ($has === null) {
+        try {
+            $r = db()->query("SHOW COLUMNS FROM orders LIKE 'lang'")->fetch();
+            $has = (bool)$r;
+        } catch (Exception $e) {
+            $has = false;
+        }
+    }
+    return $has;
+}
+
 /* ── Cart helpers ── */
 
 function cart_get_or_create(): int {

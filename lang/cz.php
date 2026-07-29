@@ -106,6 +106,8 @@ return [
 
   /* ── Product page ── */
   'prod_back'         => 'Zpět do kolekce',
+  'prod_vat_incl'     => 'vč. DPH',
+  'prod_vat_excl'     => 'bez DPH',
   'prod_studio_fit'   => 'přizpůsobeno na míru v našem studiu. Včetně bezplatného stanovení zrakové ostrosti a osobního zkoušení.',
   'prod_color_label'  => 'Barva',
   'prod_color_aria'   => 'Barva %d',
@@ -344,4 +346,22 @@ return [
   'sb_cta_headline'   => 'Poradíme Vám s výběrem',
   'sb_cta_sub'        => 'Přijďte na bezplatné vyšetření zraku a odbornou konzultaci.',
   'sb_cta_book'       => 'Objednat se',
+
+  /* ── Order emails ── */
+  'mail_subj_placed'  => 'Potvrzení objednávky {nr} — Expert OPTIC',
+  'mail_hello'        => 'Dobrý den, {name},',
+  'mail_placed_intro' => 'děkujeme za Vaši objednávku {nr}. Přijali jsme ji a připravujeme ji ke zpracování.',
+  'mail_items_hdr'    => 'Objednané zboží:',
+  'mail_shipping_line'=> 'Doprava:',
+  'mail_total_line'   => 'Celkem:',
+  'mail_pay_hdr'      => 'Platba bankovním převodem:',
+  'mail_pay_holder'   => 'Majitel účtu:',
+  'mail_pay_iban'     => 'IBAN:',
+  'mail_pay_bic'      => 'BIC:',
+  'mail_pay_amount'   => 'Částka:',
+  'mail_pay_ref'      => 'Zpráva pro příjemce:',
+  'mail_pay_qr_note'  => 'Pro rychlou platbu můžete použít QR kód na stránce potvrzení objednávky.',
+  'mail_signoff'      => "Brzy Vás budeme kontaktovat.\n\nExpert OPTIC\n{address}",
+  'mail_subj_paid'    => 'Přijetí platby k objednávce {nr} — Expert OPTIC',
+  'mail_paid_body'    => "obdrželi jsme Vaši platbu k objednávce {nr}. Děkujeme!\n\nNyní připravujeme Vaši objednávku k odeslání.",
 ];

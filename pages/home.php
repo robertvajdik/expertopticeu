@@ -152,7 +152,7 @@ $services = [
         <div class="product-card__body">
           <div class="product-card__brand"><?= htmlspecialchars($p['brand']) ?></div>
           <div class="product-card__name"><?= htmlspecialchars($p['name']) ?></div>
-          <div class="product-card__price"><?= htmlspecialchars($p['price']) ?></div>
+          <div class="product-card__price"><?= htmlspecialchars(fmt_price_display($p['price'], $lang)) ?></div>
         </div>
       </a>
     <?php endforeach; ?>

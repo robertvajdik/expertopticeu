@@ -16,14 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$items           = cart_items();
-$total           = cart_total($items);
-$currency        = $t['co_currency']        ?? 'Kč';
-$currency_prefix = $t['co_currency_prefix'] ?? false;
-$fmt_money = function(float $n) use ($currency, $currency_prefix): string {
-    $formatted = number_format($n, 2, ',', '.');
-    return $currency_prefix ? $currency . ' ' . $formatted : $formatted . ' ' . $currency;
-};
+$items = cart_items();
+$total = cart_total($items);
+$fmt_money = fn(float $n): string => fmt_display($n, $lang);
 ?>
 
 <div class="page-wrap">
