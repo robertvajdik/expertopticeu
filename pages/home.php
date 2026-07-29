@@ -23,7 +23,7 @@ $services = [
     <p class="eyebrow"><?= htmlspecialchars($t['hero_eyebrow']) ?></p>
     <h1 class="hero__headline">
       <?= htmlspecialchars($t['hero_headline_1']) ?><br>
-      <?= htmlspecialchars($t['hero_headline_2']) ?> <span class="script"><?= htmlspecialchars($t['hero_script']) ?></span>.
+      <?= htmlspecialchars($t['hero_headline_2']) ?> <span class="script"><?= htmlspecialchars($t['hero_script']) ?><span class="hero__dot" aria-hidden="true"></span></span>
     </h1>
     <p class="lead">
       <?= htmlspecialchars($t['hero_lead']) ?>

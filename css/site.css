@@ -471,7 +471,29 @@
   margin: 0 0 1.25rem;
   color: var(--ink-900);
 }
-.hero__headline .script { font-size: 4.625rem; }
+.hero__headline .script { font-size: 4.625rem; position: relative; }
+
+/* Accent dot after "Originál" — small circle in brand blue, gently pulsing */
+.hero__dot {
+  display: inline-block;
+  width: .5em;
+  height: .5em;
+  margin-left: .12em;
+  vertical-align: baseline;
+  border-radius: 50%;
+  background: var(--blue-500);
+  box-shadow: 0 0 0 0 rgba(47, 155, 214, .55);
+  transform: translateY(-.05em);
+  animation: hero-dot-pulse 2.4s ease-out infinite;
+}
+@keyframes hero-dot-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(47, 155, 214, .55); }
+  70%  { box-shadow: 0 0 0 .6em rgba(47, 155, 214, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(47, 155, 214, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__dot { animation: none; }
+}
 
 .hero .eyebrow { margin-bottom: 1rem; }
 .hero .lead    { max-width: 460px; margin-bottom: 2rem; }
