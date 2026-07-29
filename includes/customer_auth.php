@@ -33,6 +33,53 @@ function customer_login(string $email, string $password): ?array {
     return $row;
 }
 
+function customer_update(int $id, array $d): array {
+    $name   = trim($d['name']  ?? '');
+    $phone  = trim($d['phone']       ?? '');
+    $street = trim($d['street']      ?? '');
+    $city   = trim($d['city_postal'] ?? '');
+    $pw_new = (string)($d['password_new'] ?? '');
+    $pw_cur = (string)($d['password_current'] ?? '');
+
+    $errors = [];
+    if (mb_strlen($name) < 2 || mb_strlen($name) > 150) $errors[] = 'name';
+    if ($phone !== '' && !preg_match('/^\+?[0-9 \-().]{6,25}$/', $phone)) $errors[] = 'phone';
+    if (mb_strlen($street) > 200) $errors[] = 'street';
+    if (mb_strlen($city)   > 120) $errors[] = 'city_postal';
+
+    if ($pw_new !== '') {
+        if (strlen($pw_new) < 8) $errors[] = 'password_short';
+        elseif (!preg_match('/[A-Za-zÀ-ž]/u', $pw_new) || !preg_match('/\d/', $pw_new)) $errors[] = 'password_weak';
+
+        try {
+            $s = db()->prepare('SELECT password FROM customers WHERE id = ?');
+            $s->execute([$id]);
+            $row = $s->fetch();
+            if (!$row || !password_verify($pw_cur, $row['password'])) $errors[] = 'password_current';
+        } catch (Exception $e) { $errors[] = 'db'; }
+    }
+    if ($errors) return ['errors' => $errors];
+
+    try {
+        if ($pw_new !== '') {
+            db()->prepare('UPDATE customers
+                             SET name = ?, phone = ?, street = ?, city_postal = ?, password = ?
+                           WHERE id = ?')
+                ->execute([$name, $phone ?: null, $street ?: null, $city ?: null,
+                           password_hash($pw_new, PASSWORD_BCRYPT), $id]);
+        } else {
+            db()->prepare('UPDATE customers
+                             SET name = ?, phone = ?, street = ?, city_postal = ?
+                           WHERE id = ?')
+                ->execute([$name, $phone ?: null, $street ?: null, $city ?: null, $id]);
+        }
+    } catch (Exception $e) {
+        error_log('customer_update: ' . $e->getMessage());
+        return ['errors' => ['db']];
+    }
+    return ['ok' => true];
+}
+
 function customer_logout(): void {
     unset($_SESSION['customer_id']);
     session_regenerate_id(true);
