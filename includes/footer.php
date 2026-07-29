@@ -3,10 +3,16 @@ $news_msg  = '';
 $news_kind = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_signup'])) {
     require_once __DIR__ . '/customer_auth.php';
-    $r = newsletter_subscribe($_POST['newsletter_email'] ?? '', $lang);
-    if (!empty($r['ok'])) { $news_msg = $t['news_ok'] ?? 'Děkujeme! Odběr byl aktivován.'; $news_kind = 'ok'; }
-    elseif (in_array('email', $r['errors'] ?? [], true)) { $news_msg = $t['news_err_email'] ?? 'Zadejte platný e-mail.'; $news_kind = 'err'; }
-    else { $news_msg = $t['news_err'] ?? 'Přihlášení se nezdařilo.'; $news_kind = 'err'; }
+    require_once __DIR__ . '/recaptcha.php';
+    if (!recaptcha_verify($_POST['g-recaptcha-response'] ?? null)) {
+        $news_msg  = $t['news_err_captcha'] ?? 'Potvrďte prosím, že nejste robot.';
+        $news_kind = 'err';
+    } else {
+        $r = newsletter_subscribe($_POST['newsletter_email'] ?? '', $lang);
+        if (!empty($r['ok'])) { $news_msg = $t['news_ok'] ?? 'Děkujeme! Odběr byl aktivován.'; $news_kind = 'ok'; }
+        elseif (in_array('email', $r['errors'] ?? [], true)) { $news_msg = $t['news_err_email'] ?? 'Zadejte platný e-mail.'; $news_kind = 'err'; }
+        else { $news_msg = $t['news_err'] ?? 'Přihlášení se nezdařilo.'; $news_kind = 'err'; }
+    }
 }
 ?>
 <section class="footer-newsletter">
@@ -23,6 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_signup']))
         <i data-lucide="mail"></i>
         <?= htmlspecialchars($t['news_btn'] ?? 'Odebírat') ?>
       </button>
+      <?php if (recaptcha_enabled()): ?>
+        <div class="footer-newsletter__captcha"><?= recaptcha_widget() ?></div>
+      <?php endif; ?>
     </form>
     <?php if ($news_msg): ?>
       <p class="footer-newsletter__msg footer-newsletter__msg--<?= $news_kind ?>"><?= htmlspecialchars($news_msg) ?></p>

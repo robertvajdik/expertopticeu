@@ -36,6 +36,8 @@ $site_info = [
   'ga_id'       => $_site_settings['site_ga_id']       ?? '',
 ];
 
+require_once __DIR__ . '/includes/recaptcha.php';
+
 /* ── Routing ── */
 $allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses', 'register', 'login', 'logout', 'account', 'datenschutz', 'agb'];
 $page = $_GET['p'] ?? 'home';
@@ -119,11 +121,20 @@ $desc = $descs[$page] ?? $descs['home'];
     gtag('config', '<?= $ga ?>');
   </script>
   <?php endif; ?>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/site.css">
-  <script src="assets/js/preload.js"></script>
+  <?php
+  /* Cache-bust local static assets with filemtime so every edit ships a unique URL. */
+  $asset_ver = function (string $rel): string {
+      $abs = __DIR__ . '/' . ltrim($rel, '/');
+      $mt  = @filemtime($abs);
+      return $rel . '?v=' . ($mt ?: time());
+  };
+  ?>
+  <link rel="stylesheet" href="<?= $asset_ver('css/styles.css') ?>">
+  <link rel="stylesheet" href="<?= $asset_ver('css/site.css') ?>">
+  <script src="<?= $asset_ver('assets/js/preload.js') ?>"></script>
   <script src="https://unpkg.com/lucide@0.474.0/dist/umd/lucide.min.js" defer></script>
-  <script src="assets/js/site.js" defer></script>
+  <script src="<?= $asset_ver('assets/js/site.js') ?>" defer></script>
+  <?= recaptcha_script_tag() ?>
 </head>
 <body>
 

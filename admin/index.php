@@ -23,7 +23,7 @@ $al = require __DIR__ . '/lang/' . $admin_lang . '.php';
 
 /* ── Routing ── */
 $page = preg_replace('/[^a-z-]/', '', $_GET['page'] ?? 'dashboard');
-$allowed = ['dashboard', 'products', 'bookings', 'orders', 'users', 'settings', 'sitemap', 'about', 'vouchers'];
+$allowed = ['dashboard', 'products', 'bookings', 'orders', 'users', 'settings', 'sitemap', 'about', 'vouchers', 'newsletter'];
 if (!in_array($page, $allowed)) $page = 'dashboard';
 
 $page_titles = [
@@ -36,6 +36,7 @@ $page_titles = [
     'sitemap'   => $al['title_sitemap'],
     'about'     => $al['title_about'] ?? 'About',
     'vouchers'  => $al['title_vouchers'] ?? 'Vouchers',
+    'newsletter'=> $al['title_newsletter'] ?? 'Newsletter',
 ];
 
 /* ── Shared data ── */
@@ -128,6 +129,9 @@ $html_lang = ['de' => 'de', 'cz' => 'cs', 'en' => 'en'][$admin_lang] ?? 'de';
       </a>
       <a href="index.php?page=vouchers" class="a-nav-link<?= $page==='vouchers'?' active':'' ?>">
         <?= icon('tag') ?> <?= htmlspecialchars($al['nav_vouchers'] ?? 'Vouchers') ?>
+      </a>
+      <a href="index.php?page=newsletter" class="a-nav-link<?= $page==='newsletter'?' active':'' ?>">
+        <?= icon('users') ?> <?= htmlspecialchars($al['nav_newsletter'] ?? 'Newsletter') ?>
       </a>
 
       <span class="a-nav-section"><?= htmlspecialchars($al['nav_system']) ?></span>

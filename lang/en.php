@@ -32,8 +32,8 @@ return [
   /* ── Home — hero ── */
   'hero_eyebrow'     => 'Your personal optician · Vienna-Meidling',
   'hero_headline_1'  => 'Every pair of glasses',
-  'hero_headline_2'  => 'a true',
-  'hero_script'      => 'Original',
+  'hero_headline_2'  => 'is a true',
+  'hero_script'      => 'original',
   'hero_lead'        => 'From the prescription to the final cut — your glasses are crafted personally, by hand. Right at Vienna-Meidling station.',
   'hero_cta_book'    => 'Book an appointment',
   'hero_cta_coll'    => 'View collection',
@@ -330,6 +330,7 @@ return [
   'news_btn'            => 'Subscribe',
   'news_ok'             => 'Thanks! Your subscription is active.',
   'news_err_email'      => 'Please enter a valid email.',
+  'news_err_captcha'    => 'Please confirm you are not a robot.',
   'news_err'            => 'Signup failed. Please try again.',
 
   /* ── Order confirmation ── */

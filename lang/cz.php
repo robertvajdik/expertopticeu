@@ -330,6 +330,7 @@ return [
   'news_btn'            => 'Odebírat',
   'news_ok'             => 'Děkujeme! Odběr byl aktivován.',
   'news_err_email'      => 'Zadejte platný e-mail.',
+  'news_err_captcha'    => 'Potvrďte prosím, že nejste robot.',
   'news_err'            => 'Přihlášení se nezdařilo. Zkuste to znovu.',
 
   /* ── Order confirmation ── */

@@ -330,6 +330,7 @@ return [
   'news_btn'            => 'Abonnieren',
   'news_ok'             => 'Danke! Ihr Abonnement ist aktiv.',
   'news_err_email'      => 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+  'news_err_captcha'    => 'Bitte bestätigen Sie, dass Sie kein Roboter sind.',
   'news_err'            => 'Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.',
 
   /* ── Order confirmation ── */

@@ -476,19 +476,19 @@
 /* Accent dot after "Originál" — small circle in brand blue, gently pulsing */
 .hero__dot {
   display: inline-block;
-  width: .5em;
-  height: .5em;
-  margin-left: .12em;
+  width: .18em;
+  height: .18em;
+  margin-left: .06em;
   vertical-align: baseline;
+  transform: translateY(.18em);
   border-radius: 50%;
   background: var(--blue-500);
   box-shadow: 0 0 0 0 rgba(47, 155, 214, .55);
-  transform: translateY(-.05em);
   animation: hero-dot-pulse 2.4s ease-out infinite;
 }
 @keyframes hero-dot-pulse {
   0%   { box-shadow: 0 0 0 0 rgba(47, 155, 214, .55); }
-  70%  { box-shadow: 0 0 0 .6em rgba(47, 155, 214, 0); }
+  70%  { box-shadow: 0 0 0 .35em rgba(47, 155, 214, 0); }
   100% { box-shadow: 0 0 0 0 rgba(47, 155, 214, 0); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2975,6 +2975,13 @@ html.high-contrast .text-zoom__btn--active {
   display: flex;
   gap: .5rem;
   align-items: stretch;
+  flex-wrap: wrap;
+}
+.footer-newsletter__captcha {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: .25rem;
 }
 .footer-newsletter__form input {
   padding: .75rem 1rem;
