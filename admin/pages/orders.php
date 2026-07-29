@@ -2,6 +2,123 @@
 require_once __DIR__ . '/../../includes/mail.php';
 $msg = '';
 
+/* ── CSV export ──
+   ?export=csv           — all orders (respects &filter=)
+   ?export=csv&mode=items — flat rows of order-item lines */
+if (($_GET['export'] ?? '') === 'csv') {
+    while (ob_get_level() > 0) ob_end_clean();
+
+    $exp_filter = $_GET['filter'] ?? 'all';
+    $exp_mode   = $_GET['mode']   ?? 'orders';
+    $exp_where  = match ($exp_filter) {
+        'new'        => "WHERE o.status = 'new'",
+        'processing' => "WHERE o.status = 'processing'",
+        'shipped'    => "WHERE o.status = 'shipped'",
+        'delivered'  => "WHERE o.status = 'delivered'",
+        'cancelled'  => "WHERE o.status = 'cancelled'",
+        default      => '',
+    };
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="orders-' . $exp_filter . '-' . date('Ymd') . '.csv"');
+    header('Cache-Control: no-store, max-age=0');
+
+    $out = fopen('php://output', 'w');
+    fwrite($out, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
+
+    if ($exp_mode === 'items') {
+        fputcsv($out, [
+            'order_number','created_at','status','payment_status',
+            'customer_name','email','phone','shipping_method','pickup_point_name',
+            'tracking_number','order_total_kc',
+            'item_brand','item_name','item_price_kc','item_qty','item_total_kc',
+        ], ';');
+
+        $rows = db()->query("
+            SELECT o.order_number, o.created_at, o.status, o.payment_status,
+                   o.customer_name, o.email, o.phone, o.shipping_method, o.pickup_point_name,
+                   o.tracking_number, o.total AS order_total,
+                   oi.brand, oi.name, oi.price, oi.quantity
+            FROM orders o
+            LEFT JOIN order_items oi ON oi.order_id = o.id
+            {$exp_where}
+            ORDER BY o.created_at DESC, oi.id
+        ")->fetchAll();
+
+        foreach ($rows as $r) {
+            $qty  = (int)($r['quantity'] ?? 0);
+            $line = (float)($r['price'] ?? 0) * $qty;
+            fputcsv($out, [
+                $r['order_number'],
+                substr($r['created_at'] ?? '', 0, 19),
+                $r['status'],
+                $r['payment_status'],
+                $r['customer_name'],
+                $r['email'],
+                $r['phone'],
+                $r['shipping_method'],
+                $r['pickup_point_name'],
+                $r['tracking_number'],
+                number_format((float)$r['order_total'], 2, ',', ''),
+                $r['brand'],
+                $r['name'],
+                $r['price'] !== null ? number_format((float)$r['price'], 2, ',', '') : '',
+                $qty ?: '',
+                $qty > 0 ? number_format($line, 2, ',', '') : '',
+            ], ';');
+        }
+    } else {
+        fputcsv($out, [
+            'order_number','created_at','status','payment_status',
+            'customer_name','email','phone',
+            'shipping_method','pickup_point_name','delivery_address',
+            'tracking_number','item_count','shipping_kc','total_kc',
+            'notes','lang',
+        ], ';');
+
+        $has_lang = orders_has_lang();
+        $lang_col = $has_lang ? ', o.lang' : '';
+
+        $rows = db()->query("
+            SELECT o.order_number, o.created_at, o.status, o.payment_status,
+                   o.customer_name, o.email, o.phone,
+                   o.shipping_method, o.pickup_point_name, o.delivery_address,
+                   o.tracking_number, o.shipping_cost, o.total, o.notes,
+                   COUNT(oi.id) AS item_count
+                   {$lang_col}
+            FROM orders o
+            LEFT JOIN order_items oi ON oi.order_id = o.id
+            {$exp_where}
+            GROUP BY o.id
+            ORDER BY o.created_at DESC
+        ")->fetchAll();
+
+        foreach ($rows as $r) {
+            fputcsv($out, [
+                $r['order_number'],
+                substr($r['created_at'] ?? '', 0, 19),
+                $r['status'],
+                $r['payment_status'],
+                $r['customer_name'],
+                $r['email'],
+                $r['phone'],
+                $r['shipping_method'],
+                $r['pickup_point_name'],
+                $r['delivery_address'],
+                $r['tracking_number'],
+                (int)$r['item_count'],
+                number_format((float)$r['shipping_cost'], 2, ',', ''),
+                number_format((float)$r['total'], 2, ',', ''),
+                str_replace(["\r\n", "\n", "\r"], ' | ', (string)($r['notes'] ?? '')),
+                $r['lang'] ?? '',
+            ], ';');
+        }
+    }
+
+    fclose($out);
+    exit;
+}
+
 /* ── Handle actions ── */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -113,22 +230,34 @@ $payment_badge = [
 <?php endif; ?>
 
 <!-- Filter bar -->
-<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.125rem">
-  <?php
-  $filters = [$al['ord_filter_all']] + $status_labels;
-  $filter_keys = array_merge(['all'], array_keys($status_labels));
-  foreach ($filter_keys as $i => $f):
-    $label = $i === 0 ? $al['ord_filter_all'] : $status_labels[$f];
-    $cnt   = $f === 'all' ? array_sum($counts) : ($counts[$f] ?? 0);
-  ?>
-    <a href="?page=orders&filter=<?= $f ?>"
-       class="a-btn <?= $filter === $f ? 'a-btn--primary' : 'a-btn--outline' ?>">
-      <?= htmlspecialchars($label) ?>
-      <?php if ($cnt > 0): ?>
-        <span style="background:rgba(255,255,255,.3);padding:0 .35rem;border-radius:999px;font-size:.65rem;margin-left:.15rem"><?= $cnt ?></span>
-      <?php endif; ?>
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1.125rem">
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <?php
+    $filters = [$al['ord_filter_all']] + $status_labels;
+    $filter_keys = array_merge(['all'], array_keys($status_labels));
+    foreach ($filter_keys as $i => $f):
+      $label = $i === 0 ? $al['ord_filter_all'] : $status_labels[$f];
+      $cnt   = $f === 'all' ? array_sum($counts) : ($counts[$f] ?? 0);
+    ?>
+      <a href="?page=orders&filter=<?= $f ?>"
+         class="a-btn <?= $filter === $f ? 'a-btn--primary' : 'a-btn--outline' ?>">
+        <?= htmlspecialchars($label) ?>
+        <?php if ($cnt > 0): ?>
+          <span style="background:rgba(255,255,255,.3);padding:0 .35rem;border-radius:999px;font-size:.65rem;margin-left:.15rem"><?= $cnt ?></span>
+        <?php endif; ?>
+      </a>
+    <?php endforeach; ?>
+  </div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <a href="?page=orders&export=csv&filter=<?= htmlspecialchars($filter) ?>"
+       class="a-btn a-btn--outline" title="<?= htmlspecialchars($al['btn_export_csv'] ?? 'Export CSV') ?>">
+      <?= icon('external') ?> <?= htmlspecialchars($al['btn_export_csv'] ?? 'Export CSV') ?>
     </a>
-  <?php endforeach; ?>
+    <a href="?page=orders&export=csv&mode=items&filter=<?= htmlspecialchars($filter) ?>"
+       class="a-btn a-btn--outline" title="<?= htmlspecialchars($al['btn_export_csv_items'] ?? 'Export CSV — položky') ?>">
+      <?= icon('external') ?> <?= htmlspecialchars($al['btn_export_csv_items'] ?? 'CSV položky') ?>
+    </a>
+  </div>
 </div>
 
 <div class="a-card">

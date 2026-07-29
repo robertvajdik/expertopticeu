@@ -21,6 +21,7 @@ $base_qs     = '?p=' . $current_p . $current_cat . $current_id . $current_tab;
       <a href="?p=contact-lenses<?= lang_qs($lang) ?>" class="nav-link<?= $page==='contact-lenses'?' nav-link--active':'' ?>"><?= htmlspecialchars($t['nav_contactlenses']) ?></a>
       <a href="?p=home#marken<?= lang_qs($lang) ?>"                      class="nav-link"><?= htmlspecialchars($t['nav_brands']) ?></a>
       <a href="?p=booking<?= lang_qs($lang) ?>"                          class="nav-link<?= $page==='booking'?' nav-link--active':'' ?>"><?= htmlspecialchars($t['nav_about']) ?></a>
+      <a href="?p=contact<?= lang_qs($lang) ?>"                          class="nav-link<?= $page==='contact'?' nav-link--active':'' ?>"><?= htmlspecialchars($t['nav_contact'] ?? 'Kontakt') ?></a>
 
       <!-- Accessibility controls — shown only inside mobile nav (hidden on desktop via CSS) -->
       <div class="nav-utils">

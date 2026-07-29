@@ -2,15 +2,40 @@
 return [
 
   /* ── Meta descriptions ── */
-  'meta_home'       => 'Váš osobní optik ve Vídni-Meidlingu. Brýle šité na míru, bezplatné vyšetření zraku (Checkpoint Auge), značky jako IC! Berlin, Blackfin a další. Přímo u nádraží.',
+  'meta_home'       => 'Váš osobní optik ve Vídni-Meidlingu. Brýle šité na míru, bezplatné vyšetření zraku (Checkpoint očí), značky jako IC! Berlin, Blackfin a další. Přímo u nádraží.',
   'meta_collection' => 'Prémiové kolekce brýlí u expert·optic Vídeň-Meidling — dioptrické brýle, sluneční brýle, sportovní a čtecí brýle. Osobní poradenství v ceně.',
   'meta_product'    => 'osobně přizpůsobeno u expert·optic ve Vídni-Meidlingu.',
-  'meta_booking'    => 'Objednejte si bezplatné vyšetření zraku nebo zkoušení brýlí u expert·optic Vídeň-Meidling. Checkpoint Auge — profesionálně, osobně, zdarma.',
+  'meta_booking'    => 'Objednejte si bezplatné vyšetření zraku nebo zkoušení brýlí u expert·optic Vídeň-Meidling. Checkpoint očí — profesionálně, osobně, zdarma.',
 
   /* ── Page titles ── */
   'title_home'       => 'expert·optic — Vídeň-Meidling',
   'title_collection' => 'Kolekce — expert·optic',
   'title_booking'    => 'Objednat termín — expert·optic',
+  'title_contact'    => 'Kontakt',
+
+  /* ── Contact page ── */
+  'contact_eyebrow'         => 'Napište nám',
+  'contact_headline'        => 'Rádi vám odpovíme',
+  'contact_lead'            => 'Máte dotaz k brýlím, čočkám nebo objednávce? Napište nám — obvykle odpovídáme do jednoho pracovního dne.',
+  'contact_form_title'      => 'Váš vzkaz',
+  'contact_form_name'       => 'Jméno a příjmení',
+  'contact_form_subject'    => 'Předmět',
+  'contact_form_message'    => 'Zpráva',
+  'contact_form_submit'     => 'Odeslat zprávu',
+  'contact_form_legal'      => 'Odesláním souhlasíte s naším <a href="?p=datenschutz&lang=%s">Prohlášením o ochraně osobních údajů</a>.',
+  'contact_err_name'        => 'Prosím vyplňte své jméno.',
+  'contact_err_email'       => 'Prosím zadejte e-mail.',
+  'contact_err_email_invalid'=> 'E-mail nemá platný formát.',
+  'contact_err_message'     => 'Prosím napište zprávu.',
+  'contact_err_captcha'     => 'Potvrďte prosím, že nejste robot.',
+  'contact_err_send'        => 'Zprávu se nepodařilo odeslat. Zkuste to prosím znovu, nebo nám zavolejte.',
+  'contact_success_title'   => 'Děkujeme za vaši zprávu.',
+  'contact_success_body'    => 'Ozveme se vám co nejdříve na uvedený e-mail.',
+  'contact_info_title'      => 'Kontaktní údaje',
+  'contact_write_us'        => 'Napište nám',
+  'contact_call_us'         => 'Zavolejte nám',
+  'contact_visit_title'     => 'Navštivte studio',
+  'contact_subject_default' => 'Dotaz z webu',
 
   /* ── Header / nav ── */
   'nav_glasses'       => 'Brýle',
@@ -19,6 +44,7 @@ return [
   'nav_contactlenses' => 'Kontaktní čočky',
   'nav_brands'        => 'Značky',
   'nav_about'         => 'O nás',
+  'nav_contact'       => 'Kontakt',
   'aria_logo'         => 'expert·optic — Úvod',
   'aria_main_nav'     => 'Hlavní navigace',
   'aria_search'       => 'Hledat',
@@ -42,29 +68,29 @@ return [
   'stat_master'      => 'Mistr optik',
   'stat_free'        => 'Zdarma',
   'stat_eye_test'    => 'Vyšetření zraku',
-  'badge_checkpoint' => 'Licencovaný Checkpoint Auge',
+  'badge_checkpoint' => 'Checkpoint očí',
   'badge_free_test'  => 'Vyšetření zraku zdarma na místě',
   'alt_studio_interior' => 'expert·optic studio — pohled do interiéru',
 
   /* ── Home — Happy Hour bar ── */
-  'happy_hour_text'  => 'Každé pondělí od 18:00 do 19:00 v našem studiu. Zjistěte, kolik může <strong>VÁŠ DESETIKORÁK</strong> vydělat!',
+  'happy_hour_text'  => 'Každou středu od 17:00 do 18:00 získáte v našem studiu <strong>slevu 250 Kč</strong>.',
   'happy_hour_btn'   => 'Požádat o termín',
 
   /* ── Home — Checkpoint section ── */
   'cp_label_top'     => 'LICENCOVANÝ',
   'cp_label_bottom'  => 'RAKOUSKO',
-  'cp_eyebrow'       => 'Licencovaný',
-  'cp_headline'      => 'Checkpoint Auge',
-  'cp_lead'          => 'Jako licencovaný partner Checkpoint Auge nabízíme bezplatná, profesionální vyšetření zraku — bez objednání u lékaře, přímo v našem studiu ve Vídni-Meidlingu.',
+  'cp_eyebrow'       => 'Bezplatně',
+  'cp_headline'      => 'Checkpoint očí',
+  'cp_lead'          => 'Nabízíme bezplatná, profesionální vyšetření zraku — bez objednání u lékaře, přímo v našem studiu.',
   'cp_bullet_1'      => 'Bezplatné stanovení zrakové ostrosti',
   'cp_bullet_2'      => 'Nejmodernější měřicí technika přímo na místě',
   'cp_bullet_3'      => 'Osobní poradenství od mistra optika Thomase Scheibla',
   'cp_bullet_4'      => 'Bez návštěvy lékaře',
   'cp_cta'           => 'Rezervovat bezplatné vyšetření zraku',
-  'alt_checkpoint'   => 'Checkpoint Auge — vyšetření zraku u expert·optic Vídeň-Meidling',
+  'alt_checkpoint'   => 'Checkpoint očí — vyšetření zraku u expert·optic Vídeň-Meidling',
 
   /* ── Home — Services ── */
-  'svc_1_title' => 'Checkpoint Auge',
+  'svc_1_title' => 'Checkpoint očí',
   'svc_1_body'  => 'Bezplatné vyšetření zraku a poradenství pro brýle — součást našich zákaznických služeb.',
   'svc_2_title' => 'Zhotoveno osobně',
   'svc_2_body'  => 'Od dioptrií přes skla až po broušení. Každé brýle vznikají přímo u nás.',
@@ -72,13 +98,19 @@ return [
   'svc_3_body'  => 'Řemeslo, zkušenosti a upřímné poradenství — kompetentní, zkušené, zákaznicky orientované.',
 
   /* ── Home — Featured products ── */
-  'feat_eyebrow'    => 'Novinky',
-  'feat_headline'   => 'Čerstvě ve studiu',
+  'feat_eyebrow'    => 'Nové modely',
+  'feat_headline'   => 'Novinky ve studiu',
   'feat_view_all'   => 'Zobrazit vše',
   'product_view'    => 'Zobrazit',
   'photo_coming'    => 'Foto produktu přijde brzy',
 
   /* ── Home — Craft / about ── */
+  /* ── Home — philosophy ── */
+  'philosophy_eyebrow'  => 'Náš přístup',
+  'philosophy_headline' => 'Brýle si zaslouží citlivý výběr.',
+  'philosophy_para1'    => 'Brýle nejsou pouze „životním partnerem", důležitou zdravotní pomůckou, ale také módním doplňkem. S ohledem na tyto skutečnosti by se mělo při koupi brýlí postupovat citlivě.',
+  'philosophy_para2'    => 'V našem očním studiu jsme si toho vědomi. Proto také používáme pouze nejmodernější diagnostické přístroje. Individuální zrakový test je standardem. Na přání Vám poradíme také ve věci módních detailů. Krátce řečeno, velmi se snažíme, aby naši klienti s výběrem optiky u nás nešlápli vedle.',
+
   'craft_eyebrow'   => 'Viditelně pečliví',
   'craft_headline'  => 'Kvalita staré školy.',
   'craft_lead'      => 'Klademe důraz na osobní, odborné a důkladné poradenství — ohledně skel i obrouček. Každý člověk má jiné nároky.',
@@ -124,7 +156,7 @@ return [
   'panel_care'        => 'Čistěte vlažnou vodou a jemným prostředkem na nádobí, osušte přiloženým hadříkem z mikrovlákna. V případě potřeby bezplatné donastavení ve studiu.',
 
   /* ── Booking page ── */
-  'book_eyebrow'     => 'Checkpoint Auge',
+  'book_eyebrow'     => 'Checkpoint očí',
   'book_headline'    => 'Objednat termín',
   'book_lead'        => 'Vyšetření zraku a poradenství pro brýle jsou u nás zdarma — součást našich zákaznických služeb. Vyberte termín a my vám zavoláme s potvrzením.',
   'book_success_title'=> 'Termín požadován — děkujeme!',
@@ -155,17 +187,17 @@ return [
   'sidebar_address_2'    => '624 00 Brno-Komín',
   'sidebar_address_3'    => 'Zastávka Svratecká (tram 1, 3, 11)',
   'sidebar_hours'        => 'Otevírací doba',
-  'hours_mo_fr'          => 'Po – Pá',
-  'hours_sat'            => 'Sobota',
-  'hours_sun'            => 'Neděle',
-  'hours_mo_fr_time'     => '10:00 – 19:00',
-  'hours_sat_time'       => '10:00 – 13:00',
+  'hours_mo_fr'          => 'St – Čt',
+  'hours_sat'            => 'Pátek',
+  'hours_sun'            => 'Ostatní dny',
+  'hours_mo_fr_time'     => '12:30 – 18:00',
+  'hours_sat_time'       => '11:30 – 17:00',
   'hours_closed'         => 'Zavřeno',
   'hours_open_today'     => 'Dnes otevřeno',
   'hours_open_sat'       => 'Dnes otevřeno (do 13:00)',
   'hours_closed_today'   => 'Dnes zavřeno',
   'happy_tip_title'      => 'Happy Hour',
-  'happy_tip_text'       => 'Pondělí 18:00–19:00 — zjistěte, kolik může váš desetikorák vydělat!',
+  'happy_tip_text'       => 'Každou středu 17:00–18:00 — získáte slevu 250 Kč.',
   'fb_cta'               => 'Navštivte nás také na Facebooku!',
   'alt_storefront_ext'   => 'Expert OPTIC studio exteriér, Hlavní 131, Brno-Komín',
   'alt_master_card'      => 'Thomas Scheibl, mistr optik',
@@ -180,7 +212,7 @@ return [
   'footer_sport'         => 'Sportovní brýle',
   'footer_contacts'      => 'Kontaktní čočky',
   'footer_col_service'   => 'Služby',
-  'footer_svc_checkpoint'=> 'Checkpoint Auge',
+  'footer_svc_checkpoint'=> 'Checkpoint očí',
   'footer_svc_booking'   => 'Rezervovat vyšetření',
   'footer_svc_repair'    => 'Oprava',
   'footer_svc_voucher'   => 'Dárkové poukazy',

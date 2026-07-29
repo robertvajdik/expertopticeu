@@ -146,6 +146,10 @@ return [
   'status_done'       => 'Vyřízeno',
   'mark_done_title'   => 'Označit jako vyřízeno',
   'mark_new_title'    => 'Označit jako nové',
+  'btn_export_ics'    => 'Export do kalendáře',
+  'btn_export_ics_row'=> 'Přidat do kalendáře',
+  'btn_export_csv'    => 'Export CSV',
+  'btn_export_csv_items' => 'CSV — položky',
 
   /* ── Orders ── */
   'ord_status_new'        => 'Nová',

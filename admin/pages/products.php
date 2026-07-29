@@ -4,6 +4,36 @@ $error = '';
 $edit  = null;
 $cats  = ['Optische Brillen','Sonnenbrillen','Sportbrillen','Lesebrillen','Kontaktlinsen'];
 
+/* ── CSV export ── ?export=csv */
+if (($_GET['export'] ?? '') === 'csv') {
+    while (ob_get_level() > 0) ob_end_clean();
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="products-' . date('Ymd') . '.csv"');
+    header('Cache-Control: no-store, max-age=0');
+
+    $out = fopen('php://output', 'w');
+    fwrite($out, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
+
+    fputcsv($out, ['id','brand','name','cat','price','color','tag','img'], ';');
+
+    $rows = db()->query('SELECT id, brand, name, cat, price, color, tag, img FROM products ORDER BY brand, name')->fetchAll();
+    foreach ($rows as $r) {
+        fputcsv($out, [
+            $r['id'],
+            $r['brand'],
+            $r['name'],
+            $r['cat'],
+            $r['price'],
+            $r['color'],
+            $r['tag'],
+            $r['img'],
+        ], ';');
+    }
+    fclose($out);
+    exit;
+}
+
 define('UPLOAD_DIR',      __DIR__ . '/../../assets/products/');
 define('UPLOAD_WEB_BASE', 'assets/products/');
 define('UPLOAD_MAX_BYTES', 5 * 1024 * 1024);
@@ -249,8 +279,12 @@ if ($edit_id) {
 
 <!-- Products table -->
 <div class="a-card">
-  <div class="a-card-head">
-    <h2><?= htmlspecialchars($al['prod_all_title']) ?> (<?= count($products) ?>)</h2>
+  <div class="a-card-head" style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap">
+    <h2 style="margin:0"><?= htmlspecialchars($al['prod_all_title']) ?> (<?= count($products) ?>)</h2>
+    <a href="?page=products&export=csv" class="a-btn a-btn--outline"
+       title="<?= htmlspecialchars($al['btn_export_csv'] ?? 'Export CSV') ?>">
+      <?= icon('external') ?> <?= htmlspecialchars($al['btn_export_csv'] ?? 'Export CSV') ?>
+    </a>
   </div>
   <?php if (empty($products)): ?>
     <div class="a-empty">

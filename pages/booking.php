@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['booking'])) {
           <i data-lucide="map-pin" class="card-heading-icon"></i>
           <h3><?= htmlspecialchars($t['sidebar_studio']) ?></h3>
         </div>
-        <img src="assets/storefront.jpg" alt="<?= htmlspecialchars($t['alt_storefront_ext']) ?>" class="storefront-thumb">
+        <img src="assets/studio-brno.jpg" alt="<?= htmlspecialchars($t['alt_storefront_ext']) ?>" class="storefront-thumb">
         <address class="studio-address">
           <?= htmlspecialchars($t['sidebar_address_1']) ?><br>
           <?= htmlspecialchars($t['sidebar_address_2']) ?><br>

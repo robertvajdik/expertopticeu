@@ -146,6 +146,10 @@ return [
   'status_done'       => 'Done',
   'mark_done_title'   => 'Mark as done',
   'mark_new_title'    => 'Mark as new',
+  'btn_export_ics'    => 'Export to calendar',
+  'btn_export_ics_row'=> 'Add to calendar',
+  'btn_export_csv'    => 'Export CSV',
+  'btn_export_csv_items' => 'CSV — line items',
 
   /* ── Orders ── */
   'ord_status_new'        => 'New',

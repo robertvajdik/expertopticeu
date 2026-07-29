@@ -44,7 +44,11 @@
       "Bash(php -l E:/Work/www/exportoptic.eu/pages/collection.php)",
       "Bash(php -l E:/Work/www/exportoptic.eu/pages/product.php)",
       "Bash(php -l E:/Work/www/exportoptic.eu/pages/cart.php)",
-      "PowerShell(Get-Command *)"
+      "PowerShell(Get-Command *)",
+      "Bash(php -l pages/contact.php)",
+      "Bash(php -l lang/cz.php)",
+      "Bash(php -l lang/en.php)",
+      "Bash(php -l lang/at.php)"
     ]
   }
 }

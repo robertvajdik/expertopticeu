@@ -54,7 +54,7 @@ $services = [
 
   <div class="hero__visual">
     <div class="hero__img-wrap">
-      <img src="assets/cxzg-5w6yeh8y9huv-i2vj2.jpg" alt="<?= htmlspecialchars($t['alt_studio_interior']) ?>" class="hero__photo">
+      <img src="assets/studio-brno.jpg" alt="<?= htmlspecialchars($t['alt_studio_interior']) ?>" class="hero__photo">
     </div>
     <div class="hero__badge">
       <i data-lucide="badge-check" class="hero__badge-icon"></i>
@@ -77,12 +77,12 @@ $services = [
   </div>
 </div>
 
-<!-- Checkpoint Auge -->
+<!-- Checkpoint očí -->
 <section class="checkpoint-section reveal">
   <div class="checkpoint-section__inner">
 
     <div class="checkpoint-seal">
-      <img src="assets/checkpointauge.png" alt="Lizenzierter Checkpoint Auge" class="checkpoint-seal__img">
+      <img src="assets/checkpointauge.png" alt="<?= htmlspecialchars($t['alt_checkpoint']) ?>" class="checkpoint-seal__img">
     </div>
 
     <div class="checkpoint-content">
@@ -174,10 +174,20 @@ $services = [
   </div>
 </section>
 
+<!-- Philosophy -->
+<section class="section-wrap philosophy-band reveal">
+  <div class="philosophy-band__inner">
+    <p class="eyebrow"><?= htmlspecialchars($t['philosophy_eyebrow']) ?></p>
+    <h2 class="philosophy-band__headline"><?= htmlspecialchars($t['philosophy_headline']) ?></h2>
+    <p class="philosophy-band__para"><?= htmlspecialchars($t['philosophy_para1']) ?></p>
+    <p class="philosophy-band__para"><?= htmlspecialchars($t['philosophy_para2']) ?></p>
+  </div>
+</section>
+
 <!-- Craft / about -->
 <section class="section-wrap craft-band">
   <div class="craft-band__img">
-    <img src="assets/storefront.jpg" alt="<?= htmlspecialchars($t['alt_storefront']) ?>" class="craft-band__photo">
+    <img src="assets/studio.jpg" alt="<?= htmlspecialchars($t['alt_storefront']) ?>" class="craft-band__photo">
   </div>
   <div class="craft-band__text reveal">
     <p class="eyebrow"><?= htmlspecialchars($t['craft_eyebrow']) ?></p>

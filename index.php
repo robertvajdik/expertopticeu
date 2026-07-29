@@ -39,7 +39,7 @@ $site_info = [
 require_once __DIR__ . '/includes/recaptcha.php';
 
 /* ── Routing ── */
-$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses', 'register', 'login', 'logout', 'account', 'datenschutz', 'agb'];
+$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses', 'contact', 'register', 'login', 'logout', 'account', 'datenschutz', 'agb'];
 $page = $_GET['p'] ?? 'home';
 if (!in_array($page, $allowed_pages, true)) $page = 'home';
 
@@ -89,6 +89,7 @@ $titles = [
   'collection' => $t['title_collection'],
   'product'    => ($product ? $product['brand'] . ' ' . $product['name'] : '') . ' — expert·optic',
   'booking'    => $t['title_booking'],
+  'contact'    => ($t['title_contact'] ?? 'Kontakt') . ' — expert·optic',
 ];
 $title = $titles[$page] ?? 'expert·optic';
 
@@ -151,6 +152,7 @@ switch ($page) {
   case 'order-confirm':   include __DIR__ . '/pages/order-confirm.php';   break;
   case 'contact-lenses': include __DIR__ . '/pages/contact-lenses.php'; break;
   case 'sport-glasses':  include __DIR__ . '/pages/sport-glasses.php';  break;
+  case 'contact':       include __DIR__ . '/pages/contact.php';        break;
   case 'register':      include __DIR__ . '/pages/register.php';       break;
   case 'login':         include __DIR__ . '/pages/login.php';          break;
   case 'logout':        include __DIR__ . '/pages/logout.php';         break;

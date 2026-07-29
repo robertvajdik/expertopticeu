@@ -2,15 +2,40 @@
 return [
 
   /* ── Meta descriptions ── */
-  'meta_home'       => 'Your personal optician in Vienna-Meidling. Custom-fitted glasses, free eye test (Checkpoint Auge), brands like IC! Berlin, Blackfin & more. Right at the station.',
+  'meta_home'       => 'Your personal optician in Vienna-Meidling. Custom-fitted glasses, free eye test (Checkpoint očí), brands like IC! Berlin, Blackfin & more. Right at the station.',
   'meta_collection' => 'Premium eyewear collections at expert·optic Vienna-Meidling — optical frames, sunglasses, sports eyewear and reading glasses. Personal consultation included.',
   'meta_product'    => 'personally fitted at expert·optic in Vienna-Meidling.',
-  'meta_booking'    => 'Book a free eye test or eyewear fitting at expert·optic Vienna-Meidling. Checkpoint Auge — professional, personal, free of charge.',
+  'meta_booking'    => 'Book a free eye test or eyewear fitting at expert·optic Vienna-Meidling. Checkpoint očí — professional, personal, free of charge.',
 
   /* ── Page titles ── */
   'title_home'       => 'expert·optic — Vienna-Meidling',
   'title_collection' => 'Collection — expert·optic',
   'title_booking'    => 'Book an Appointment — expert·optic',
+  'title_contact'    => 'Contact',
+
+  /* ── Contact page ── */
+  'contact_eyebrow'         => 'Get in touch',
+  'contact_headline'        => 'We would love to hear from you',
+  'contact_lead'            => 'Have a question about frames, lenses or an order? Drop us a line — we usually reply within one business day.',
+  'contact_form_title'      => 'Your message',
+  'contact_form_name'       => 'Full name',
+  'contact_form_subject'    => 'Subject',
+  'contact_form_message'    => 'Message',
+  'contact_form_submit'     => 'Send message',
+  'contact_form_legal'      => 'By sending, you agree to our <a href="?p=datenschutz&lang=%s">Privacy Policy</a>.',
+  'contact_err_name'        => 'Please enter your name.',
+  'contact_err_email'       => 'Please enter your email.',
+  'contact_err_email_invalid'=> 'That email address does not look valid.',
+  'contact_err_message'     => 'Please write a short message.',
+  'contact_err_captcha'     => 'Please confirm you are not a robot.',
+  'contact_err_send'        => 'We could not send your message. Please try again, or call us directly.',
+  'contact_success_title'   => 'Thank you for your message.',
+  'contact_success_body'    => 'We will get back to you at the email address you provided as soon as we can.',
+  'contact_info_title'      => 'Contact details',
+  'contact_write_us'        => 'Write to us',
+  'contact_call_us'         => 'Call us',
+  'contact_visit_title'     => 'Visit the studio',
+  'contact_subject_default' => 'Enquiry from website',
 
   /* ── Header / nav ── */
   'nav_glasses'       => 'Glasses',
@@ -19,6 +44,7 @@ return [
   'nav_contactlenses' => 'Contact Lenses',
   'nav_brands'        => 'Brands',
   'nav_about'         => 'About Us',
+  'nav_contact'       => 'Contact',
   'aria_logo'         => 'expert·optic — Home',
   'aria_main_nav'     => 'Main navigation',
   'aria_search'       => 'Search',
@@ -42,29 +68,29 @@ return [
   'stat_master'      => 'Master optician',
   'stat_free'        => 'Free',
   'stat_eye_test'    => 'Eye test',
-  'badge_checkpoint' => 'Licensed Checkpoint Auge',
+  'badge_checkpoint' => 'Licensed Checkpoint očí',
   'badge_free_test'  => 'Free eye test on site',
   'alt_studio_interior' => 'expert·optic eyewear studio — interior view',
 
   /* ── Home — Happy Hour bar ── */
-  'happy_hour_text'  => 'Every Monday from 18:00–19:00 in our eyewear studio. Discover how much <strong>YOUR TENNER</strong> can be worth!',
+  'happy_hour_text'  => 'Every Wednesday from 17:00 to 18:00 you get a <strong>€10 discount</strong> in our studio.',
   'happy_hour_btn'   => 'Request appointment',
 
   /* ── Home — Checkpoint section ── */
   'cp_label_top'     => 'LICENSED',
   'cp_label_bottom'  => 'AUSTRIA',
   'cp_eyebrow'       => 'Licensed',
-  'cp_headline'      => 'Checkpoint Auge',
-  'cp_lead'          => 'As a licensed Checkpoint Auge partner we offer free, professional eye examinations — no doctor\'s appointment needed, right here in our studio in Vienna-Meidling.',
+  'cp_headline'      => 'Checkpoint očí',
+  'cp_lead'          => 'As a licensed Checkpoint očí partner we offer free, professional eye examinations — no doctor\'s appointment needed, right here in our studio in Vienna-Meidling.',
   'cp_bullet_1'      => 'Free visual acuity assessment',
   'cp_bullet_2'      => 'State-of-the-art measurement technology on site',
   'cp_bullet_3'      => 'Personal consultation with master optician Thomas Scheibl',
   'cp_bullet_4'      => 'No doctor\'s visit required',
   'cp_cta'           => 'Book your free eye test now',
-  'alt_checkpoint'   => 'Checkpoint Auge — eye test at expert·optic Vienna-Meidling',
+  'alt_checkpoint'   => 'Checkpoint očí — eye test at expert·optic Vienna-Meidling',
 
   /* ── Home — Services ── */
-  'svc_1_title' => 'Checkpoint Auge',
+  'svc_1_title' => 'Checkpoint očí',
   'svc_1_body'  => 'Free eye examination and glasses consultation — part of our customer service.',
   'svc_2_title' => 'Custom-made for you',
   'svc_2_body'  => 'From the prescription to the lenses and fitting. Every pair of glasses is made right here.',
@@ -79,6 +105,12 @@ return [
   'photo_coming'    => 'Product photo coming soon',
 
   /* ── Home — Craft / about ── */
+  /* ── Home — philosophy ── */
+  'philosophy_eyebrow'  => 'Our approach',
+  'philosophy_headline' => 'Glasses deserve a thoughtful choice.',
+  'philosophy_para1'    => 'Glasses aren\'t just a "life partner" or an essential health aid — they\'re also a fashion accessory. That\'s why choosing them deserves sensitivity and care.',
+  'philosophy_para2'    => 'We know this at our studio. That\'s why we work only with the most modern diagnostic instruments. An individual eye test is standard. On request, we\'ll also advise you on the fashion details. In short — we do our best to make sure our clients never walk away with the wrong choice.',
+
   'craft_eyebrow'   => 'Visibly dedicated',
   'craft_headline'  => 'Old-school quality.',
   'craft_lead'      => 'We value thorough, personal and expert consultation — regarding lenses and frames alike. Every person has different needs.',
@@ -124,7 +156,7 @@ return [
   'panel_care'        => 'Clean with lukewarm water and mild washing-up liquid, dry with the included microfibre cloth. Free readjustment in the studio whenever needed.',
 
   /* ── Booking page ── */
-  'book_eyebrow'     => 'Checkpoint Auge',
+  'book_eyebrow'     => 'Checkpoint očí',
   'book_headline'    => 'Book an appointment',
   'book_lead'        => 'Eye examinations and glasses consultations are free of charge — part of our customer service. Choose a date and we will confirm by phone.',
   'book_success_title'=> 'Appointment requested — thank you!',
@@ -165,7 +197,7 @@ return [
   'hours_open_sat'       => 'Open today (until 13:00)',
   'hours_closed_today'   => 'Closed today',
   'happy_tip_title'      => 'Happy Hour',
-  'happy_tip_text'       => 'Monday 18:00–19:00 — discover how much your tenner can be worth!',
+  'happy_tip_text'       => 'Every Wednesday 17:00–18:00 — get a €10 discount.',
   'fb_cta'               => 'Visit us on Facebook too!',
   'alt_storefront_ext'   => 'Expert OPTIC studio exterior, Hlavní 131, Brno-Komín',
   'alt_master_card'      => 'Thomas Scheibl, Master Optician',
@@ -180,7 +212,7 @@ return [
   'footer_sport'         => 'Sports eyewear',
   'footer_contacts'      => 'Contact lenses',
   'footer_col_service'   => 'Services',
-  'footer_svc_checkpoint'=> 'Checkpoint Auge',
+  'footer_svc_checkpoint'=> 'Checkpoint očí',
   'footer_svc_booking'   => 'Book eye test',
   'footer_svc_repair'    => 'Repair',
   'footer_svc_voucher'   => 'Vouchers',

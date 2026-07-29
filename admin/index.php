@@ -13,12 +13,14 @@ if (empty($_SESSION['admin_logged_in'])) {
 /* ── Language ── */
 if (isset($_GET['set_lang'])) {
     $set = preg_replace('/[^a-z]/', '', $_GET['set_lang']);
-    if (in_array($set, ['de', 'cz', 'en'])) $_SESSION['admin_lang'] = $set;
+    if (in_array($set, ['at', 'cz', 'en'])) $_SESSION['admin_lang'] = $set;
     $redir = '?page=' . preg_replace('/[^a-z-]/', '', $_GET['page'] ?? 'dashboard');
     header('Location: ' . $redir);
     exit;
 }
-$admin_lang = $_SESSION['admin_lang'] ?? 'de';
+/* Migrate legacy 'de' session value to 'at' after rename */
+if (($_SESSION['admin_lang'] ?? '') === 'de') $_SESSION['admin_lang'] = 'at';
+$admin_lang = $_SESSION['admin_lang'] ?? 'at';
 $al = require __DIR__ . '/lang/' . $admin_lang . '.php';
 
 /* ── Routing ── */
@@ -75,7 +77,7 @@ function icon(string $name): string {
     return $icons[$name] ?? '';
 }
 
-$html_lang = ['de' => 'de', 'cz' => 'cs', 'en' => 'en'][$admin_lang] ?? 'de';
+$html_lang = ['at' => 'de', 'cz' => 'cs', 'en' => 'en'][$admin_lang] ?? 'de';
 ?>
 <!DOCTYPE html>
 <html lang="<?= $html_lang ?>">
@@ -181,7 +183,7 @@ $html_lang = ['de' => 'de', 'cz' => 'cs', 'en' => 'en'][$admin_lang] ?? 'de';
       <div class="a-topbar__actions">
         <!-- Language switcher -->
         <div class="a-lang-switch">
-          <?php foreach (['de' => 'DE', 'cz' => 'CZ', 'en' => 'EN'] as $code => $label): ?>
+          <?php foreach (['at' => 'AT', 'cz' => 'CZ', 'en' => 'EN'] as $code => $label): ?>
             <a href="?page=<?= $page ?>&set_lang=<?= $code ?>"
                class="a-lang-btn<?= $admin_lang === $code ? ' active' : '' ?>"><?= $label ?></a>
           <?php endforeach; ?>

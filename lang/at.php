@@ -2,15 +2,40 @@
 return [
 
   /* ── Meta descriptions ── */
-  'meta_home'       => 'Ihr persönlicher Optiker in Wien-Meidling. Maßangefertigte Brillen, kostenloser Sehtest (Checkpoint Auge), Marken wie IC! Berlin, Blackfin & mehr. Direkt am Bahnhof.',
+  'meta_home'       => 'Ihr persönlicher Optiker in Wien-Meidling. Maßangefertigte Brillen, kostenloser Sehtest (Checkpoint očí), Marken wie IC! Berlin, Blackfin & mehr. Direkt am Bahnhof.',
   'meta_collection' => 'Hochwertige Brillenkollektionen bei expert·optic Wien-Meidling — Optische Brillen, Sonnenbrillen, Sportbrillen und Lesebrillen. Persönliche Beratung inklusive.',
   'meta_product'    => 'persönlich angepasst bei expert·optic in Wien-Meidling.',
-  'meta_booking'    => 'Kostenlosen Sehtest oder Brillenanprobe bei expert·optic Wien-Meidling vereinbaren. Checkpoint Auge — professionell, persönlich, gratis.',
+  'meta_booking'    => 'Kostenlosen Sehtest oder Brillenanprobe bei expert·optic Wien-Meidling vereinbaren. Checkpoint očí — professionell, persönlich, gratis.',
 
   /* ── Page titles ── */
   'title_home'       => 'expert·optic — Wien-Meidling',
   'title_collection' => 'Kollektion — expert·optic',
   'title_booking'    => 'Termin vereinbaren — expert·optic',
+  'title_contact'    => 'Kontakt',
+
+  /* ── Contact page ── */
+  'contact_eyebrow'         => 'Kontakt aufnehmen',
+  'contact_headline'        => 'Wir freuen uns auf Ihre Nachricht',
+  'contact_lead'            => 'Sie haben eine Frage zu Brillen, Kontaktlinsen oder einer Bestellung? Schreiben Sie uns — wir antworten in der Regel innerhalb eines Werktages.',
+  'contact_form_title'      => 'Ihre Nachricht',
+  'contact_form_name'       => 'Vor- und Nachname',
+  'contact_form_subject'    => 'Betreff',
+  'contact_form_message'    => 'Nachricht',
+  'contact_form_submit'     => 'Nachricht senden',
+  'contact_form_legal'      => 'Mit dem Absenden akzeptieren Sie unsere <a href="?p=datenschutz&lang=%s">Datenschutzerklärung</a>.',
+  'contact_err_name'        => 'Bitte geben Sie Ihren Namen ein.',
+  'contact_err_email'       => 'Bitte geben Sie Ihre E-Mail-Adresse ein.',
+  'contact_err_email_invalid'=> 'Die E-Mail-Adresse scheint ungültig zu sein.',
+  'contact_err_message'     => 'Bitte hinterlassen Sie eine kurze Nachricht.',
+  'contact_err_captcha'     => 'Bitte bestätigen Sie, dass Sie kein Roboter sind.',
+  'contact_err_send'        => 'Ihre Nachricht konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut oder rufen Sie uns direkt an.',
+  'contact_success_title'   => 'Vielen Dank für Ihre Nachricht.',
+  'contact_success_body'    => 'Wir melden uns so bald wie möglich unter der angegebenen E-Mail-Adresse.',
+  'contact_info_title'      => 'Kontaktdaten',
+  'contact_write_us'        => 'Schreiben Sie uns',
+  'contact_call_us'         => 'Rufen Sie uns an',
+  'contact_visit_title'     => 'Besuchen Sie das Studio',
+  'contact_subject_default' => 'Anfrage über die Website',
 
   /* ── Header / nav ── */
   'nav_glasses'       => 'Brillen',
@@ -19,6 +44,7 @@ return [
   'nav_contactlenses' => 'Kontaktlinsen',
   'nav_brands'        => 'Marken',
   'nav_about'         => 'Über uns',
+  'nav_contact'       => 'Kontakt',
   'aria_logo'         => 'expert·optic — Startseite',
   'aria_main_nav'     => 'Hauptnavigation',
   'aria_search'       => 'Suche',
@@ -42,29 +68,29 @@ return [
   'stat_master'      => 'Meisteroptiker',
   'stat_free'        => 'Gratis',
   'stat_eye_test'    => 'Sehtest',
-  'badge_checkpoint' => 'Lizenzierter Checkpoint Auge',
+  'badge_checkpoint' => 'Lizenzierter Checkpoint očí',
   'badge_free_test'  => 'Sehtest kostenlos vor Ort',
   'alt_studio_interior' => 'expert·optic Brillenstudio — Innenansicht',
 
   /* ── Home — Happy Hour bar ── */
-  'happy_hour_text'  => 'Nur Montag von 18:00–19:00 in unserem Brillenstudio. Entdecken Sie, wie viel <strong>IHR ZEHNER</strong> wert sein kann!',
+  'happy_hour_text'  => 'Jeden Mittwoch von 17:00 bis 18:00 Uhr erhalten Sie in unserem Studio <strong>10 € Rabatt</strong>.',
   'happy_hour_btn'   => 'Termin anfragen',
 
   /* ── Home — Checkpoint section ── */
   'cp_label_top'     => 'LIZENZIERTER',
   'cp_label_bottom'  => 'ÖSTERREICH',
   'cp_eyebrow'       => 'Lizenzierter',
-  'cp_headline'      => 'Checkpoint Auge',
+  'cp_headline'      => 'Checkpoint očí',
   'cp_lead'          => 'Als lizenzierter Checkpoint-Auge-Partner bieten wir kostenlose, professionelle Augenuntersuchungen an — ohne Arzttermin, direkt in unserem Studio in Wien-Meidling.',
   'cp_bullet_1'      => 'Kostenlose Sehstärkebestimmung',
   'cp_bullet_2'      => 'Modernste Messtechnik vor Ort',
   'cp_bullet_3'      => 'Persönliche Beratung durch Meisteroptiker Thomas Scheibl',
   'cp_bullet_4'      => 'Kein Arztbesuch notwendig',
   'cp_cta'           => 'Jetzt kostenlosen Sehtest buchen',
-  'alt_checkpoint'   => 'Checkpoint Auge — Sehtest bei expert·optic Wien-Meidling',
+  'alt_checkpoint'   => 'Checkpoint očí — Sehtest bei expert·optic Wien-Meidling',
 
   /* ── Home — Services ── */
-  'svc_1_title' => 'Checkpoint Auge',
+  'svc_1_title' => 'Checkpoint očí',
   'svc_1_body'  => 'Kostenlose Augenuntersuchung und Brillenbestimmung — Teil unseres Kundenservices.',
   'svc_2_title' => 'Persönlich angefertigt',
   'svc_2_body'  => 'Von der Sehstärke über die Gläser bis zum Einschliff. Jede Brille entsteht bei uns.',
@@ -79,6 +105,12 @@ return [
   'photo_coming'    => 'Produktfoto folgt',
 
   /* ── Home — Craft / about ── */
+  /* ── Home — Philosophie ── */
+  'philosophy_eyebrow'  => 'Unser Ansatz',
+  'philosophy_headline' => 'Brillen verdienen eine bedachte Wahl.',
+  'philosophy_para1'    => 'Eine Brille ist nicht nur „Lebensbegleiter" und wichtige Sehhilfe, sondern auch ein Modeaccessoire. Genau deshalb sollte man beim Brillenkauf mit Bedacht vorgehen.',
+  'philosophy_para2'    => 'In unserem Brillenstudio sind wir uns dessen bewusst. Wir arbeiten deshalb ausschließlich mit modernsten Diagnosegeräten. Ein individueller Sehtest ist selbstverständlich. Auf Wunsch beraten wir Sie auch in modischen Details. Kurz gesagt: Wir geben unser Bestes, damit unsere Kundinnen und Kunden bei der Brillenwahl garantiert richtig liegen.',
+
   'craft_eyebrow'   => 'Sichtlich bemüht',
   'craft_headline'  => 'Qualität der alten Schule.',
   'craft_lead'      => 'Wir legen Wert auf persönliche, kompetente und ausführliche Beratung — bezüglich Gläser und Fassung. Jeder Mensch hat andere Ansprüche.',
@@ -124,7 +156,7 @@ return [
   'panel_care'        => 'Mit lauwarmem Wasser und mildem Spülmittel reinigen, mit dem mitgelieferten Mikrofasertuch trocknen. Bei Bedarf kostenlose Nachjustierung im Studio.',
 
   /* ── Booking page ── */
-  'book_eyebrow'     => 'Checkpoint Auge',
+  'book_eyebrow'     => 'Checkpoint očí',
   'book_headline'    => 'Termin vereinbaren',
   'book_lead'        => 'Augenuntersuchung und Brillenbestimmung sind bei uns kostenlos — Teil unseres Kundenservices. Wählen Sie einen Termin, wir bestätigen telefonisch.',
   'book_success_title'=> 'Termin angefragt — danke!',
@@ -165,7 +197,7 @@ return [
   'hours_open_sat'       => 'Heute geöffnet (bis 13 Uhr)',
   'hours_closed_today'   => 'Heute geschlossen',
   'happy_tip_title'      => 'Happy Hour',
-  'happy_tip_text'       => 'Montag 18:00–19:00 Uhr — entdecken Sie, wie viel Ihr Zehner wert sein kann!',
+  'happy_tip_text'       => 'Jeden Mittwoch 17:00–18:00 Uhr — 10 € Rabatt sichern.',
   'fb_cta'               => 'Besuchen Sie uns auch auf Facebook!',
   'alt_storefront_ext'   => 'Expert OPTIC studio exteriér, Hlavní 131, Brno-Komín',
   'alt_master_card'      => 'Thomas Scheibl, Optikermeister',
@@ -180,7 +212,7 @@ return [
   'footer_sport'         => 'Sportbrillen',
   'footer_contacts'      => 'Kontaktlinsen',
   'footer_col_service'   => 'Service',
-  'footer_svc_checkpoint'=> 'Checkpoint Auge',
+  'footer_svc_checkpoint'=> 'Checkpoint očí',
   'footer_svc_booking'   => 'Sehtest buchen',
   'footer_svc_repair'    => 'Reparatur',
   'footer_svc_voucher'   => 'Gutscheine',

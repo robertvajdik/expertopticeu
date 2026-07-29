@@ -146,6 +146,10 @@ return [
   'status_done'       => 'Erledigt',
   'mark_done_title'   => 'Als erledigt markieren',
   'mark_new_title'    => 'Als neu markieren',
+  'btn_export_ics'    => 'In Kalender exportieren',
+  'btn_export_ics_row'=> 'Zum Kalender hinzufügen',
+  'btn_export_csv'    => 'CSV-Export',
+  'btn_export_csv_items' => 'CSV — Positionen',
 
   /* ── Orders ── */
   'ord_status_new'        => 'Neu',
