@@ -121,117 +121,9 @@ $desc = $descs[$page] ?? $descs['home'];
   <?php endif; ?>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/site.css">
-  <script>
-    /* Apply saved preferences before first paint to avoid FOUC */
-    (function() {
-      var sizes = { a: '', aa: '112.5%', aaa: '125%' };
-      var savedZoom = (typeof localStorage !== 'undefined' && localStorage.getItem('textZoom')) || 'a';
-      if (sizes[savedZoom]) document.documentElement.style.fontSize = sizes[savedZoom];
-      if (typeof localStorage !== 'undefined' && localStorage.getItem('highContrast') === '1') {
-        document.documentElement.classList.add('high-contrast');
-      }
-    })();
-  </script>
+  <script src="assets/js/preload.js"></script>
   <script src="https://unpkg.com/lucide@0.474.0/dist/umd/lucide.min.js" defer></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-
-      // Scroll-reveal
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); } });
-      }, { threshold: 0.08 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-      // Back to top + scrolled header
-      const btt = document.getElementById('back-to-top');
-      const hdr = document.querySelector('.site-header');
-      window.addEventListener('scroll', () => {
-        btt.classList.toggle('visible', scrollY > 500);
-        hdr.classList.toggle('scrolled', scrollY > 10);
-      }, { passive: true });
-      btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-      // Hamburger menu
-      const menuBtn  = document.getElementById('mobile-menu-btn');
-      const mainNav  = document.getElementById('main-nav');
-      const backdrop = document.getElementById('nav-backdrop');
-      function openNav() {
-        mainNav.classList.add('open');
-        backdrop.classList.add('visible');
-        menuBtn.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeNav() {
-        mainNav.classList.remove('open');
-        backdrop.classList.remove('visible');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-      if (menuBtn) {
-        menuBtn.addEventListener('click', () =>
-          mainNav.classList.contains('open') ? closeNav() : openNav()
-        );
-      }
-      if (backdrop) backdrop.addEventListener('click', closeNav);
-      mainNav && mainNav.querySelectorAll('.nav-link').forEach(link =>
-        link.addEventListener('click', closeNav)
-      );
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
-
-      // Product image thumbnail switcher
-      const mainPhoto = document.querySelector('.product-photo');
-      document.querySelectorAll('.product-img-thumb').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          document.querySelectorAll('.product-img-thumb').forEach(b => b.classList.remove('product-img-thumb--active'));
-          btn.classList.add('product-img-thumb--active');
-          if (mainPhoto) mainPhoto.src = btn.dataset.img;
-        });
-      });
-
-      // AI try-on color switcher
-      const aiGlasses = document.getElementById('ai-glasses');
-      document.querySelectorAll('.ai-color-thumb').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.ai-color-thumb').forEach(b => b.classList.remove('ai-color-thumb--active'));
-          btn.classList.add('ai-color-thumb--active');
-          if (aiGlasses) aiGlasses.style.color = btn.dataset.color;
-        });
-      });
-
-      // High contrast
-      const contrastBtn = document.getElementById('contrast-toggle');
-      if (contrastBtn) {
-        const hcOn = document.documentElement.classList.contains('high-contrast');
-        contrastBtn.setAttribute('aria-pressed', hcOn ? 'true' : 'false');
-        contrastBtn.addEventListener('click', () => {
-          const on = document.documentElement.classList.toggle('high-contrast');
-          if (typeof localStorage !== 'undefined') localStorage.setItem('highContrast', on ? '1' : '0');
-          contrastBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-        });
-      }
-
-      // Text zoom
-      const zoomSizes = { a: '', aa: '112.5%', aaa: '125%' };
-      function applyZoom(level) {
-        document.documentElement.style.fontSize = zoomSizes[level] || '';
-        document.querySelectorAll('.text-zoom__btn').forEach(btn => {
-          const active = btn.dataset.zoom === level;
-          btn.classList.toggle('text-zoom__btn--active', active);
-          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-        });
-      }
-      const savedZoom = (typeof localStorage !== 'undefined' && localStorage.getItem('textZoom')) || 'a';
-      applyZoom(savedZoom);
-      document.querySelectorAll('.text-zoom__btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const level = btn.dataset.zoom;
-          if (typeof localStorage !== 'undefined') localStorage.setItem('textZoom', level);
-          applyZoom(level);
-        });
-      });
-    });
-  </script>
+  <script src="assets/js/site.js" defer></script>
 </head>
 <body>
 
@@ -272,20 +164,8 @@ switch ($page) {
   <i data-lucide="arrow-up"></i>
 </button>
 
-<!-- Hidden admin entry (not visible, not indexed) -->
-<a href="admin/" aria-hidden="true" tabindex="-1" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none">admin</a>
-<script>
-  /* Secret admin shortcut: type "admin" anywhere on the page (not while typing in a field). */
-  (function () {
-    var buf = '', target = 'admin';
-    document.addEventListener('keydown', function (e) {
-      var tag = (e.target && e.target.tagName) || '';
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
-      if (e.key && e.key.length === 1) buf = (buf + e.key.toLowerCase()).slice(-target.length);
-      if (buf === target) { buf = ''; window.location.href = 'admin/'; }
-    });
-  })();
-</script>
+<!-- Hidden admin entry (not visible, not indexed; keyboard shortcut lives in site.js) -->
+<a href="admin/" aria-hidden="true" tabindex="-1" class="admin-shortcut">admin</a>
 
 </body>
 </html>

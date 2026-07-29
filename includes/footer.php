@@ -1,3 +1,35 @@
+<?php
+$news_msg  = '';
+$news_kind = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_signup'])) {
+    require_once __DIR__ . '/customer_auth.php';
+    $r = newsletter_subscribe($_POST['newsletter_email'] ?? '', $lang);
+    if (!empty($r['ok'])) { $news_msg = $t['news_ok'] ?? 'Děkujeme! Odběr byl aktivován.'; $news_kind = 'ok'; }
+    elseif (in_array('email', $r['errors'] ?? [], true)) { $news_msg = $t['news_err_email'] ?? 'Zadejte platný e-mail.'; $news_kind = 'err'; }
+    else { $news_msg = $t['news_err'] ?? 'Přihlášení se nezdařilo.'; $news_kind = 'err'; }
+}
+?>
+<section class="footer-newsletter">
+  <div class="footer-newsletter__inner">
+    <div class="footer-newsletter__text">
+      <h3><?= htmlspecialchars($t['news_title'] ?? 'Newsletter Expert OPTIC') ?></h3>
+      <p><?= htmlspecialchars($t['news_lead'] ?? 'Přihlaste se k odběru a získejte přednostní přístup k novinkám a slevám.') ?></p>
+    </div>
+    <form method="post" class="footer-newsletter__form">
+      <input type="email" name="newsletter_email" required maxlength="150"
+             placeholder="<?= htmlspecialchars($t['news_ph'] ?? 'Váš e-mail') ?>"
+             value="<?= htmlspecialchars($_POST['newsletter_email'] ?? '') ?>">
+      <button type="submit" name="newsletter_signup" value="1" class="btn btn--primary">
+        <i data-lucide="mail"></i>
+        <?= htmlspecialchars($t['news_btn'] ?? 'Odebírat') ?>
+      </button>
+    </form>
+    <?php if ($news_msg): ?>
+      <p class="footer-newsletter__msg footer-newsletter__msg--<?= $news_kind ?>"><?= htmlspecialchars($news_msg) ?></p>
+    <?php endif; ?>
+  </div>
+</section>
+
 <footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__brand">

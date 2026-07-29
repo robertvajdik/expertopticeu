@@ -8,6 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     if (!empty($r['errors'])) {
         $errors = $r['errors'];
     } else {
+        if (!empty($_POST['newsletter'])) {
+            newsletter_subscribe(strtolower(trim($_POST['email'] ?? '')), $lang, trim($_POST['name'] ?? '') ?: null);
+        }
         $done = true;
         header('Location: ?p=account&lang=' . $lang);
         exit;
@@ -100,6 +103,11 @@ $err_for = function(string $field) use ($errors, $err_msg): string {
       <input id="reg-city" type="text" name="city_postal" maxlength="120"
              autocomplete="postal-code"
              value="<?= htmlspecialchars($_POST['city_postal'] ?? '') ?>">
+    </div>
+
+    <div class="checkbox-label">
+      <input type="checkbox" id="reg-news" name="newsletter" value="1" <?= isset($_POST['newsletter']) ? 'checked' : '' ?>>
+      <label for="reg-news"><?= htmlspecialchars($t['auth_news_optin'] ?? 'Chci dostávat newsletter s novinkami a slevami.') ?></label>
     </div>
 
     <button type="submit" name="register" value="1" class="btn btn--primary btn--lg btn--block">

@@ -157,6 +157,56 @@ function customer_register(array $d, string $lang): array {
     return ['id' => $id];
 }
 
+/* ─── Newsletter helpers ─── */
+
+function newsletter_subscribe(string $email, string $lang = 'cz', ?string $name = null): array {
+    $email = strtolower(trim($email));
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 150) {
+        return ['errors' => ['email']];
+    }
+    try {
+        db()->prepare('INSERT INTO newsletter_subscribers (email, name, lang, active)
+                       VALUES (?, ?, ?, 1)
+                       ON DUPLICATE KEY UPDATE active = 1, lang = VALUES(lang), name = COALESCE(VALUES(name), name)')
+            ->execute([$email, $name ?: null, $lang]);
+    } catch (Exception $e) {
+        $msg = $e->getMessage();
+        if (stripos($msg, "doesn't exist") !== false) return ['errors' => ['db_schema']];
+        error_log('newsletter_subscribe: ' . $msg);
+        return ['errors' => ['db']];
+    }
+    return ['ok' => true];
+}
+
+function newsletter_unsubscribe(string $email): void {
+    try {
+        db()->prepare('UPDATE newsletter_subscribers SET active = 0 WHERE email = ?')
+            ->execute([strtolower(trim($email))]);
+    } catch (Exception $e) {}
+}
+
+function newsletter_set(int $customer_id, bool $on): void {
+    try {
+        $s = db()->prepare('SELECT email, name, lang FROM customers WHERE id = ?');
+        $s->execute([$customer_id]);
+        $row = $s->fetch();
+        if (!$row) return;
+        if ($on) newsletter_subscribe($row['email'], $row['lang'] ?? 'cz', $row['name']);
+        else     newsletter_unsubscribe($row['email']);
+    } catch (Exception $e) {}
+}
+
+function newsletter_is_subscribed(int $customer_id): bool {
+    try {
+        $s = db()->prepare('SELECT n.active FROM customers c
+                            LEFT JOIN newsletter_subscribers n ON n.email = c.email
+                            WHERE c.id = ?');
+        $s->execute([$customer_id]);
+        $row = $s->fetch();
+        return $row && (int)$row['active'] === 1;
+    } catch (Exception $e) { return false; }
+}
+
 /* ─── Voucher helpers ─── */
 
 /* Return voucher row if $code is valid for the given cart_total_eur, else null.

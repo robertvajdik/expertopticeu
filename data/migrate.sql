@@ -108,7 +108,22 @@ CREATE TABLE IF NOT EXISTS `vouchers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
--- 5. settings + admin_users fixups
+-- 5. newsletter subscribers (opt-in list)
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `newsletter_subscribers` (
+  `id`            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `email`         VARCHAR(150) NOT NULL,
+  `name`         VARCHAR(150) DEFAULT NULL,
+  `lang`         CHAR(2)      NOT NULL DEFAULT 'cz',
+  `active`       TINYINT(1)   NOT NULL DEFAULT 1,
+  `created_at`   TIMESTAMP    NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_news_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+-- 6. settings + admin_users fixups
 -- --------------------------------------------------------
 
 UPDATE `settings` SET `value` = 'Expert OPTIC Brýlové studio' WHERE `key` = 'company_name';
