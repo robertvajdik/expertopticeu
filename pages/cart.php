@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/customer_auth.php';
+
+$voucher_msg = '';
 
 /* ── Actions ── */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -10,15 +13,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         cart_update_qty($item_id, (int)($_POST['qty'] ?? 1));
     } elseif ($action === 'remove' && $item_id) {
         cart_remove($item_id);
+    } elseif ($action === 'apply_voucher') {
+        $code = strtoupper(trim($_POST['voucher_code'] ?? ''));
+        $subtotal = cart_total(cart_items());
+        $reason   = null;
+        if (voucher_lookup($code, $subtotal, $reason)) {
+            voucher_apply($code);
+            $voucher_msg = 'ok';
+        } else {
+            voucher_clear();
+            $voucher_msg = $reason ?: 'invalid';
+        }
+    } elseif ($action === 'remove_voucher') {
+        voucher_clear();
     }
-    $_SESSION['cart_count'] = cart_count();
-    header('Location: ?p=cart&lang=' . $lang);
-    exit;
+    if ($action !== 'apply_voucher' && $action !== 'remove_voucher') {
+        $_SESSION['cart_count'] = cart_count();
+        header('Location: ?p=cart&lang=' . $lang);
+        exit;
+    }
+    if ($action === 'remove_voucher') {
+        header('Location: ?p=cart&lang=' . $lang);
+        exit;
+    }
 }
 
-$items = cart_items();
-$total = cart_total($items);
+$items    = cart_items();
+$subtotal = cart_total($items);
+
+/* Re-validate any applied voucher against the current cart. */
+$voucher    = null;
+$discount   = 0.0;
+$vc = voucher_current_code();
+if ($vc) {
+    $r = null;
+    $v = voucher_lookup($vc, $subtotal, $r);
+    if ($v) {
+        $voucher  = $v;
+        $discount = voucher_discount_eur($v, $subtotal);
+    } else {
+        voucher_clear();
+    }
+}
+$total     = max(0, $subtotal - $discount);
 $fmt_money = fn(float $n): string => fmt_display($n, $lang);
+
+$voucher_messages = [
+    'ok'       => $t['vou_msg_ok']       ?? 'Voucher aplikován.',
+    'notfound' => $t['vou_msg_notfound'] ?? 'Neplatný kód.',
+    'inactive' => $t['vou_msg_inactive'] ?? 'Voucher není aktivní.',
+    'expired'  => $t['vou_msg_expired']  ?? 'Platnost voucheru vypršela.',
+    'used_up'  => $t['vou_msg_used_up']  ?? 'Voucher byl již plně použit.',
+    'min_order'=> $t['vou_msg_min_ord']  ?? 'Voucher vyžaduje vyšší minimální objednávku.',
+    'empty'    => $t['vou_msg_empty']    ?? 'Zadejte kód.',
+    'db'       => $t['vou_msg_error']    ?? 'Chyba. Zkuste to znovu.',
+];
 ?>
 
 <div class="page-wrap">
@@ -100,6 +149,38 @@ $fmt_money = fn(float $n): string => fmt_display($n, $lang);
         <?php endforeach; ?>
 
         <hr class="cart-summary__divider">
+
+        <!-- Voucher -->
+        <div class="cart-summary__line">
+          <?php if ($voucher): ?>
+            <span><?= htmlspecialchars($t['cart_voucher'] ?? 'Voucher') ?>
+                  <strong><?= htmlspecialchars($voucher['code']) ?></strong></span>
+            <span style="color:#16a34a">− <?= $fmt_money($discount) ?></span>
+          <?php else: ?>
+            <span><?= htmlspecialchars($t['cart_voucher'] ?? 'Voucher') ?></span>
+            <span>—</span>
+          <?php endif; ?>
+        </div>
+        <form method="post" style="display:flex;gap:.5rem;margin:.5rem 0 .75rem">
+          <?php if ($voucher): ?>
+            <input type="hidden" name="action" value="remove_voucher">
+            <button type="submit" class="btn btn--secondary" style="flex:1">
+              <?= htmlspecialchars($t['cart_voucher_remove'] ?? 'Odebrat voucher') ?>
+            </button>
+          <?php else: ?>
+            <input type="hidden" name="action" value="apply_voucher">
+            <input type="text" name="voucher_code" placeholder="<?= htmlspecialchars($t['cart_voucher_ph'] ?? 'Kód voucheru') ?>"
+                   style="flex:1;text-transform:uppercase;padding:.5rem;border:1px solid var(--border,#e5e7eb);border-radius:6px">
+            <button type="submit" class="btn btn--secondary">
+              <?= htmlspecialchars($t['cart_voucher_apply'] ?? 'Použít') ?>
+            </button>
+          <?php endif; ?>
+        </form>
+        <?php if ($voucher_msg && $voucher_msg !== 'ok'): ?>
+          <p style="color:#dc2626;font-size:.85rem;margin:0 0 .75rem"><?= htmlspecialchars($voucher_messages[$voucher_msg] ?? $voucher_msg) ?></p>
+        <?php elseif ($voucher_msg === 'ok'): ?>
+          <p style="color:#16a34a;font-size:.85rem;margin:0 0 .75rem"><?= htmlspecialchars($voucher_messages['ok']) ?></p>
+        <?php endif; ?>
 
         <div class="cart-summary__total">
           <span><?= htmlspecialchars($t['cart_total']) ?></span>

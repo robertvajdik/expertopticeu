@@ -67,6 +67,20 @@ $base_qs     = '?p=' . $current_p . $current_cat . $current_id . $current_tab;
            class="lang-switch__btn<?= $lang === 'cz' ? ' lang-switch__btn--active' : '' ?>">CZ</a>
       </div>
 
+      <?php if (!empty($customer)): ?>
+        <a href="?p=account&amp;lang=<?= $lang ?>" class="icon-btn"
+           aria-label="<?= htmlspecialchars($t['aria_account'] ?? 'Můj účet') ?>"
+           title="<?= htmlspecialchars($customer['name']) ?>">
+          <i data-lucide="user-round"></i>
+        </a>
+      <?php else: ?>
+        <a href="?p=login&amp;lang=<?= $lang ?>" class="icon-btn"
+           aria-label="<?= htmlspecialchars($t['auth_login_btn'] ?? 'Přihlásit') ?>"
+           title="<?= htmlspecialchars($t['auth_login_btn'] ?? 'Přihlásit') ?>">
+          <i data-lucide="user"></i>
+        </a>
+      <?php endif; ?>
+
       <a href="?p=cart&amp;lang=<?= $lang ?>" class="icon-btn cart-btn" aria-label="<?= htmlspecialchars($t['aria_cart']) ?>">
         <i data-lucide="shopping-bag"></i>
         <?php if ($cart > 0): ?>

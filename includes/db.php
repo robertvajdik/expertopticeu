@@ -59,6 +59,18 @@ function orders_has_lang(): bool {
     return $has;
 }
 
+/* True if the orders table has the customer_id / voucher_* columns. */
+function orders_has_customer_col(): bool {
+    static $has = null;
+    if ($has === null) {
+        try {
+            $r = db()->query("SHOW COLUMNS FROM orders LIKE 'customer_id'")->fetch();
+            $has = (bool)$r;
+        } catch (Exception $e) { $has = false; }
+    }
+    return $has;
+}
+
 /* ── Cart helpers ── */
 
 function cart_get_or_create(): int {

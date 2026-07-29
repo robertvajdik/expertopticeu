@@ -23,7 +23,7 @@ $al = require __DIR__ . '/lang/' . $admin_lang . '.php';
 
 /* ── Routing ── */
 $page = preg_replace('/[^a-z-]/', '', $_GET['page'] ?? 'dashboard');
-$allowed = ['dashboard', 'products', 'bookings', 'orders', 'users', 'settings', 'sitemap'];
+$allowed = ['dashboard', 'products', 'bookings', 'orders', 'users', 'settings', 'sitemap', 'about', 'vouchers'];
 if (!in_array($page, $allowed)) $page = 'dashboard';
 
 $page_titles = [
@@ -34,13 +34,20 @@ $page_titles = [
     'users'     => $al['title_users'],
     'settings'  => $al['title_settings'],
     'sitemap'   => $al['title_sitemap'],
+    'about'     => $al['title_about'] ?? 'About',
+    'vouchers'  => $al['title_vouchers'] ?? 'Vouchers',
 ];
 
 /* ── Shared data ── */
 try {
     $products = db()->query('SELECT * FROM products ORDER BY brand, name')->fetchAll();
 } catch (Exception $e) { $products = []; }
-$bookings = load_json(__DIR__ . '/../data/bookings.json');
+$_bookings_file = __DIR__ . '/../data/bookings.json';
+$bookings = [];
+if (file_exists($_bookings_file)) {
+    $_d = json_decode(file_get_contents($_bookings_file), true);
+    if (is_array($_d)) $bookings = $_d;
+}
 $new_bookings = count(array_filter($bookings, fn($b) => ($b['status'] ?? 'new') === 'new'));
 
 /* ── Inline SVG icons (avoids external dependency) ── */
@@ -119,6 +126,9 @@ $html_lang = ['de' => 'de', 'cz' => 'cs', 'en' => 'en'][$admin_lang] ?? 'de';
           <span class="a-nav-badge"><?= $new_orders ?></span>
         <?php endif; ?>
       </a>
+      <a href="index.php?page=vouchers" class="a-nav-link<?= $page==='vouchers'?' active':'' ?>">
+        <?= icon('tag') ?> <?= htmlspecialchars($al['nav_vouchers'] ?? 'Vouchers') ?>
+      </a>
 
       <span class="a-nav-section"><?= htmlspecialchars($al['nav_system']) ?></span>
       <a href="index.php?page=users" class="a-nav-link<?= $page==='users'?' active':'' ?>">
@@ -129,6 +139,9 @@ $html_lang = ['de' => 'de', 'cz' => 'cs', 'en' => 'en'][$admin_lang] ?? 'de';
       </a>
       <a href="index.php?page=sitemap" class="a-nav-link<?= $page==='sitemap'?' active':'' ?>">
         <?= icon('map') ?> <?= htmlspecialchars($al['nav_sitemap']) ?>
+      </a>
+      <a href="index.php?page=about" class="a-nav-link<?= $page==='about'?' active':'' ?>">
+        <?= icon('shield') ?> <?= htmlspecialchars($al['nav_about'] ?? 'About') ?>
       </a>
 
       <span class="a-nav-section"><?= htmlspecialchars($al['nav_website']) ?></span>

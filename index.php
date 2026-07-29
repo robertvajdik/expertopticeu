@@ -37,7 +37,7 @@ $site_info = [
 ];
 
 /* ── Routing ── */
-$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses'];
+$allowed_pages = ['home', 'collection', 'product', 'booking', 'cart', 'checkout', 'order-confirm', 'contact-lenses', 'sport-glasses', 'register', 'login', 'logout', 'account'];
 $page = $_GET['p'] ?? 'home';
 if (!in_array($page, $allowed_pages, true)) $page = 'home';
 
@@ -46,6 +46,8 @@ $id  = $_GET['id']  ?? null;
 
 /* ── Product data (from DB) ── */
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/customer_auth.php';
+$customer = customer_current();
 try {
     $products = db()->query('SELECT id, brand, name, cat, price, color, tag, img FROM products ORDER BY brand, name')->fetchAll();
 } catch (Exception $e) { $products = []; }
@@ -246,6 +248,10 @@ switch ($page) {
   case 'order-confirm':   include __DIR__ . '/pages/order-confirm.php';   break;
   case 'contact-lenses': include __DIR__ . '/pages/contact-lenses.php'; break;
   case 'sport-glasses':  include __DIR__ . '/pages/sport-glasses.php';  break;
+  case 'register':      include __DIR__ . '/pages/register.php';       break;
+  case 'login':         include __DIR__ . '/pages/login.php';          break;
+  case 'logout':        include __DIR__ . '/pages/logout.php';         break;
+  case 'account':       include __DIR__ . '/pages/account.php';        break;
   default:              include __DIR__ . '/pages/home.php';          break;
 }
 ?>
@@ -266,6 +272,18 @@ switch ($page) {
 
 <!-- Hidden admin entry (not visible, not indexed) -->
 <a href="admin/" aria-hidden="true" tabindex="-1" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none">admin</a>
+<script>
+  /* Secret admin shortcut: type "admin" anywhere on the page (not while typing in a field). */
+  (function () {
+    var buf = '', target = 'admin';
+    document.addEventListener('keydown', function (e) {
+      var tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
+      if (e.key && e.key.length === 1) buf = (buf + e.key.toLowerCase()).slice(-target.length);
+      if (buf === target) { buf = ''; window.location.href = 'admin/'; }
+    });
+  })();
+</script>
 
 </body>
 </html>

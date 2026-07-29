@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/mail.php';
+require_once __DIR__ . '/../includes/customer_auth.php';
+
+$customer = customer_current();
 
 $items  = cart_items();
 $errors = $errors ?? [];
@@ -72,21 +75,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 
     if (empty($errors)) {
         $cart_total = cart_total($items);
-        $total      = $cart_total + $shipping_cost;
-        $pdo        = db();
+
+        /* Voucher (session-applied on cart page) */
+        $voucher          = null;
+        $voucher_discount = 0.0;
+        $vc = voucher_current_code();
+        if ($vc) {
+            $r = null;
+            $v = voucher_lookup($vc, $cart_total, $r);
+            if ($v) {
+                $voucher          = $v;
+                $voucher_discount = voucher_discount_eur($v, $cart_total);
+            } else {
+                voucher_clear();
+            }
+        }
+
+        $total = max(0, $cart_total - $voucher_discount) + $shipping_cost;
+        $pdo   = db();
         $pdo->beginTransaction();
         try {
-            $has_lang = orders_has_lang();
-            $cols     = 'order_number, customer_name, email, phone, total,
-                         shipping_method, shipping_cost, pickup_point_id, pickup_point_name,
-                         delivery_address, notes' . ($has_lang ? ', lang' : '');
-            $ph       = '?,?,?,?,?,?,?,?,?,?,?' . ($has_lang ? ',?' : '');
-            $vals     = ['TEMP', $name, $email, $phone ?: null, $total,
-                         $shipping, $shipping_cost,
-                         $pickup_id ?: null, $pickup_name ?: null,
-                         $delivery_addr ?: null, $notes ?: null];
-            if ($has_lang) $vals[] = $lang;
-            $pdo->prepare("INSERT INTO orders ({$cols}) VALUES ({$ph})")->execute($vals);
+            $has_lang     = orders_has_lang();
+            $has_cust_col = orders_has_customer_col();
+            $cols   = ['order_number','customer_name','email','phone','total',
+                       'shipping_method','shipping_cost','pickup_point_id','pickup_point_name',
+                       'delivery_address','notes'];
+            $vals   = ['TEMP', $name, $email, $phone ?: null, $total,
+                       $shipping, $shipping_cost,
+                       $pickup_id ?: null, $pickup_name ?: null,
+                       $delivery_addr ?: null, $notes ?: null];
+            if ($has_lang)     { $cols[] = 'lang';             $vals[] = $lang; }
+            if ($has_cust_col) {
+                $cols[] = 'customer_id';      $vals[] = $customer ? (int)$customer['id'] : null;
+                $cols[] = 'voucher_code';     $vals[] = $voucher  ? $voucher['code']     : null;
+                $cols[] = 'voucher_discount'; $vals[] = $voucher_discount;
+            }
+            $ph = implode(',', array_fill(0, count($vals), '?'));
+            $pdo->prepare('INSERT INTO orders (' . implode(',', $cols) . ") VALUES ({$ph})")->execute($vals);
 
             $oid          = (int)$pdo->lastInsertId();
             $order_number = 'EO' . date('Y') . str_pad($oid, 4, '0', STR_PAD_LEFT);
@@ -110,9 +135,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 'pickup_name'     => $pickup_name ?: null,
                 'delivery_address'=> $delivery_addr ?: null,
                 'cart_total'      => $cart_total,
+                'voucher_code'    => $voucher['code'] ?? null,
+                'voucher_discount'=> $voucher_discount,
                 'total'           => $total,
                 'items'           => $items,
             ];
+
+            if ($voucher) {
+                voucher_mark_used($voucher['code']);
+                voucher_clear();
+            }
 
             $pdo->commit();
 
@@ -143,15 +175,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 }
 
 $cart_total        = cart_total($items);
+
+/* Voucher (for display before submit) */
+$voucher_display  = null;
+$discount_display = 0.0;
+$vc = voucher_current_code();
+if ($vc) {
+    $r = null;
+    $v = voucher_lookup($vc, $cart_total, $r);
+    if ($v) {
+        $voucher_display  = $v;
+        $discount_display = voucher_discount_eur($v, $cart_total);
+    } else {
+        voucher_clear();
+    }
+}
+$net_cart          = max(0, $cart_total - $discount_display);
+
 $_default_ship     = $shipping_enabled['personal'] ? 'personal'
                    : ($shipping_enabled['balikovna'] ? 'balikovna'
                    : 'balikovna_home');
 $selected_shipping = $_POST['shipping_method'] ?? $_default_ship;
 if (empty($shipping_enabled[$selected_shipping] ?? false)) $selected_shipping = $_default_ship;
 $shipping_cost     = $shipping_prices[$selected_shipping] ?? 0;
-$total             = $cart_total + $shipping_cost;
+$total             = $net_cart + $shipping_cost;
 
-$v = fn(string $k, string $d = '') => htmlspecialchars($_POST[$k] ?? $d);
+/* Prefill values from logged-in customer if not already in $_POST */
+$v = function (string $k, string $d = '') use ($customer) {
+    if (isset($_POST[$k]))       return htmlspecialchars($_POST[$k]);
+    if ($customer) {
+        static $map = [
+            'customer_name'    => 'name',
+            'email'            => 'email',
+            'phone'            => 'phone',
+            'delivery_address' => 'street',
+        ];
+        if (isset($map[$k]) && !empty($customer[$map[$k]])) return htmlspecialchars($customer[$map[$k]]);
+    }
+    return htmlspecialchars($d);
+};
 
 $personal_sub = !empty($_ship_settings['ship_personal_address'])
               ? $_ship_settings['ship_personal_address']
@@ -313,6 +375,13 @@ if ($shipping_enabled['balikovna_home']) {
           </div>
         <?php endforeach; ?>
 
+        <?php if ($voucher_display): ?>
+          <div class="co-summary__line" style="color:#16a34a">
+            <span><?= htmlspecialchars($t['cart_voucher'] ?? 'Voucher') ?> <strong><?= htmlspecialchars($voucher_display['code']) ?></strong></span>
+            <span>− <?= $fmt_money($discount_display) ?></span>
+          </div>
+        <?php endif; ?>
+
         <div class="co-summary__shipping">
           <span><?= htmlspecialchars($t['co_shipping_row']) ?></span>
           <span id="summary-shipping">
@@ -353,7 +422,7 @@ var shippingPrices  = {
   balikovna:      <?= json_encode($to_disp($shipping_prices['balikovna'])) ?>,
   balikovna_home: <?= json_encode($to_disp($shipping_prices['balikovna_home'])) ?>
 };
-var cartTotal       = <?= json_encode($to_disp($cart_total)) ?>;
+var cartTotal       = <?= json_encode($to_disp($net_cart)) ?>;
 var labelFree       = <?= json_encode($t['co_free']) ?>;
 var lang            = <?= json_encode($lang) ?>;
 

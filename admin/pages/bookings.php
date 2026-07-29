@@ -14,21 +14,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         unset($b);
-        save_json(__DIR__ . '/../../data/bookings.json', $bookings);
+        file_put_contents(__DIR__ . '/../../data/bookings.json', json_encode($bookings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         header('Location: index.php?page=bookings');
         exit;
     }
 
     if ($action === 'delete' && $bid) {
         $bookings = array_values(array_filter($bookings, fn($b) => ($b['id'] ?? '') !== $bid));
-        save_json(__DIR__ . '/../../data/bookings.json', $bookings);
+        file_put_contents(__DIR__ . '/../../data/bookings.json', json_encode($bookings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         $msg = $al['book_deleted_msg'];
     }
 
     if ($action === 'mark_all_done') {
         foreach ($bookings as &$b) $b['status'] = 'done';
         unset($b);
-        save_json(__DIR__ . '/../../data/bookings.json', $bookings);
+        file_put_contents(__DIR__ . '/../../data/bookings.json', json_encode($bookings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         $msg = $al['book_all_done_msg'];
     }
 }
