@@ -85,6 +85,79 @@ function customer_logout(): void {
     session_regenerate_id(true);
 }
 
+/* ─── Password reset ─── */
+
+/* One-shot schema migration for the reset columns. Called by the reset flow. */
+function _customer_reset_migrate(): void {
+    try {
+        db()->exec("ALTER TABLE customers
+                    ADD COLUMN IF NOT EXISTS reset_token_hash VARCHAR(64) NULL,
+                    ADD COLUMN IF NOT EXISTS reset_expires DATETIME NULL");
+    } catch (Exception $e) {}
+}
+
+/* Send a password-reset email if $email matches an active customer.
+   Always silent — caller must show the same UI regardless, to avoid enumeration. */
+function customer_password_reset_request(string $email, string $lang, array $t): void {
+    _customer_reset_migrate();
+    $email = strtolower(trim($email));
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) return;
+    try {
+        $s = db()->prepare('SELECT id, email, name FROM customers WHERE email = ? AND active = 1');
+        $s->execute([$email]);
+        $row = $s->fetch();
+        if (!$row) return;
+
+        $raw     = bin2hex(random_bytes(32));
+        $hash    = hash('sha256', $raw);
+        $expires = date('Y-m-d H:i:s', time() + 3600);
+        db()->prepare('UPDATE customers SET reset_token_hash = ?, reset_expires = ? WHERE id = ?')
+            ->execute([$hash, $expires, $row['id']]);
+
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host   = $_SERVER['HTTP_HOST'] ?? 'exportoptic.eu';
+        $path   = strtok($_SERVER['REQUEST_URI'] ?? '/', '?');
+        $link   = $scheme . '://' . $host . $path . '?p=login&action=reset&lang=' . $lang . '&token=' . $raw;
+
+        require_once __DIR__ . '/mail.php';
+        $from    = defined('SMTP_FROM') && SMTP_FROM ? SMTP_FROM : ('no-reply@' . $host);
+        $subject = $t['auth_reset_email_subject'] ?? 'Obnovení hesla';
+        $body    = _mail_render(
+            $t['auth_reset_email_body'] ?? "Dobrý den {name},\r\n\r\npro obnovení hesla klikněte na následující odkaz. Odkaz platí 1 hodinu.\r\n\r\n{link}\r\n\r\nPokud jste o obnovení nežádali, tento e-mail ignorujte.",
+            ['name' => $row['name'] ?: $row['email'], 'link' => $link]
+        );
+        _mail_send($row['email'], $subject, $body, $from);
+    } catch (Exception $e) {}
+}
+
+/* Verify a raw reset token. Returns customer row (id, email, name) or null. */
+function customer_password_reset_verify(string $token): ?array {
+    _customer_reset_migrate();
+    if ($token === '') return null;
+    try {
+        $hash = hash('sha256', $token);
+        $s = db()->prepare('SELECT id, email, name FROM customers
+                             WHERE reset_token_hash = ? AND reset_expires > NOW() AND active = 1
+                             LIMIT 1');
+        $s->execute([$hash]);
+        $row = $s->fetch();
+        return $row ?: null;
+    } catch (Exception $e) { return null; }
+}
+
+/* Finalize the reset. Returns error code ('short' | 'weak' | 'db') or null on success. */
+function customer_password_reset_complete(int $id, string $new_password): ?string {
+    if (strlen($new_password) < 8) return 'short';
+    if (!preg_match('/[A-Za-zÀ-ž]/u', $new_password) || !preg_match('/\d/', $new_password)) return 'weak';
+    try {
+        db()->prepare('UPDATE customers
+                          SET password = ?, reset_token_hash = NULL, reset_expires = NULL
+                        WHERE id = ?')
+            ->execute([password_hash($new_password, PASSWORD_BCRYPT), $id]);
+    } catch (Exception $e) { return 'db'; }
+    return null;
+}
+
 function customer_register(array $d, string $lang): array {
     $email  = strtolower(trim($d['email']  ?? ''));
     $name   = trim($d['name']  ?? '');

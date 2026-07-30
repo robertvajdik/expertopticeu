@@ -1,0 +1,98 @@
+# ─────────────────────────────────────────────────────────────
+# expert·optic — root .htaccess
+# ─────────────────────────────────────────────────────────────
+
+# Default index
+DirectoryIndex index.php index.html
+
+# Disable directory listing
+Options -Indexes +FollowSymLinks
+
+# Preferred charset
+AddDefaultCharset UTF-8
+
+# ── Force HTTPS ─────────────────────────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Strip leading www.
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ── Block access to sensitive files ─────────────────────────
+<FilesMatch "(^\.|\.(env|ini|log|sql|md|json|lock|bak|swp|dist|conf|yaml|yml)$|composer\.(json|lock)|package(-lock)?\.json)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Explicitly deny readme
+<Files "readme.txt">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</Files>
+
+# ── Security headers ────────────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(self)"
+    Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains" env=HTTPS
+
+    # Do not cache PHP responses
+    <FilesMatch "\.php$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    </FilesMatch>
+</IfModule>
+
+# ── Compression ─────────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/json application/xml
+    AddOutputFilterByType DEFLATE image/svg+xml font/ttf font/otf font/woff font/woff2
+</IfModule>
+
+# ── Browser caching for static assets ───────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 hour"
+
+    ExpiresByType text/html                 "access plus 0 seconds"
+    ExpiresByType text/css                  "access plus 30 days"
+    ExpiresByType application/javascript    "access plus 30 days"
+    ExpiresByType image/jpeg                "access plus 90 days"
+    ExpiresByType image/png                 "access plus 90 days"
+    ExpiresByType image/webp                "access plus 90 days"
+    ExpiresByType image/svg+xml             "access plus 90 days"
+    ExpiresByType image/x-icon              "access plus 180 days"
+    ExpiresByType font/woff                 "access plus 365 days"
+    ExpiresByType font/woff2                "access plus 365 days"
+</IfModule>
+
+# ── PHP hardening (if allowed by host) ──────────────────────
+<IfModule mod_php.c>
+    php_flag  expose_php        Off
+    php_flag  display_errors    Off
+    php_value session.cookie_httponly 1
+    php_value session.cookie_samesite Lax
+    php_value session.cookie_secure   1
+    php_value session.use_only_cookies 1
+</IfModule>
+
+# ── Custom error pages (falls back gracefully if missing) ──
+ErrorDocument 403 /index.php
+ErrorDocument 404 /index.php

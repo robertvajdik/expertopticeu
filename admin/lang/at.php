@@ -240,6 +240,12 @@ return [
   'set_ga_id'         => 'Google Analytics Mess-ID',
   'set_ga_hint'       => 'Format: G-XXXXXXXXXX. Leer lassen, um Tracking zu deaktivieren.',
 
+  /* ── Währungskurs ── */
+  'set_currency_title'   => 'Währungskurs',
+  'set_currency_rate'    => 'EUR → CZK Kurs',
+  'set_currency_hint'    => 'Produktpreise werden in EUR gespeichert. Mit diesem Kurs werden sie für tschechische Kunden in Kč umgerechnet.',
+  'set_currency_invalid' => 'Ungültiger Kurs. Wert zwischen 0,01 und 999 eingeben.',
+
   /* ── Versand-Einstellungen ── */
   'set_ship_title'              => 'Versandmethoden',
   'set_ship_personal'           => 'Abholung im Studio (osobní odběr)',

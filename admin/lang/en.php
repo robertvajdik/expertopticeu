@@ -240,6 +240,12 @@ return [
   'set_ga_id'         => 'Google Analytics measurement ID',
   'set_ga_hint'       => 'Format: G-XXXXXXXXXX. Leave empty to disable tracking.',
 
+  /* ── Currency conversion ── */
+  'set_currency_title'   => 'Currency rate',
+  'set_currency_rate'    => 'EUR → CZK rate',
+  'set_currency_hint'    => 'Product prices are stored in EUR. This rate converts them to CZK for Czech customers.',
+  'set_currency_invalid' => 'Invalid rate. Enter a value between 0.01 and 999.',
+
   /* ── Shipping settings ── */
   'set_ship_title'              => 'Shipping methods',
   'set_ship_personal'           => 'Store pickup (osobní odběr)',

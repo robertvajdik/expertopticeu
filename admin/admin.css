@@ -519,6 +519,27 @@ a:hover { color: var(--a-accent-dark); }
   transition: background .15s;
 }
 .a-login-submit:hover { background: var(--a-accent-dark); }
+.a-login-notice {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  border-radius: 6px;
+  padding: .625rem .875rem;
+  font-size: .8125rem;
+  margin-bottom: 1.125rem;
+}
+.a-login-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-size: .8125rem;
+}
+.a-login-links a {
+  color: var(--a-accent);
+  text-decoration: none;
+}
+.a-login-links a:hover { text-decoration: underline; }
 
 /* ── Empty state ── */
 

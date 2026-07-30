@@ -2,10 +2,10 @@
 return [
 
   /* ── Meta descriptions ── */
-  'meta_home'       => 'Ihr persönlicher Optiker in Wien-Meidling. Maßangefertigte Brillen, kostenloser Sehtest (Checkpoint očí), Marken wie IC! Berlin, Blackfin & mehr. Direkt am Bahnhof.',
+  'meta_home'       => 'Ihr persönlicher Optiker in Wien-Meidling. Maßangefertigte Brillen, kostenloser Sehtest (Checkpoint Auge), Marken wie IC! Berlin, Blackfin & mehr. Direkt am Bahnhof.',
   'meta_collection' => 'Hochwertige Brillenkollektionen bei expert·optic Wien-Meidling — Optische Brillen, Sonnenbrillen, Sportbrillen und Lesebrillen. Persönliche Beratung inklusive.',
   'meta_product'    => 'persönlich angepasst bei expert·optic in Wien-Meidling.',
-  'meta_booking'    => 'Kostenlosen Sehtest oder Brillenanprobe bei expert·optic Wien-Meidling vereinbaren. Checkpoint očí — professionell, persönlich, gratis.',
+  'meta_booking'    => 'Kostenlosen Sehtest oder Brillenanprobe bei expert·optic Wien-Meidling vereinbaren. Checkpoint Auge — professionell, persönlich, gratis.',
 
   /* ── Page titles ── */
   'title_home'       => 'expert·optic — Wien-Meidling',
@@ -68,7 +68,7 @@ return [
   'stat_master'      => 'Meisteroptiker',
   'stat_free'        => 'Gratis',
   'stat_eye_test'    => 'Sehtest',
-  'badge_checkpoint' => 'Lizenzierter Checkpoint očí',
+  'badge_checkpoint' => 'Lizenzierter Checkpoint Auge',
   'badge_free_test'  => 'Sehtest kostenlos vor Ort',
   'alt_studio_interior' => 'expert·optic Brillenstudio — Innenansicht',
 
@@ -80,17 +80,17 @@ return [
   'cp_label_top'     => 'LIZENZIERTER',
   'cp_label_bottom'  => 'ÖSTERREICH',
   'cp_eyebrow'       => 'Lizenzierter',
-  'cp_headline'      => 'Checkpoint očí',
+  'cp_headline'      => 'Checkpoint Auge',
   'cp_lead'          => 'Als lizenzierter Checkpoint-Auge-Partner bieten wir kostenlose, professionelle Augenuntersuchungen an — ohne Arzttermin, direkt in unserem Studio in Wien-Meidling.',
   'cp_bullet_1'      => 'Kostenlose Sehstärkebestimmung',
   'cp_bullet_2'      => 'Modernste Messtechnik vor Ort',
   'cp_bullet_3'      => 'Persönliche Beratung durch Meisteroptiker Thomas Scheibl',
   'cp_bullet_4'      => 'Kein Arztbesuch notwendig',
   'cp_cta'           => 'Jetzt kostenlosen Sehtest buchen',
-  'alt_checkpoint'   => 'Checkpoint očí — Sehtest bei expert·optic Wien-Meidling',
+  'alt_checkpoint'   => 'Checkpoint Auge — Sehtest bei expert·optic Wien-Meidling',
 
   /* ── Home — Services ── */
-  'svc_1_title' => 'Checkpoint očí',
+  'svc_1_title' => 'Checkpoint Auge',
   'svc_1_body'  => 'Kostenlose Augenuntersuchung und Brillenbestimmung — Teil unseres Kundenservices.',
   'svc_2_title' => 'Persönlich angefertigt',
   'svc_2_body'  => 'Von der Sehstärke über die Gläser bis zum Einschliff. Jede Brille entsteht bei uns.',
@@ -212,7 +212,7 @@ return [
   'footer_sport'         => 'Sportbrillen',
   'footer_contacts'      => 'Kontaktlinsen',
   'footer_col_service'   => 'Service',
-  'footer_svc_checkpoint'=> 'Checkpoint očí',
+  'footer_svc_checkpoint'=> 'Checkpoint Auge',
   'footer_svc_booking'   => 'Sehtest buchen',
   'footer_svc_repair'    => 'Reparatur',
   'footer_svc_voucher'   => 'Gutscheine',
@@ -288,6 +288,18 @@ return [
   'cart_login_lead'   => 'Melden Sie sich an für eine schnellere Kasse und Bestellübersicht.',
   'cart_login_btn'    => 'Anmelden',
   'cart_register_btn' => 'Registrieren',
+  'cart_voucher'        => 'Gutschein',
+  'cart_voucher_ph'     => 'Gutscheincode',
+  'cart_voucher_apply'  => 'Anwenden',
+  'cart_voucher_remove' => 'Gutschein entfernen',
+  'vou_msg_ok'       => 'Gutschein angewendet.',
+  'vou_msg_notfound' => 'Ungültiger Code.',
+  'vou_msg_inactive' => 'Gutschein ist nicht aktiv.',
+  'vou_msg_expired'  => 'Der Gutschein ist abgelaufen.',
+  'vou_msg_used_up'  => 'Der Gutschein wurde bereits vollständig eingelöst.',
+  'vou_msg_min_ord'  => 'Der Gutschein erfordert einen höheren Mindestbestellwert.',
+  'vou_msg_empty'    => 'Bitte Code eingeben.',
+  'vou_msg_error'    => 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
 
   /* ── Auth (register / login / account) ── */
   'auth_register_title' => 'Registrieren',
@@ -320,6 +332,24 @@ return [
   'auth_err_login'      => 'E-Mail oder Passwort ist falsch.',
   'auth_logout'         => 'Abmelden',
   'auth_news_optin'     => 'Ich möchte den Newsletter mit Neuigkeiten und Angeboten erhalten.',
+
+  /* Password reset */
+  'auth_forgot_link'    => 'Passwort vergessen?',
+  'auth_forgot_title'   => 'Passwort vergessen',
+  'auth_forgot_lead'    => 'Geben Sie die Konto-E-Mail an und wir senden Ihnen einen Reset-Link.',
+  'auth_forgot_btn'     => 'Link senden',
+  'auth_reset_sent'     => 'Wenn die E-Mail existiert, haben wir einen Link zum Zurücksetzen des Passworts gesendet.',
+  'auth_reset_title'    => 'Neues Passwort',
+  'auth_reset_lead'     => 'Wählen Sie ein neues Passwort für Ihr Konto.',
+  'auth_reset_btn'      => 'Passwort setzen',
+  'auth_reset_done'     => 'Ihr Passwort wurde geändert. Sie können sich jetzt anmelden.',
+  'auth_reset_invalid'  => 'Der Link ist ungültig oder abgelaufen.',
+  'auth_reset_mismatch' => 'Die Passwörter stimmen nicht überein.',
+  'auth_reset_request_new' => 'Neuen Link anfordern',
+  'auth_back_to_login'  => 'Zurück zum Login',
+  'auth_password_confirm' => 'Passwort wiederholen',
+  'auth_reset_email_subject' => 'Passwort zurücksetzen — expert·optic',
+  'auth_reset_email_body' => "Hallo {name},\r\n\r\nüber den folgenden Link können Sie ein neues Passwort setzen. Der Link ist 1 Stunde gültig.\r\n\r\n{link}\r\n\r\nFalls Sie diese Anfrage nicht gestellt haben, ignorieren Sie diese E-Mail.\r\n",
 
   /* Account page */
   'acc_title'           => 'Mein Konto',

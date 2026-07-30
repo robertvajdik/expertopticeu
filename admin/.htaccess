@@ -1,0 +1,18 @@
+# Admin folder — noindex, block sensitive files, no directory listing.
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+    Header always set X-Frame-Options "DENY"
+</IfModule>
+
+# Block config.php, backups, and dotfiles from being served directly.
+<FilesMatch "(^config\.php$|^\.|\.(bak|swp|dist|log|sql|old)$)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>

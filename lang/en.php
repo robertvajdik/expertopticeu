@@ -288,6 +288,18 @@ return [
   'cart_login_lead'   => 'Sign in for a faster checkout and order history.',
   'cart_login_btn'    => 'Sign in',
   'cart_register_btn' => 'Register',
+  'cart_voucher'        => 'Voucher',
+  'cart_voucher_ph'     => 'Voucher code',
+  'cart_voucher_apply'  => 'Apply',
+  'cart_voucher_remove' => 'Remove voucher',
+  'vou_msg_ok'       => 'Voucher applied.',
+  'vou_msg_notfound' => 'Invalid code.',
+  'vou_msg_inactive' => 'Voucher is not active.',
+  'vou_msg_expired'  => 'This voucher has expired.',
+  'vou_msg_used_up'  => 'This voucher has already been fully redeemed.',
+  'vou_msg_min_ord'  => 'This voucher requires a higher minimum order.',
+  'vou_msg_empty'    => 'Enter a code.',
+  'vou_msg_error'    => 'Something went wrong. Please try again.',
 
   /* ── Auth (register / login / account) ── */
   'auth_register_title' => 'Register',
@@ -320,6 +332,24 @@ return [
   'auth_err_login'      => 'Incorrect email or password.',
   'auth_logout'         => 'Sign out',
   'auth_news_optin'     => 'I want to receive the newsletter with news and offers.',
+
+  /* Password reset */
+  'auth_forgot_link'    => 'Forgot password?',
+  'auth_forgot_title'   => 'Forgot password',
+  'auth_forgot_lead'    => 'Enter the account email and we will send you a reset link.',
+  'auth_forgot_btn'     => 'Send link',
+  'auth_reset_sent'     => 'If the email exists, we have sent a password reset link.',
+  'auth_reset_title'    => 'New password',
+  'auth_reset_lead'     => 'Choose a new password for your account.',
+  'auth_reset_btn'      => 'Set password',
+  'auth_reset_done'     => 'Your password has been changed. You can now sign in.',
+  'auth_reset_invalid'  => 'The link is invalid or has expired.',
+  'auth_reset_mismatch' => 'The passwords do not match.',
+  'auth_reset_request_new' => 'Request a new link',
+  'auth_back_to_login'  => 'Back to sign in',
+  'auth_password_confirm' => 'Confirm password',
+  'auth_reset_email_subject' => 'Password reset — expert·optic',
+  'auth_reset_email_body' => "Hello {name},\r\n\r\nuse the link below to set a new password. The link is valid for 1 hour.\r\n\r\n{link}\r\n\r\nIf you did not request a reset, please ignore this email.\r\n",
 
   /* Account page */
   'acc_title'           => 'My account',

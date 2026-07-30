@@ -288,6 +288,18 @@ return [
   'cart_login_lead'   => 'Přihlaste se pro rychlejší pokladnu a přehled objednávek.',
   'cart_login_btn'    => 'Přihlásit',
   'cart_register_btn' => 'Registrovat',
+  'cart_voucher'        => 'Voucher',
+  'cart_voucher_ph'     => 'Kód voucheru',
+  'cart_voucher_apply'  => 'Použít',
+  'cart_voucher_remove' => 'Odebrat voucher',
+  'vou_msg_ok'       => 'Voucher aplikován.',
+  'vou_msg_notfound' => 'Neplatný kód.',
+  'vou_msg_inactive' => 'Voucher není aktivní.',
+  'vou_msg_expired'  => 'Platnost voucheru vypršela.',
+  'vou_msg_used_up'  => 'Voucher byl již plně použit.',
+  'vou_msg_min_ord'  => 'Voucher vyžaduje vyšší minimální objednávku.',
+  'vou_msg_empty'    => 'Zadejte kód.',
+  'vou_msg_error'    => 'Chyba. Zkuste to znovu.',
 
   /* ── Auth (register / login / account) ── */
   'auth_register_title' => 'Registrace',
@@ -320,6 +332,24 @@ return [
   'auth_err_login'      => 'Nesprávný e-mail nebo heslo.',
   'auth_logout'         => 'Odhlásit',
   'auth_news_optin'     => 'Chci dostávat newsletter s novinkami a slevami.',
+
+  /* Password reset */
+  'auth_forgot_link'    => 'Zapomenuté heslo?',
+  'auth_forgot_title'   => 'Zapomenuté heslo',
+  'auth_forgot_lead'    => 'Zadejte e-mail účtu a pošleme vám odkaz pro obnovu.',
+  'auth_forgot_btn'     => 'Odeslat odkaz',
+  'auth_reset_sent'     => 'Pokud e-mail existuje, odeslali jsme na něj odkaz pro obnovu hesla.',
+  'auth_reset_title'    => 'Nové heslo',
+  'auth_reset_lead'     => 'Zvolte nové heslo ke svému účtu.',
+  'auth_reset_btn'      => 'Nastavit heslo',
+  'auth_reset_done'     => 'Heslo bylo změněno. Nyní se můžete přihlásit.',
+  'auth_reset_invalid'  => 'Odkaz je neplatný nebo vypršel.',
+  'auth_reset_mismatch' => 'Hesla se neshodují.',
+  'auth_reset_request_new' => 'Vyžádat nový odkaz',
+  'auth_back_to_login'  => 'Zpět na přihlášení',
+  'auth_password_confirm' => 'Heslo znovu',
+  'auth_reset_email_subject' => 'Obnovení hesla — expert·optic',
+  'auth_reset_email_body' => "Dobrý den {name},\r\n\r\npro obnovení hesla klikněte na následující odkaz. Odkaz platí 1 hodinu.\r\n\r\n{link}\r\n\r\nPokud jste o obnovení nežádali, tento e-mail ignorujte.\r\n",
 
   /* Account page */
   'acc_title'           => 'Můj účet',

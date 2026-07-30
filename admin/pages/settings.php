@@ -58,6 +58,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'send_
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_currency') {
+    $rate = (float)str_replace(',', '.', (string)($_POST['eur_to_czk'] ?? ''));
+    if ($rate > 0 && $rate < 1000) {
+        $settings['eur_to_czk'] = round($rate, 4);
+        save_settings($settings);
+        $msg = $al['set_saved_msg'];
+    } else {
+        $msg = $al['set_currency_invalid'] ?? 'Neplatný kurz.';
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_shipping') {
     $settings['ship_personal_enabled']   = isset($_POST['ship_personal_enabled']) ? 1 : 0;
     $settings['ship_personal_address']   = trim($_POST['ship_personal_address'] ?? '');
@@ -139,6 +150,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_
         </small>
       </div>
 
+      <div class="a-form-actions">
+        <button type="submit" class="a-btn a-btn--primary">
+          <?= icon('check') ?> <?= htmlspecialchars($al['set_save']) ?>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Currency conversion (EUR → CZK) -->
+<div class="a-card" style="max-width:680px;margin-bottom:1.5rem">
+  <div class="a-card-head">
+    <h2><?= htmlspecialchars($al['set_currency_title'] ?? 'Kurz měny') ?></h2>
+  </div>
+  <div class="a-card-body">
+    <form method="post" class="a-form">
+      <input type="hidden" name="action" value="save_currency">
+      <div class="a-field">
+        <label><?= htmlspecialchars($al['set_currency_rate'] ?? 'Kurz EUR → CZK') ?></label>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:.9375rem;color:var(--a-muted)">1 €&nbsp;=</span>
+          <input type="number" name="eur_to_czk" min="0.01" max="999" step="0.01"
+                 value="<?= htmlspecialchars((string)($settings['eur_to_czk'] ?? 25)) ?>"
+                 style="max-width:140px;text-align:right" required>
+          <span style="font-size:.9375rem;color:var(--a-muted)">Kč</span>
+        </div>
+        <small style="color:var(--a-muted);display:block;margin-top:.375rem">
+          <?= htmlspecialchars($al['set_currency_hint'] ?? 'Ceny produktů jsou uložené v EUR. Tímto kurzem se přepočítávají na Kč pro české zákazníky.') ?>
+        </small>
+      </div>
       <div class="a-form-actions">
         <button type="submit" class="a-btn a-btn--primary">
           <?= icon('check') ?> <?= htmlspecialchars($al['set_save']) ?>

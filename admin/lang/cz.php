@@ -240,6 +240,12 @@ return [
   'set_ga_id'         => 'ID služby Google Analytics',
   'set_ga_hint'       => 'Formát: G-XXXXXXXXXX. Nechte prázdné pro vypnutí měření.',
 
+  /* ── Kurz měny ── */
+  'set_currency_title'   => 'Kurz měny',
+  'set_currency_rate'    => 'Kurz EUR → CZK',
+  'set_currency_hint'    => 'Ceny produktů jsou uložené v EUR. Tímto kurzem se přepočítávají na Kč pro české zákazníky.',
+  'set_currency_invalid' => 'Neplatný kurz. Zadejte hodnotu mezi 0,01 a 999.',
+
   /* ── Nastavení dopravy ── */
   'set_ship_title'              => 'Způsoby doručení',
   'set_ship_personal'           => 'Osobní odběr na prodejně',

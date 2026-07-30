@@ -28,8 +28,21 @@ function parse_price(string $price): float {
     return (float)(($m[1] ?? '0') . '.' . ($m[2] ?? '00'));
 }
 
-/* EUR → CZK rate. Product prices in DB are stored as EUR strings. */
-if (!defined('EUR_TO_CZK')) define('EUR_TO_CZK', 25.0);
+/* EUR → CZK rate. Product prices in DB are stored as EUR strings.
+   The rate is admin-configurable in data/settings.json (key: eur_to_czk);
+   fallback is 25.0 if not set or the file is missing. */
+if (!defined('EUR_TO_CZK')) {
+    $_rate = 25.0;
+    $_settings_file = __DIR__ . '/../data/settings.json';
+    if (file_exists($_settings_file)) {
+        $_decoded = json_decode(@file_get_contents($_settings_file), true);
+        if (is_array($_decoded) && isset($_decoded['eur_to_czk']) && (float)$_decoded['eur_to_czk'] > 0) {
+            $_rate = (float)$_decoded['eur_to_czk'];
+        }
+    }
+    define('EUR_TO_CZK', $_rate);
+    unset($_rate, $_settings_file, $_decoded);
+}
 
 /* Format an EUR amount for display in the language's currency. */
 function fmt_display(float $eur, string $lang): string {
