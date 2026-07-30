@@ -58,6 +58,10 @@ return [
   'news_err_schema'     => 'Tabelle newsletter_subscribers fehlt. data/migrate.sql ausführen.',
   'news_stat_total'     => 'Gesamt',
   'news_stat_active'    => 'Aktiv',
+  'news_stat_inactive'  => 'Abgemeldet',
+  'news_stat_by_lang'   => 'Aktiv nach Sprache',
+  'news_all_states'     => 'Alle Status',
+  'news_toggle_hint'    => 'Klicken zum Umschalten',
   'title_users'       => 'Benutzer',
   'title_settings'    => 'Einstellungen',
   'title_sitemap'     => 'Sitemap',
@@ -239,6 +243,10 @@ return [
   'set_email'         => 'E-Mail',
   'set_ga_id'         => 'Google Analytics Mess-ID',
   'set_ga_hint'       => 'Format: G-XXXXXXXXXX. Leer lassen, um Tracking zu deaktivieren.',
+
+  /* ── Test-E-Mail (Log) ── */
+  'set_mail_log_title'   => 'Detailliertes Log',
+  'set_mail_log_hint'    => 'C: = Client (gesendet), S: = Server (Antwort). Passwort ist maskiert.',
 
   /* ── Währungskurs ── */
   'set_currency_title'   => 'Währungskurs',

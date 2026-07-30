@@ -58,6 +58,10 @@ return [
   'news_err_schema'     => 'Tabulka newsletter_subscribers neexistuje. Spusťte data/migrate.sql.',
   'news_stat_total'     => 'Celkem',
   'news_stat_active'    => 'Aktivní',
+  'news_stat_inactive'  => 'Odhlášeno',
+  'news_stat_by_lang'   => 'Aktivní podle jazyka',
+  'news_all_states'     => 'Všechny stavy',
+  'news_toggle_hint'    => 'Kliknutím přepnete stav',
   'title_users'       => 'Uživatelé',
   'title_settings'    => 'Nastavení',
   'title_sitemap'     => 'Mapa webu',
@@ -239,6 +243,10 @@ return [
   'set_email'         => 'E-mail',
   'set_ga_id'         => 'ID služby Google Analytics',
   'set_ga_hint'       => 'Formát: G-XXXXXXXXXX. Nechte prázdné pro vypnutí měření.',
+
+  /* ── Testovací e-mail (log) ── */
+  'set_mail_log_title'   => 'Detailní log',
+  'set_mail_log_hint'    => 'C: = klient (posláno), S: = server (odpověď). Heslo je maskováno.',
 
   /* ── Kurz měny ── */
   'set_currency_title'   => 'Kurz měny',

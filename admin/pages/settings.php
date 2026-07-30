@@ -35,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_
     $msg = $al['set_saved_msg'];
 }
 
+$test_mail_log = null;
+$test_mail_ok  = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'send_test_mail') {
     require_once __DIR__ . '/../../includes/mail.php';
     $to   = trim($_POST['test_to'] ?? '');
@@ -51,8 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'send_
         $body = "expert·optic — test e-mail\n\n"
               . "Odesláno přes: {$via}\n"
               . 'Čas: ' . date('Y-m-d H:i:s') . "\n";
-        $ok = _mail_send($to, 'Test — expert·optic admin', $body, $from);
-        $msg = $ok
+        $test_mail_log = [];
+        $test_mail_ok  = _mail_send($to, 'Test — expert·optic admin', $body, $from, $test_mail_log);
+        $msg = $test_mail_ok
             ? sprintf($al['set_mail_sent'] ?? 'Test e-mail odeslán na %s.', $to)
             : ($al['set_mail_failed'] ?? 'Odeslání selhalo. Zkontrolujte SMTP konfiguraci.');
     }
@@ -375,5 +378,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_
         </button>
       </div>
     </form>
+
+    <?php if (is_array($test_mail_log) && $test_mail_log): ?>
+      <details class="a-mail-log" <?= $test_mail_ok ? '' : 'open' ?> style="margin-top:1.25rem">
+        <summary style="cursor:pointer;font-weight:600;font-size:.875rem;color:var(--a-muted)">
+          <?= htmlspecialchars($al['set_mail_log_title'] ?? 'Detailní log') ?>
+          <span style="font-weight:400">(<?= count($test_mail_log) ?>)</span>
+        </summary>
+        <pre style="margin:.75rem 0 0;padding:.875rem 1rem;background:#0f172a;color:#e2e8f0;border-radius:8px;font-family:var(--font-mono,ui-monospace,SFMono-Regular,Menlo,monospace);font-size:.75rem;line-height:1.55;overflow:auto;max-height:420px;white-space:pre-wrap;word-break:break-all"><?php
+          foreach ($test_mail_log as $ln) {
+            $prefix = ['c' => 'C: ', 's' => 'S: ', 'info' => '·  ', 'ok' => '✓  ', 'err' => '✗  '][$ln['dir']] ?? '   ';
+            $color  = ['c' => '#93c5fd', 's' => '#a7f3d0', 'info' => '#cbd5e1', 'ok' => '#4ade80', 'err' => '#fca5a5'][$ln['dir']] ?? '#cbd5e1';
+            echo '<span style="color:' . $color . '">' . htmlspecialchars($prefix . $ln['text']) . "</span>\n";
+          }
+        ?></pre>
+        <p style="margin:.5rem 0 0;font-size:.75rem;color:var(--a-muted)">
+          <?= htmlspecialchars($al['set_mail_log_hint'] ?? 'C: = klient, S: = server. Heslo je maskováno.') ?>
+        </p>
+      </details>
+    <?php endif; ?>
   </div>
 </div>

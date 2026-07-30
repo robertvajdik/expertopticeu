@@ -32,23 +32,34 @@ function _mail_render(string $template, array $vars): string {
     return $template;
 }
 
-/* Send via SMTP when SMTP_HOST is configured, otherwise PHP mail(). */
-function _mail_send(string $to, string $subject, string $body, string $from): bool {
+/* Send via SMTP when SMTP_HOST is configured, otherwise PHP mail().
+   Pass &$log to capture a transcript for debugging (test-mail UI). */
+function _mail_send(string $to, string $subject, string $body, string $from, ?array &$log = null): bool {
     $enc_subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 
     if (defined('SMTP_HOST') && SMTP_HOST !== '') {
-        return _mail_send_smtp($to, $enc_subject, $body, $from);
+        return _mail_send_smtp($to, $enc_subject, $body, $from, $log);
     }
 
     $headers = "From: {$from}\r\n"
              . "Reply-To: {$from}\r\n"
              . "Content-Type: text/plain; charset=UTF-8\r\n"
              . "MIME-Version: 1.0";
-    return @mail($to, $enc_subject, $body, $headers);
+    if ($log !== null) {
+        $log[] = ['dir' => 'info', 'text' => 'Transport: PHP mail() (SMTP_HOST empty)'];
+        $log[] = ['dir' => 'info', 'text' => "To: {$to}"];
+        $log[] = ['dir' => 'info', 'text' => "Subject: {$subject}"];
+    }
+    $ok = @mail($to, $enc_subject, $body, $headers);
+    if ($log !== null) {
+        $log[] = ['dir' => $ok ? 'ok' : 'err', 'text' => $ok ? 'mail() returned true' : 'mail() returned false — check server mail log'];
+    }
+    return $ok;
 }
 
-/* Minimal SMTP client (LOGIN auth, optional STARTTLS/SSL). */
-function _mail_send_smtp(string $to, string $enc_subject, string $body, string $from_header): bool {
+/* Minimal SMTP client (LOGIN auth, optional STARTTLS/SSL).
+   Pass &$log to capture the SMTP conversation for debugging. */
+function _mail_send_smtp(string $to, string $enc_subject, string $body, string $from_header, ?array &$log = null): bool {
     $host   = SMTP_HOST;
     $port   = (int)SMTP_PORT;
     $secure = defined('SMTP_SECURE') ? SMTP_SECURE : '';
@@ -57,9 +68,22 @@ function _mail_send_smtp(string $to, string $enc_subject, string $body, string $
     if (preg_match('/<([^>]+)>/', $env_from, $m)) $env_from = $m[1];
     if (preg_match('/<([^>]+)>/', $to, $m))       $to_addr  = $m[1]; else $to_addr = $to;
 
+    $log_add = function(string $dir, string $text) use (&$log): void {
+        if ($log === null) return;
+        /* Trim trailing whitespace/CRLF for readability; mask password base64. */
+        $log[] = ['dir' => $dir, 'text' => rtrim($text, "\r\n ")];
+    };
+
+    $log_add('info', "Transport: {$host}:{$port}" . ($secure ? " ({$secure})" : ''));
+    $log_add('info', "MAIL FROM envelope: {$env_from}");
+    $log_add('info', "RCPT TO envelope:   {$to_addr}");
+
     $transport = ($secure === 'ssl') ? "ssl://{$host}" : $host;
     $fp = @fsockopen($transport, $port, $errno, $errstr, 15);
-    if (!$fp) return false;
+    if (!$fp) {
+        $log_add('err', "Connect failed: [{$errno}] {$errstr}");
+        return false;
+    }
     stream_set_timeout($fp, 15);
 
     $read = function() use ($fp): string {
@@ -72,31 +96,44 @@ function _mail_send_smtp(string $to, string $enc_subject, string $body, string $
         }
         return $data;
     };
-    $cmd = function(string $c) use ($fp, $read): string { fwrite($fp, $c . "\r\n"); return $read(); };
+    $cmd = function(string $c, string $log_as = '') use ($fp, $read, $log_add): string {
+        $log_add('c', $log_as !== '' ? $log_as : $c);
+        fwrite($fp, $c . "\r\n");
+        $resp = $read();
+        $log_add('s', $resp);
+        return $resp;
+    };
 
     $ok = fn(string $r, int $code): bool => (int)substr($r, 0, 3) === $code;
 
     $greet = $read();
-    if (!$ok($greet, 220)) { fclose($fp); return false; }
+    $log_add('s', $greet);
+    if (!$ok($greet, 220)) { $log_add('err', 'Expected 220 greeting'); fclose($fp); return false; }
 
     $ehlo_host = $_SERVER['SERVER_NAME'] ?? 'localhost';
-    if (!$ok($cmd("EHLO {$ehlo_host}"), 250)) { fclose($fp); return false; }
+    if (!$ok($cmd("EHLO {$ehlo_host}"), 250)) { $log_add('err', 'EHLO rejected'); fclose($fp); return false; }
 
     if ($secure === 'tls') {
-        if (!$ok($cmd('STARTTLS'), 220)) { fclose($fp); return false; }
-        if (!@stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) { fclose($fp); return false; }
-        if (!$ok($cmd("EHLO {$ehlo_host}"), 250)) { fclose($fp); return false; }
+        if (!$ok($cmd('STARTTLS'), 220)) { $log_add('err', 'STARTTLS rejected'); fclose($fp); return false; }
+        if (!@stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            $log_add('err', 'TLS handshake failed');
+            fclose($fp);
+            return false;
+        }
+        $log_add('info', 'TLS handshake OK');
+        if (!$ok($cmd("EHLO {$ehlo_host}"), 250)) { $log_add('err', 'Post-TLS EHLO rejected'); fclose($fp); return false; }
     }
 
     if (SMTP_USER !== '') {
-        if (!$ok($cmd('AUTH LOGIN'), 334))                       { fclose($fp); return false; }
-        if (!$ok($cmd(base64_encode(SMTP_USER)), 334))           { fclose($fp); return false; }
-        if (!$ok($cmd(base64_encode(SMTP_PASS)), 235))           { fclose($fp); return false; }
+        if (!$ok($cmd('AUTH LOGIN'), 334))                       { $log_add('err', 'AUTH LOGIN rejected'); fclose($fp); return false; }
+        if (!$ok($cmd(base64_encode(SMTP_USER), '[username base64]'), 334))     { $log_add('err', 'Username rejected'); fclose($fp); return false; }
+        if (!$ok($cmd(base64_encode(SMTP_PASS), '[password base64 — hidden]'), 235)) { $log_add('err', 'Password rejected — check SMTP_USER/SMTP_PASS'); fclose($fp); return false; }
+        $log_add('info', 'Authenticated');
     }
 
-    if (!$ok($cmd("MAIL FROM:<{$env_from}>"), 250)) { fclose($fp); return false; }
-    if (!$ok($cmd("RCPT TO:<{$to_addr}>"),    250)) { fclose($fp); return false; }
-    if (!$ok($cmd('DATA'),                    354)) { fclose($fp); return false; }
+    if (!$ok($cmd("MAIL FROM:<{$env_from}>"), 250)) { $log_add('err', 'MAIL FROM rejected'); fclose($fp); return false; }
+    if (!$ok($cmd("RCPT TO:<{$to_addr}>"),    250)) { $log_add('err', 'RCPT TO rejected'); fclose($fp); return false; }
+    if (!$ok($cmd('DATA'),                    354)) { $log_add('err', 'DATA rejected'); fclose($fp); return false; }
 
     $data = "From: {$from_header}\r\n"
           . "To: {$to}\r\n"
@@ -107,10 +144,15 @@ function _mail_send_smtp(string $to, string $enc_subject, string $body, string $
           . "\r\n"
           . str_replace("\r\n.", "\r\n..", str_replace("\n", "\r\n", $body))
           . "\r\n.";
-    if (!$ok($cmd($data), 250)) { fclose($fp); return false; }
+    $log_add('c', '[message headers + body — ' . strlen($data) . ' bytes]');
+    fwrite($fp, $data . "\r\n");
+    $data_resp = $read();
+    $log_add('s', $data_resp);
+    if (!$ok($data_resp, 250)) { $log_add('err', 'Message rejected'); fclose($fp); return false; }
 
     $cmd('QUIT');
     fclose($fp);
+    $log_add('ok', 'Delivered');
     return true;
 }
 

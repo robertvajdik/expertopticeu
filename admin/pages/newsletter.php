@@ -120,40 +120,54 @@ if ($schema_ok) {
   <?php if ($msg):   ?><div class="a-alert a-alert--success"><?= htmlspecialchars($msg) ?></div><?php endif; ?>
   <?php if ($error): ?><div class="a-alert a-alert--error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
 
+  <?php $inactive = max(0, $stats['total'] - $stats['active']); ?>
+
   <!-- Stats -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin-bottom:1.25rem">
-    <div class="a-card" style="padding:1rem 1.25rem">
-      <div style="color:var(--a-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em"><?= htmlspecialchars($al['news_stat_total'] ?? 'Celkem') ?></div>
-      <div style="font-size:1.75rem;font-weight:700"><?= $stats['total'] ?></div>
+  <div class="a-stats">
+    <div class="a-stat-card">
+      <div class="a-stat-icon a-stat-icon--blue"><?= icon('users') ?></div>
+      <div>
+        <div class="a-stat-value"><?= $stats['total'] ?></div>
+        <div class="a-stat-label"><?= htmlspecialchars($al['news_stat_total'] ?? 'Celkem') ?></div>
+      </div>
     </div>
-    <div class="a-card" style="padding:1rem 1.25rem">
-      <div style="color:var(--a-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em"><?= htmlspecialchars($al['news_stat_active'] ?? 'Aktivní') ?></div>
-      <div style="font-size:1.75rem;font-weight:700;color:#059669"><?= $stats['active'] ?></div>
+    <div class="a-stat-card">
+      <div class="a-stat-icon a-stat-icon--green"><?= icon('check') ?></div>
+      <div>
+        <div class="a-stat-value"><?= $stats['active'] ?></div>
+        <div class="a-stat-label"><?= htmlspecialchars($al['news_stat_active'] ?? 'Aktivní') ?></div>
+      </div>
     </div>
-    <div class="a-card" style="padding:1rem 1.25rem">
-      <div style="color:var(--a-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em">CZ</div>
-      <div style="font-size:1.75rem;font-weight:700"><?= $stats['cz'] ?></div>
+    <div class="a-stat-card">
+      <div class="a-stat-icon a-stat-icon--amber"><?= icon('x') ?></div>
+      <div>
+        <div class="a-stat-value"><?= $inactive ?></div>
+        <div class="a-stat-label"><?= htmlspecialchars($al['news_stat_inactive'] ?? 'Odhlášeno') ?></div>
+      </div>
     </div>
-    <div class="a-card" style="padding:1rem 1.25rem">
-      <div style="color:var(--a-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em">EN</div>
-      <div style="font-size:1.75rem;font-weight:700"><?= $stats['en'] ?></div>
-    </div>
-    <div class="a-card" style="padding:1rem 1.25rem">
-      <div style="color:var(--a-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em">AT</div>
-      <div style="font-size:1.75rem;font-weight:700"><?= $stats['at'] ?></div>
+    <div class="a-stat-card">
+      <div class="a-stat-icon a-stat-icon--accent"><?= icon('globe') ?: icon('mail') ?></div>
+      <div style="width:100%">
+        <div class="a-stat-label" style="margin:0 0 .375rem"><?= htmlspecialchars($al['news_stat_by_lang'] ?? 'Aktivní podle jazyka') ?></div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <span class="a-badge a-badge--cat" style="gap:.375rem"><strong>CZ</strong> <?= $stats['cz'] ?></span>
+          <span class="a-badge a-badge--cat" style="gap:.375rem"><strong>EN</strong> <?= $stats['en'] ?></span>
+          <span class="a-badge a-badge--cat" style="gap:.375rem"><strong>AT</strong> <?= $stats['at'] ?></span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Add form -->
+  <!-- Add form (collapsed by default; opens via "Přidat odběratele") -->
   <div class="a-card" id="news-form-card" style="<?= $error && ($_POST['action'] ?? '') === 'add' ? '' : 'display:none' ?>;margin-bottom:1.25rem">
     <div class="a-card-head">
       <h2><?= htmlspecialchars($al['news_new_title'] ?? 'Přidat odběratele') ?></h2>
-      <button class="a-btn a-btn--outline" onclick="hideNewsForm()">×</button>
+      <button type="button" class="a-btn a-btn--outline" onclick="hideNewsForm()" aria-label="Zavřít">×</button>
     </div>
     <div class="a-card-body">
       <form method="post" class="a-form">
         <input type="hidden" name="action" value="add">
-        <div class="a-form-row">
+        <div class="a-form-row" style="grid-template-columns:1fr 1fr 120px">
           <div class="a-field">
             <label><?= htmlspecialchars($al['news_col_email'] ?? 'E-mail') ?></label>
             <input type="email" name="email" required placeholder="jmeno@example.com"
@@ -164,7 +178,7 @@ if ($schema_ok) {
             <input type="text" name="name" placeholder="Jan Novák"
                    value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
           </div>
-          <div class="a-field" style="max-width:120px">
+          <div class="a-field">
             <label><?= htmlspecialchars($al['news_col_lang'] ?? 'Jazyk') ?></label>
             <select name="lang">
               <option value="cz">CZ</option>
@@ -185,51 +199,49 @@ if ($schema_ok) {
     </div>
   </div>
 
-  <!-- Filter bar -->
-  <div class="a-card" style="margin-bottom:1.25rem">
-    <div class="a-card-body">
-      <form method="get" class="a-form" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:0">
-        <input type="hidden" name="page" value="newsletter">
-        <div class="a-field" style="flex:1;min-width:220px">
-          <label><?= htmlspecialchars($al['news_search'] ?? 'Hledat e-mail nebo jméno') ?></label>
-          <input type="search" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="jmeno@…">
-        </div>
-        <div class="a-field" style="max-width:140px">
-          <label><?= htmlspecialchars($al['news_col_lang'] ?? 'Jazyk') ?></label>
-          <select name="flang">
-            <option value=""><?= htmlspecialchars($al['news_all'] ?? 'Vše') ?></option>
-            <option value="cz" <?= $fLang==='cz'?'selected':'' ?>>CZ</option>
-            <option value="en" <?= $fLang==='en'?'selected':'' ?>>EN</option>
-            <option value="at" <?= $fLang==='at'?'selected':'' ?>>AT</option>
-          </select>
-        </div>
-        <div class="a-field" style="max-width:160px">
-          <label><?= htmlspecialchars($al['news_state'] ?? 'Stav') ?></label>
-          <select name="fstate">
-            <option value=""><?= htmlspecialchars($al['news_all'] ?? 'Vše') ?></option>
-            <option value="active"   <?= $fState==='active'  ?'selected':'' ?>><?= htmlspecialchars($al['news_active']   ?? 'Aktivní') ?></option>
-            <option value="inactive" <?= $fState==='inactive'?'selected':'' ?>><?= htmlspecialchars($al['news_inactive'] ?? 'Odhlášeno') ?></option>
-          </select>
-        </div>
-        <button type="submit" class="a-btn a-btn--primary"><?= htmlspecialchars($al['news_filter'] ?? 'Filtrovat') ?></button>
-        <a href="?page=newsletter" class="a-btn a-btn--outline"><?= htmlspecialchars($al['news_reset'] ?? 'Vymazat') ?></a>
-      </form>
-    </div>
-  </div>
-
-  <!-- Table -->
+  <!-- Subscribers card: filter bar in card head, table below -->
   <div class="a-card">
-    <div class="a-card-head">
-      <h2><?= htmlspecialchars($al['news_all_title'] ?? 'Odběratelé') ?> (<?= count($rows) ?>)</h2>
-      <div style="display:flex;gap:.5rem">
-        <a href="?page=newsletter&action=export" class="a-btn a-btn--outline">
+    <div class="a-card-head" style="flex-wrap:wrap;gap:.75rem">
+      <h2 style="margin-right:auto">
+        <?= htmlspecialchars($al['news_all_title'] ?? 'Odběratelé') ?>
+        <span style="color:var(--a-muted);font-weight:500">(<?= count($rows) ?>)</span>
+      </h2>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <a href="?page=newsletter&amp;action=export" class="a-btn a-btn--outline">
           <?= icon('external') ?> <?= htmlspecialchars($al['news_export'] ?? 'Export CSV') ?>
         </a>
-        <button class="a-btn a-btn--primary" onclick="showNewsForm()">
+        <button type="button" class="a-btn a-btn--primary" onclick="showNewsForm()">
           <?= icon('plus') ?> <?= htmlspecialchars($al['news_new_title'] ?? 'Přidat odběratele') ?>
         </button>
       </div>
     </div>
+
+    <div class="a-card-body" style="padding:.875rem 1rem;border-bottom:1px solid var(--a-border);background:var(--a-bg-soft,#fafafa)">
+      <form method="get" style="display:flex;gap:.625rem;flex-wrap:wrap;align-items:center;margin:0">
+        <input type="hidden" name="page" value="newsletter">
+        <input type="search" name="q" value="<?= htmlspecialchars($q) ?>"
+               placeholder="<?= htmlspecialchars($al['news_search'] ?? 'Hledat e-mail nebo jméno…') ?>"
+               style="flex:1;min-width:200px;padding:.5rem .75rem">
+        <select name="flang" style="padding:.5rem .5rem;max-width:110px">
+          <option value=""><?= htmlspecialchars($al['news_all'] ?? 'Všechny jazyky') ?></option>
+          <option value="cz" <?= $fLang==='cz'?'selected':'' ?>>CZ</option>
+          <option value="en" <?= $fLang==='en'?'selected':'' ?>>EN</option>
+          <option value="at" <?= $fLang==='at'?'selected':'' ?>>AT</option>
+        </select>
+        <select name="fstate" style="padding:.5rem .5rem;max-width:150px">
+          <option value=""><?= htmlspecialchars($al['news_all_states'] ?? 'Všechny stavy') ?></option>
+          <option value="active"   <?= $fState==='active'  ?'selected':'' ?>><?= htmlspecialchars($al['news_active']   ?? 'Aktivní') ?></option>
+          <option value="inactive" <?= $fState==='inactive'?'selected':'' ?>><?= htmlspecialchars($al['news_inactive'] ?? 'Odhlášeno') ?></option>
+        </select>
+        <button type="submit" class="a-btn a-btn--primary" style="padding:.5rem 1rem">
+          <?= icon('search') ?: '' ?> <?= htmlspecialchars($al['news_filter'] ?? 'Filtrovat') ?>
+        </button>
+        <?php if ($q !== '' || $fLang !== '' || $fState !== ''): ?>
+          <a href="?page=newsletter" class="a-btn a-btn--outline" style="padding:.5rem .875rem"><?= htmlspecialchars($al['news_reset'] ?? 'Vymazat') ?></a>
+        <?php endif; ?>
+      </form>
+    </div>
+
     <?php if (empty($rows)): ?>
       <div class="a-empty">
         <?= icon('users') ?>
@@ -242,21 +254,23 @@ if ($schema_ok) {
             <tr>
               <th><?= htmlspecialchars($al['news_col_email'] ?? 'E-mail') ?></th>
               <th><?= htmlspecialchars($al['news_col_name'] ?? 'Jméno') ?></th>
-              <th><?= htmlspecialchars($al['news_col_lang'] ?? 'Jazyk') ?></th>
-              <th><?= htmlspecialchars($al['news_col_active'] ?? 'Aktivní') ?></th>
-              <th><?= htmlspecialchars($al['news_col_created'] ?? 'Přidán') ?></th>
-              <th class="a-col-actions"><?= htmlspecialchars($al['col_actions'] ?? 'Akce') ?></th>
+              <th style="width:70px"><?= htmlspecialchars($al['news_col_lang'] ?? 'Jazyk') ?></th>
+              <th style="width:100px"><?= htmlspecialchars($al['news_col_active'] ?? 'Stav') ?></th>
+              <th style="width:110px"><?= htmlspecialchars($al['news_col_created'] ?? 'Přidán') ?></th>
+              <th class="a-col-actions" style="width:60px"><?= htmlspecialchars($al['col_actions'] ?? '') ?></th>
             </tr>
           </thead>
           <tbody>
             <?php foreach ($rows as $r): ?>
-              <tr>
+              <tr<?= $r['active'] ? '' : ' style="opacity:.55"' ?>>
                 <td>
-                  <a href="mailto:<?= htmlspecialchars($r['email']) ?>" style="color:var(--a-ink-900);text-decoration:none">
-                    <strong><?= htmlspecialchars($r['email']) ?></strong>
+                  <a href="mailto:<?= htmlspecialchars($r['email']) ?>"
+                     style="color:var(--a-ink-900,inherit);text-decoration:none;font-weight:600"
+                     title="<?= htmlspecialchars($r['email']) ?>">
+                    <?= htmlspecialchars($r['email']) ?>
                   </a>
                 </td>
-                <td style="color:var(--a-ink-500)"><?= htmlspecialchars($r['name'] ?? '—') ?></td>
+                <td style="color:var(--a-ink-500,var(--a-muted))"><?= htmlspecialchars($r['name'] ?: '—') ?></td>
                 <td>
                   <span class="a-badge a-badge--cat"><?= htmlspecialchars(strtoupper($r['lang'])) ?></span>
                 </td>
@@ -264,13 +278,17 @@ if ($schema_ok) {
                   <form method="post" style="display:inline">
                     <input type="hidden" name="action"    value="toggle">
                     <input type="hidden" name="toggle_id" value="<?= $r['id'] ?>">
-                    <button type="submit" class="a-badge <?= $r['active'] ? 'a-badge--ok' : 'a-badge--off' ?>"
-                            style="border:none;cursor:pointer">
-                      <?= $r['active'] ? '✓' : '✗' ?>
+                    <button type="submit"
+                            class="a-badge <?= $r['active'] ? 'a-badge--ok' : 'a-badge--off' ?>"
+                            style="border:none;cursor:pointer;font-weight:600"
+                            title="<?= htmlspecialchars($al['news_toggle_hint'] ?? 'Kliknutím přepnete stav') ?>">
+                      <?= $r['active']
+                            ? '✓ ' . htmlspecialchars($al['news_active']   ?? 'Aktivní')
+                            : '✗ ' . htmlspecialchars($al['news_inactive'] ?? 'Odhlášeno') ?>
                     </button>
                   </form>
                 </td>
-                <td style="color:var(--a-ink-500);font-size:.85rem">
+                <td style="color:var(--a-muted);font-size:.85rem;white-space:nowrap">
                   <?= htmlspecialchars(date('d.m.Y', strtotime($r['created_at']))) ?>
                 </td>
                 <td class="a-col-actions">
@@ -278,7 +296,9 @@ if ($schema_ok) {
                         onsubmit="return confirm(<?= json_encode($al['news_delete_confirm'] ?? 'Opravdu smazat tohoto odběratele?') ?>)">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="del_id" value="<?= $r['id'] ?>">
-                    <button type="submit" class="a-btn a-btn--danger"><?= icon('trash') ?></button>
+                    <button type="submit" class="a-btn a-btn--danger"
+                            title="<?= htmlspecialchars($al['btn_delete'] ?? 'Smazat') ?>"
+                            style="padding:.4rem .55rem"><?= icon('trash') ?></button>
                   </form>
                 </td>
               </tr>
@@ -294,6 +314,8 @@ if ($schema_ok) {
     const c = document.getElementById('news-form-card');
     c.style.display = '';
     c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const first = c.querySelector('input[name="email"]');
+    if (first) first.focus();
   }
   function hideNewsForm() {
     document.getElementById('news-form-card').style.display = 'none';

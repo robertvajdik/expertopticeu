@@ -58,6 +58,10 @@ return [
   'news_err_schema'     => 'Table newsletter_subscribers does not exist. Run data/migrate.sql.',
   'news_stat_total'     => 'Total',
   'news_stat_active'    => 'Active',
+  'news_stat_inactive'  => 'Unsubscribed',
+  'news_stat_by_lang'   => 'Active by language',
+  'news_all_states'     => 'All states',
+  'news_toggle_hint'    => 'Click to toggle status',
   'title_users'       => 'Users',
   'title_settings'    => 'Settings',
   'title_sitemap'     => 'Sitemap',
@@ -239,6 +243,10 @@ return [
   'set_email'         => 'Email',
   'set_ga_id'         => 'Google Analytics measurement ID',
   'set_ga_hint'       => 'Format: G-XXXXXXXXXX. Leave empty to disable tracking.',
+
+  /* ── Test email (log) ── */
+  'set_mail_log_title'   => 'Detailed log',
+  'set_mail_log_hint'    => 'C: = client (sent), S: = server (reply). Password is masked.',
 
   /* ── Currency conversion ── */
   'set_currency_title'   => 'Currency rate',
