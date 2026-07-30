@@ -254,6 +254,12 @@ return [
   'set_currency_hint'    => 'Ceny produktů jsou uložené v EUR. Tímto kurzem se přepočítávají na Kč pro české zákazníky.',
   'set_currency_invalid' => 'Neplatný kurz. Zadejte hodnotu mezi 0,01 a 999.',
 
+  /* ── Otevírací doba ── */
+  'set_hours_title'      => 'Otevírací doba',
+  'set_hours_days1'      => 'Středa – Čtvrtek',
+  'set_hours_days2'      => 'Pátek',
+  'set_hours_hint'       => 'Zobrazuje se v patičce, na kontaktní stránce a v potvrzení objednávky.',
+
   /* ── Nastavení dopravy ── */
   'set_ship_title'              => 'Způsoby doručení',
   'set_ship_personal'           => 'Osobní odběr na prodejně',

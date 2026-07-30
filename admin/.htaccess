@@ -1,5 +1,4 @@
-# Admin folder — noindex, block sensitive files, no directory listing.
-Options -Indexes
+# Admin folder — noindex, block sensitive files.
 
 <IfModule mod_headers.c>
     Header always set X-Robots-Tag "noindex, nofollow, noarchive"

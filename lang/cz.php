@@ -226,6 +226,7 @@ return [
   'footer_impressum'     => 'Impressum',
   'footer_datenschutz'   => 'Ochrana dat',
   'footer_agb'           => 'VOP',
+  'footer_admin'         => 'Administrace',
 
   /* ── Checkout page ── */
   'co_back'              => 'Zpět do košíku',

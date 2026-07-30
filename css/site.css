@@ -134,6 +134,9 @@
 }
 .icon-btn:hover { background: var(--paper-200); color: var(--ink-900); }
 .icon-btn [data-lucide] { width: 17px; height: 17px; stroke-width: 1.6; pointer-events: none; }
+.icon-btn--logged-in { color: var(--blue-500, #2f9bd6); }
+.icon-btn--logged-in:hover { color: var(--blue-600, #2380b4); }
+.icon-btn--logged-in [data-lucide] { stroke-width: 2; }
 
 .cart-btn { position: relative; }
 .cart-badge {
@@ -3349,6 +3352,12 @@ html.high-contrast .text-zoom__btn--active {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+.footer-admin-link {
+  opacity: .55;
+  transition: opacity .15s;
+}
+.footer-admin-link:hover { opacity: 1; }
 
 /* =====================================================
    Mobile polish — smaller breakpoints

@@ -48,7 +48,12 @@
       "Bash(php -l pages/contact.php)",
       "Bash(php -l lang/cz.php)",
       "Bash(php -l lang/en.php)",
-      "Bash(php -l lang/at.php)"
+      "Bash(php -l lang/at.php)",
+      "Bash(php -l \"E:/Work/www/exportoptic.eu/index.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.eu/includes/footer.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.eu/admin/pages/settings.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.eu/admin/lang/cz.php\")",
+      "Bash(php -l \"E:/Work/www/exportoptic.eu/admin/lang/en.php\")"
     ]
   }
 }

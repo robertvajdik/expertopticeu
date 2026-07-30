@@ -69,16 +69,16 @@ $base_qs     = '?p=' . $current_p . $current_cat . $current_id . $current_tab;
       </div>
 
       <?php if (!empty($customer)): ?>
-        <a href="?p=account&amp;lang=<?= $lang ?>" class="icon-btn"
+        <a href="?p=account&amp;lang=<?= $lang ?>" class="icon-btn icon-btn--logged-in"
            aria-label="<?= htmlspecialchars($t['aria_account'] ?? 'Můj účet') ?>"
            title="<?= htmlspecialchars($customer['name']) ?>">
-          <i data-lucide="user-round"></i>
+          <i data-lucide="circle-user-round"></i>
         </a>
       <?php else: ?>
         <a href="?p=login&amp;lang=<?= $lang ?>" class="icon-btn"
            aria-label="<?= htmlspecialchars($t['auth_login_btn'] ?? 'Přihlásit') ?>"
            title="<?= htmlspecialchars($t['auth_login_btn'] ?? 'Přihlásit') ?>">
-          <i data-lucide="user"></i>
+          <i data-lucide="log-in"></i>
         </a>
       <?php endif; ?>
 

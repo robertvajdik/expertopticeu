@@ -254,6 +254,12 @@ return [
   'set_currency_hint'    => 'Product prices are stored in EUR. This rate converts them to CZK for Czech customers.',
   'set_currency_invalid' => 'Invalid rate. Enter a value between 0.01 and 999.',
 
+  /* ── Opening hours ── */
+  'set_hours_title'      => 'Opening hours',
+  'set_hours_days1'      => 'Wednesday – Thursday',
+  'set_hours_days2'      => 'Friday',
+  'set_hours_hint'       => 'Shown in the footer, contact page, and order confirmation.',
+
   /* ── Shipping settings ── */
   'set_ship_title'              => 'Shipping methods',
   'set_ship_personal'           => 'Store pickup (osobní odběr)',

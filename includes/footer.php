@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_signup']))
       <address>
         <strong><?= htmlspecialchars($site_info['studio_name']) ?></strong><br>
         <?= htmlspecialchars($site_info['owner_name']) ?><br>
-        <span class="footer-hours-small">St – Čt: 12:30 – 18:00 · Pá: 11:30 – 17:00</span><br>
+        <span class="footer-hours-small"><?= htmlspecialchars(($t['hours_mo_fr'] ?? '') . ': ' . $site_info['hours_days1_time'] . ' · ' . ($t['hours_sat'] ?? '') . ': ' . $site_info['hours_days2_time']) ?></span><br>
         <?= htmlspecialchars($site_info['street']) ?>, <?= htmlspecialchars($site_info['city_postal']) ?><br>
         <a href="<?= htmlspecialchars($_phone_href) ?>"><?= htmlspecialchars($site_info['phone']) ?></a><br>
         <a href="mailto:<?= htmlspecialchars($site_info['email']) ?>"><?= htmlspecialchars($site_info['email']) ?></a><br>
@@ -97,7 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_signup']))
     <span>
       <a href="?p=impressum&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_impressum']) ?></a> ·
       <a href="?p=datenschutz&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_datenschutz']) ?></a> ·
-      <a href="?p=agb&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_agb']) ?></a>
+      <a href="?p=agb&amp;lang=<?= $lang ?>"><?= htmlspecialchars($t['footer_agb']) ?></a> ·
+      <a href="admin/login.php" class="footer-admin-link" rel="nofollow"><?= htmlspecialchars($t['footer_admin'] ?? 'Admin') ?></a>
     </span>
   </div>
 </footer>

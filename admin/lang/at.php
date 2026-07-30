@@ -254,6 +254,12 @@ return [
   'set_currency_hint'    => 'Produktpreise werden in EUR gespeichert. Mit diesem Kurs werden sie für tschechische Kunden in Kč umgerechnet.',
   'set_currency_invalid' => 'Ungültiger Kurs. Wert zwischen 0,01 und 999 eingeben.',
 
+  /* ── Öffnungszeiten ── */
+  'set_hours_title'      => 'Öffnungszeiten',
+  'set_hours_days1'      => 'Mittwoch – Donnerstag',
+  'set_hours_days2'      => 'Freitag',
+  'set_hours_hint'       => 'Wird im Footer, auf der Kontaktseite und in der Bestellbestätigung angezeigt.',
+
   /* ── Versand-Einstellungen ── */
   'set_ship_title'              => 'Versandmethoden',
   'set_ship_personal'           => 'Abholung im Studio (osobní odběr)',

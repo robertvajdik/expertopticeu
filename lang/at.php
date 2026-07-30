@@ -226,6 +226,7 @@ return [
   'footer_impressum'     => 'Impressum',
   'footer_datenschutz'   => 'Datenschutz',
   'footer_agb'           => 'AGB',
+  'footer_admin'         => 'Verwaltung',
 
   /* ── Checkout page ── */
   'co_back'              => 'Zurück zum Warenkorb',

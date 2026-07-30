@@ -72,6 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_hours') {
+    $settings['hours_days1_time'] = trim($_POST['hours_days1_time'] ?? '');
+    $settings['hours_days2_time'] = trim($_POST['hours_days2_time'] ?? '');
+    save_settings($settings);
+    $msg = $al['set_saved_msg'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_shipping') {
     $settings['ship_personal_enabled']   = isset($_POST['ship_personal_enabled']) ? 1 : 0;
     $settings['ship_personal_address']   = trim($_POST['ship_personal_address'] ?? '');
@@ -183,6 +190,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_
           <?= htmlspecialchars($al['set_currency_hint'] ?? 'Ceny produktů jsou uložené v EUR. Tímto kurzem se přepočítávají na Kč pro české zákazníky.') ?>
         </small>
       </div>
+      <div class="a-form-actions">
+        <button type="submit" class="a-btn a-btn--primary">
+          <?= icon('check') ?> <?= htmlspecialchars($al['set_save']) ?>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Opening hours -->
+<div class="a-card" style="max-width:680px;margin-bottom:1.5rem">
+  <div class="a-card-head">
+    <h2><?= htmlspecialchars($al['set_hours_title'] ?? 'Otevírací doba') ?></h2>
+  </div>
+  <div class="a-card-body">
+    <form method="post" class="a-form">
+      <input type="hidden" name="action" value="save_hours">
+
+      <div class="a-form-row">
+        <div class="a-field">
+          <label><?= htmlspecialchars($al['set_hours_days1'] ?? 'St – Čt') ?></label>
+          <input type="text" name="hours_days1_time"
+                 value="<?= htmlspecialchars($settings['hours_days1_time'] ?? '12:30 – 18:00') ?>"
+                 placeholder="12:30 – 18:00" style="max-width:200px">
+        </div>
+        <div class="a-field">
+          <label><?= htmlspecialchars($al['set_hours_days2'] ?? 'Pátek') ?></label>
+          <input type="text" name="hours_days2_time"
+                 value="<?= htmlspecialchars($settings['hours_days2_time'] ?? '11:30 – 17:00') ?>"
+                 placeholder="11:30 – 17:00" style="max-width:200px">
+        </div>
+      </div>
+
+      <small style="color:var(--a-muted);display:block;margin-top:.375rem">
+        <?= htmlspecialchars($al['set_hours_hint'] ?? 'Otevírací doba se zobrazuje v patičce, na kontaktní stránce a v potvrzení objednávky.') ?>
+      </small>
+
       <div class="a-form-actions">
         <button type="submit" class="a-btn a-btn--primary">
           <?= icon('check') ?> <?= htmlspecialchars($al['set_save']) ?>

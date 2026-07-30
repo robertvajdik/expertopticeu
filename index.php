@@ -34,7 +34,18 @@ $site_info = [
   'phone'       => $_site_settings['site_phone']       ?? '+420 603 419 882',
   'email'       => $_site_settings['site_email']       ?? 'brno@tstoptik.com',
   'ga_id'       => $_site_settings['site_ga_id']       ?? '',
+  'hours_days1_time' => $_site_settings['hours_days1_time'] ?? '12:30 – 18:00',
+  'hours_days2_time' => $_site_settings['hours_days2_time'] ?? '11:30 – 17:00',
 ];
+
+/* Propagate admin-configured hours into translation array so all pages stay in sync. */
+$t['hours_mo_fr_time'] = $site_info['hours_days1_time'];
+$t['hours_sat_time']   = $site_info['hours_days2_time'];
+$t['footer_hours_week'] = ($t['hours_mo_fr'] ?? '') . ' &nbsp; ' . $site_info['hours_days1_time'];
+$t['footer_hours_sat']  = ($t['hours_sat']   ?? '') . ' &nbsp; ' . $site_info['hours_days2_time'];
+$t['footer_hours_sun']  = ($t['hours_sun']   ?? '') . ' &nbsp; ' . ($t['hours_closed'] ?? '');
+$t['conf_pickup_hours'] = ($t['hours_mo_fr'] ?? '') . ': ' . $site_info['hours_days1_time']
+                        . ' · ' . ($t['hours_sat'] ?? '') . ': ' . $site_info['hours_days2_time'];
 
 require_once __DIR__ . '/includes/recaptcha.php';
 
@@ -73,7 +84,7 @@ if (isset($_POST['add_to_cart'])) {
       break;
     }
   }
-  header('Location: ?p=product&id=' . urlencode($pid) . '&added=1&lang=' . $lang);
+  header('Location: ?p=cart&added=1&lang=' . $lang);
   exit;
 }
 
