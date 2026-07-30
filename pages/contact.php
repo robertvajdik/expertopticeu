@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['contact'])) {
   elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))   $errors[] = $t['contact_err_email_invalid'];
   if ($message === '')                                  $errors[] = $t['contact_err_message'];
 
-  if (!$errors && !recaptcha_verify($_POST['g-recaptcha-response'] ?? null)) {
+  if (!$errors && !recaptcha_verify($_POST['g-recaptcha-response'] ?? null, 'contact')) {
     $errors[] = $t['contact_err_captcha'];
   }
 
@@ -125,9 +125,7 @@ $hours_rows = [
             <textarea id="c_message" name="message" rows="6" required><?= htmlspecialchars($_POST['message'] ?? '') ?></textarea>
           </div>
 
-          <?php if (recaptcha_enabled()): ?>
-            <div class="contact-form__captcha"><?= recaptcha_widget() ?></div>
-          <?php endif; ?>
+          <?= recaptcha_field('contact') ?>
 
           <button type="submit" class="btn btn--primary btn--lg btn--block">
             <?= htmlspecialchars($t['contact_form_submit']) ?>

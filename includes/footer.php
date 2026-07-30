@@ -4,7 +4,7 @@ $news_kind = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_signup'])) {
     require_once __DIR__ . '/customer_auth.php';
     require_once __DIR__ . '/recaptcha.php';
-    if (!recaptcha_verify($_POST['g-recaptcha-response'] ?? null)) {
+    if (!recaptcha_verify($_POST['g-recaptcha-response'] ?? null, 'newsletter')) {
         $news_msg  = $t['news_err_captcha'] ?? 'Potvrďte prosím, že nejste robot.';
         $news_kind = 'err';
     } else {
@@ -29,9 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter_signup']))
         <i data-lucide="mail"></i>
         <?= htmlspecialchars($t['news_btn'] ?? 'Odebírat') ?>
       </button>
-      <?php if (recaptcha_enabled()): ?>
-        <div class="footer-newsletter__captcha"><?= recaptcha_widget() ?></div>
-      <?php endif; ?>
+      <?= recaptcha_field('newsletter') ?>
     </form>
     <?php if ($news_msg): ?>
       <p class="footer-newsletter__msg footer-newsletter__msg--<?= $news_kind ?>"><?= htmlspecialchars($news_msg) ?></p>
